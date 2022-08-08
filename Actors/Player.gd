@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 # Constants
-const MOVE_SPEED = 100
+const MOVE_SPEED = 5000
 
 var velocity = Vector2.ZERO
 
@@ -17,7 +17,7 @@ func determine_velocity(delta):
 	# Normalize the vector then multiply by movement speed and delta time
 	velocity = velocity.normalized() * MOVE_SPEED * delta
 
-func _process(delta):
+func _physics_process(delta):
 	determine_velocity(delta)
 	# Move the player via their velocity vector
 	velocity = move_and_slide(velocity)
