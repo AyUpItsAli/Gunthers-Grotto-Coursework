@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Actors/Player_Sprite_Sheet.png" type="Texture" id=1]
+[ext_resource path="res://Actors/Player.gd" type="Script" id=2]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 4.0
+height = 3.0
+
+[node name="Player" type="KinematicBody2D"]
+script = ExtResource( 2 )
+
+[node name="BodySprite" type="Sprite" parent="."]
+position = Vector2( 0.5, -6.5 )
+texture = ExtResource( 1 )
+hframes = 6
+vframes = 8
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 5.5 )
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="Camera" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 0.3, 0.3 )
+limit_smoothed = true
+smoothing_enabled = true
+smoothing_speed = 8.0
