@@ -84,6 +84,13 @@ mouse_pan={
  ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="world"
+2d_physics/layer_2="destructible"
+2d_physics/layer_3="player"
+2d_physics/layer_4="enemy"
+
 [physics]
 
 common/enable_pause_aware_picking=true
