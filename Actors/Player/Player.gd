@@ -40,7 +40,15 @@ func determine_facing():
 		facing = Vector2.DOWN
 
 func _process(delta):
+	var facing_before = facing
 	determine_facing()
+	
+	# Render body sprite above item sprite if facing upwards
+	if facing != facing_before:
+		if facing == Vector2.UP:
+			move_child(body_sprite, 1)
+		else:
+			move_child(body_sprite, 0)
 	
 	if velocity != Vector2.ZERO: # Is the player moving?
 		match facing:
