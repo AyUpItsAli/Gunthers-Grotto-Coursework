@@ -11,6 +11,8 @@ const DYNAMITE_TEXTURE = preload("res://Assets/Actors/Player/Dynamite.png")
 onready var body_sprite: Sprite = $BodySprite
 onready var item_sprite: Sprite = $ItemSprite
 onready var player_animations: AnimationPlayer = $PlayerAnimations
+onready var attacking_hurtbox: Area2D = $AttackingHurtbox
+onready var mining_hurtbox: Area2D = $MiningHurtbox
 
 var velocity = Vector2.ZERO
 var facing = Vector2.DOWN
@@ -68,6 +70,12 @@ func _process(delta):
 			Vector2.RIGHT: player_animations.play("Idle_Right")
 			Vector2.LEFT: player_animations.play("Idle_Left")
 			_: player_animations.play("Idle_Down")
+	
+	# Rotate hurtboxes to face the mouse
+	var mouse_pos = get_global_mouse_position()
+	attacking_hurtbox.look_at(mouse_pos)
+	mining_hurtbox.look_at(mouse_pos)
+
 # Sets the texture of the itsprite to display the correct tool
 func update_item_sprite():
 	match equipped:
