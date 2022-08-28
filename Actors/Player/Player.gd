@@ -89,6 +89,20 @@ func equip(new_tool: int):
 	equipped = new_tool
 	update_item_sprite()
 
+# Calls the "on_player_mine" method
+# on all bodies overlapping the mining hurtbox
+func mine_objects():
+	for body in mining_hurtbox.get_overlapping_bodies():
+		if body.has_method("on_player_mine"):
+			var pos = mining_hurtbox.get_node("CollisionShape").global_position
+			body.on_player_mine(pos)
+
+# Called when the user presses left-click.
+# Carrys out the action specific to the currently equipped tool.
+func use_tool():
+	if equipped == Tools.PICKAXE:
+		mine_objects()
+
 # Called when this node detects mouse/keyboard inputs
 func _unhandled_input(event):
 	if event.is_action_pressed("equip_pickaxe"):
@@ -97,3 +111,5 @@ func _unhandled_input(event):
 		equip(Tools.REVOLVER)
 	elif event.is_action_pressed("equip_dynamite"):
 		equip(Tools.DYNAMITE)
+	elif event.is_action_pressed("use_tool"):
+		use_tool()

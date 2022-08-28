@@ -4,7 +4,10 @@ const START_ALIVE_CHANCE = 40 # % chance for tile to begin alive
 const MIN_ALIVE = 3 # minimum alive neighbours to stay alive
 const MIN_BIRTH = 5 # minimum alive neighbours to become alive
 
-const ROCK = 0 # Tile reference
+const ROCK = 0 # Tile 
+
+onready var ground_layer = get_parent().get_node("GroundLayer")
+onready var walls_layer = get_parent().get_node("WallsLayer")
 
 # Initialises random grid of rock tiles
 func initialise_rock_layer():
@@ -53,3 +56,17 @@ func carry_out_generation() -> bool:
 	
 	# If no changes were made then the generation is finsihed
 	return changed_tiles.empty()
+
+# Called from the player node when the mining hurtbox detects the rock layer
+func on_player_mine(pos) -> bool:
+	var tile_pos = world_to_map(pos)
+	var x = tile_pos.x
+	var y = tile_pos.y
+	
+	if get_cell(x, y) != ROCK: return false
+	
+	set_cell(x, y, -1)
+	ground_layer.set_cell(x, y, ground_layer.NAVABLE)
+	walls_layer.update_walls_layer()
+	update_bitmask_region(tile_pos-Vector2.ONE, tile_pos+Vector2.ONE)
+	return true
