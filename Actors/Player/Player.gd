@@ -2,13 +2,19 @@ extends KinematicBody2D
 
 # Constants
 const MOVE_SPEED = 5000
+enum Tools { PICKAXE, REVOLVER, DYNAMITE }
+const PICKAXE_TEXTURE = preload("res://Assets/Actors/Player/Pickaxe.png")
+const REVOLVER_TEXTURE = preload("res://Assets/Actors/Player/Revolver.png")
+const DYNAMITE_TEXTURE = preload("res://Assets/Actors/Player/Dynamite.png")
 
 # Node references
 onready var body_sprite: Sprite = $BodySprite
+onready var item_sprite: Sprite = $ItemSprite
 onready var player_animations: AnimationPlayer = $PlayerAnimations
 
 var velocity = Vector2.ZERO
 var facing = Vector2.DOWN
+var equipped = Tools.PICKAXE
 
 func determine_velocity(delta):
 	velocity = Vector2.ZERO # Reset velocity to 0
@@ -62,3 +68,24 @@ func _process(delta):
 			Vector2.RIGHT: player_animations.play("Idle_Right")
 			Vector2.LEFT: player_animations.play("Idle_Left")
 			_: player_animations.play("Idle_Down")
+# Sets the texture of the itsprite to display the correct tool
+func update_item_sprite():
+	match equipped:
+		Tools.PICKAXE: item_sprite.texture = PICKAXE_TEXTURE
+		Tools.REVOLVER: item_sprite.texture = REVOLVER_TEXTURE
+		Tools.DYNAMITE: item_sprite.texture = DYNAMITE_TEXTURE
+		_: item_sprite.texture = null
+
+# Equips a new tool and then updates the item sprite
+func equip(new_tool: int):
+	equipped = new_tool
+	update_item_sprite()
+
+# Called when this node detects mouse/keyboard inputs
+func _unhandled_input(event):
+	if event.is_action_pressed("equip_pickaxe"):
+		equip(Tools.PICKAXE)
+	elif event.is_action_pressed("equip_revolver"):
+		equip(Tools.REVOLVER)
+	elif event.is_action_pressed("equip_dynamite"):
+		equip(Tools.DYNAMITE)
