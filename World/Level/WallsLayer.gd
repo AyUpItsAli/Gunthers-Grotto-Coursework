@@ -42,13 +42,16 @@ func place_wall_in_corner(corner_x, corner_y, default_variant):
 	# Check tiles around this tile
 	# Store whether these tiles are rock or not
 	var below = is_tile_rock(corner_x, corner_y+1)
+	var below_left = is_tile_rock(corner_x-1, corner_y+1)
+	var below_right = is_tile_rock(corner_x+1, corner_y+1)
 	var left = is_tile_rock(corner_x-1, corner_y)
 	var right = is_tile_rock(corner_x+1, corner_y)
 	var above_left = is_tile_rock(corner_x-1, corner_y-1)
 	var above_right = is_tile_rock(corner_x+1, corner_y-1)
 	
 	# If there is rock below this tile
-	if below:
+	# Also check diagonally to the left and right
+	if below and below_left and below_right:
 		# If both neighbours are empty,
 		# Confirm that there is rock above the two neighbours
 		if not (left or right) and (above_left and above_right):
