@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://World/Level/RockLayer.tres" type="TileSet" id=1]
 [ext_resource path="res://World/Level/RockLayer.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://World/Level/GroundLayer.gd" type="Script" id=5]
 [ext_resource path="res://World/Level/WallsLayer.tres" type="TileSet" id=6]
 [ext_resource path="res://World/Level/WallsLayer.gd" type="Script" id=7]
+[ext_resource path="res://World/Objects/Stalagmite.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Actors/Player/Player.tscn" type="PackedScene" id=9]
 
 [node name="Level" type="Node2D"]
@@ -39,3 +40,6 @@ script = ExtResource( 2 )
 
 [node name="Player" parent="World" instance=ExtResource( 9 )]
 position = Vector2( 944, 688 )
+
+[node name="Stalagmite" parent="World" instance=ExtResource( 8 )]
+position = Vector2( 1008, 688 )
