@@ -17,6 +17,7 @@ onready var mining_hurtbox: Area2D = $MiningHurtbox
 var velocity = Vector2.ZERO
 var facing = Vector2.DOWN
 var equipped = Tools.PICKAXE
+var attacking = false
 
 func determine_velocity(delta):
 	velocity = Vector2.ZERO # Reset velocity to 0
@@ -58,18 +59,20 @@ func _process(delta):
 		else:
 			move_child(body_sprite, 0)
 	
-	if velocity != Vector2.ZERO: # Is the player moving?
-		match facing:
-			Vector2.UP: player_animations.play("Walk_Up")
-			Vector2.RIGHT: player_animations.play("Walk_Right")
-			Vector2.LEFT: player_animations.play("Walk_Left")
-			_: player_animations.play("Walk_Down")
-	else:
-		match facing:
-			Vector2.UP: player_animations.play("Idle_Up")
-			Vector2.RIGHT: player_animations.play("Idle_Right")
-			Vector2.LEFT: player_animations.play("Idle_Left")
-			_: player_animations.play("Idle_Down")
+	# Avoid overriding any "attack" animations for each of the tools
+	if not attacking:
+		if velocity != Vector2.ZERO: # Is the player moving?
+			match facing:
+				Vector2.UP: player_animations.play("Walk_Up")
+				Vector2.RIGHT: player_animations.play("Walk_Right")
+				Vector2.LEFT: player_animations.play("Walk_Left")
+				_: player_animations.play("Walk_Down")
+		else:
+			match facing:
+				Vector2.UP: player_animations.play("Idle_Up")
+				Vector2.RIGHT: player_animations.play("Idle_Right")
+				Vector2.LEFT: player_animations.play("Idle_Left")
+				_: player_animations.play("Idle_Down")
 	
 	# Rotate hurtboxes to face the mouse
 	var mouse_pos = get_global_mouse_position()
@@ -101,7 +104,18 @@ func mine_objects():
 # Carrys out the action specific to the currently equipped tool.
 func use_tool():
 	if equipped == Tools.PICKAXE:
+		attacking = true
+		
+		match facing:
+			Vector2.UP: player_animations.play("Melee_Up")
+			Vector2.RIGHT: player_animations.play("Melee_Right")
+			Vector2.LEFT: player_animations.play("Melee_Left")
+			_: player_animations.play("Melee_Down")
+		
 		mine_objects()
+		
+		yield(player_animations, "animation_finished")
+		attacking = false
 
 # Called when this node detects mouse/keyboard inputs
 func _unhandled_input(event):
