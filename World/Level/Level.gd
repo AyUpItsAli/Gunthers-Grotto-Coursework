@@ -4,6 +4,7 @@ extends Node2D
 onready var ground_layer = $World/GroundLayer
 onready var walls_layer = $World/WallsLayer
 onready var rock_layer = $World/RockLayer
+onready var objects = $World/Objects
 
 func _ready():
 	generate_level() # Generate a new level when the scene is loaded
@@ -24,3 +25,6 @@ func generate_level():
 	
 	# Update the walls layer to match the current rock layer
 	walls_layer.update_walls_layer()
+	
+	# Spawn objects
+	objects.spawn_stalagmites()
