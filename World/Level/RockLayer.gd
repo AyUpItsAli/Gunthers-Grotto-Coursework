@@ -64,6 +64,8 @@ func on_player_mine(pos) -> bool:
 	var y = tile_pos.y
 	
 	if get_cell(x, y) != ROCK: return false
+	if x <= 0 or x >= Globals.CAVE_SIZE-1 or y <= 0 or y >= Globals.CAVE_SIZE-1:
+		return false
 	
 	set_cell(x, y, -1)
 	ground_layer.set_cell(x, y, ground_layer.NAVABLE)
