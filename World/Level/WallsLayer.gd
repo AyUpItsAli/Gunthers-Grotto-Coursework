@@ -22,12 +22,6 @@ const CORNER_RIGHT = 10
 const EDGE_CORNER_LEFT = 11
 const EDGE_CORNER_RIGHT = 12
 
-# Sets all tiles to empty
-func clear_walls():
-	for x in range(Globals.CAVE_SIZE):
-		for y in range(Globals.CAVE_SIZE):
-			set_cell(x, y, -1)
-
 # Returns whether the tile is rock or not
 func is_tile_rock(x, y) -> bool:
 	return rock_layer.get_cell(x, y) == rock_layer.ROCK
@@ -91,7 +85,7 @@ func place_wall_in_corner(corner_x, corner_y, default_variant):
 # Updates the walls layer to match the rock layer
 func update_walls_layer():
 	# Clear the tilemap
-	clear_walls()
+	clear()
 	
 	# Place wall tiles
 	for x in range(Globals.CAVE_SIZE):
