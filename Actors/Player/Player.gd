@@ -19,6 +19,9 @@ var facing = Vector2.DOWN
 var equipped = Tools.PICKAXE
 var attacking = false
 
+func get_camera():
+	return get_node("Camera")
+
 func determine_velocity(delta):
 	velocity = Vector2.ZERO # Reset velocity to 0
 	

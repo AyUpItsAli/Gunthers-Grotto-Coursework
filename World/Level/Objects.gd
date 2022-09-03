@@ -83,4 +83,10 @@ func spawn_player():
 	player.position = tile_pos_to_world_pos(player_pos)
 	occupied_tiles.append(player_pos)
 	
+	var camera: Camera2D = player.get_camera()
+	camera.limit_left = 0
+	camera.limit_top = 0
+	camera.limit_right = Globals.CAVE_SIZE * Globals.CAVE_TILE_SIZE
+	camera.limit_bottom = Globals.CAVE_SIZE * Globals.CAVE_TILE_SIZE
+	
 	add_child(player)
