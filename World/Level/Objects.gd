@@ -2,6 +2,7 @@ extends YSort
 
 # Objects
 const STALAGMITE = preload("res://World/Objects/Stalagmite.tscn")
+const PLAYER = preload("res://Actors/Player/Player.tscn")
 
 # Node references
 onready var rock_layer = get_parent().get_node("RockLayer")
@@ -65,3 +66,21 @@ func spawn_stalagmite_cluster():
 func spawn_stalagmites():
 	for i in range(int(Globals.CAVE_SIZE/2)):
 		spawn_stalagmite_cluster()
+
+func player_exists() -> bool:
+	return has_node("Player")
+
+func get_player():
+	return get_node("Player")
+
+# Spawns the player node at a random position in the cave
+func spawn_player():
+	if player_exists():
+		remove_child(get_player())
+	
+	var player = PLAYER.instance()
+	var player_pos = get_random_unoccupied_tile_pos()
+	player.position = tile_pos_to_world_pos(player_pos)
+	occupied_tiles.append(player_pos)
+	
+	add_child(player)
