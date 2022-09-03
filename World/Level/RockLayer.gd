@@ -57,6 +57,16 @@ func carry_out_generation() -> bool:
 	# If no changes were made then the generation is finsihed
 	return changed_tiles.empty()
 
+# Adds a border outside the map to make the edges blend in with the cave
+func initialise_outside_border():
+	for x in range(-1, Globals.CAVE_SIZE+1):
+		set_cell(x, -1, ROCK)
+		set_cell(x, Globals.CAVE_SIZE, ROCK)
+	
+	for y in range(-1, Globals.CAVE_SIZE+1):
+		set_cell(-1, y, ROCK)
+		set_cell(Globals.CAVE_SIZE, y, ROCK)
+
 # Called from the player node when the mining hurtbox detects the rock layer
 func on_player_mine(pos) -> bool:
 	var tile_pos = world_to_map(pos)

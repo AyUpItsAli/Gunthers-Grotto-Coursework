@@ -18,6 +18,7 @@ func generate_level():
 	while not finished:
 		# Continue algorithm until generation is finished
 		finished = rock_layer.carry_out_generation()
+	rock_layer.initialise_outside_border()
 	rock_layer.update_bitmask_region()
 	
 	# Update the ground layer to match the current rock layer
