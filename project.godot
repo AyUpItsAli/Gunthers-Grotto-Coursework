@@ -19,6 +19,10 @@ config/icon="res://icon.png"
 Globals="*res://Globals/Globals.gd"
 GameManager="*res://Globals/GameManager.gd"
 
+[debug]
+
+shapes/collision/shape_color=Color( 1, 1, 1, 0.419608 )
+
 [gui]
 
 common/snapping/use_gpu_pixel_snap=true

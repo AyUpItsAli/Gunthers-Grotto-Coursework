@@ -16,4 +16,5 @@ position = Vector2( -0.5, -8 )
 texture = ExtResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
+modulate = Color( 0, 0.6, 0.701961, 0.839216 )
 shape = SubResource( 1 )
