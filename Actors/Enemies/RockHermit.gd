@@ -10,6 +10,7 @@ onready var world: Navigation2D = get_parent().get_parent()
 onready var navigation_line: Line2D = $NavigationLine
 onready var soft_collision: Area2D = $SoftCollision
 onready var sprite: Sprite = $Sprite
+onready var hurtbox: Area2D = $Hurtbox
 
 # Variables
 var player: KinematicBody2D # Reference to the player node, once detected
@@ -35,6 +36,7 @@ func _process(delta):
 	navigation_line.global_position = Vector2.ZERO
 	if player:
 		determine_path_to_player()
+		hurtbox.look_at(player.position)
 
 # Determines the enemy's velocity to move along the path
 func determine_velocity(delta):
