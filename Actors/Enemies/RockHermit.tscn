@@ -1,13 +1,18 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Assets/World/Stalagmite.png" type="Texture" id=1]
+[ext_resource path="res://Actors/Enemies/RockHermit.gd" type="Script" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 8.0
 
+[sub_resource type="CircleShape2D" id=2]
+radius = 100.0
+
 [node name="RockHermit" type="KinematicBody2D"]
 collision_layer = 8
 collision_mask = 3
+script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( -0.5, -8 )
@@ -17,3 +22,10 @@ texture = ExtResource( 1 )
 modulate = Color( 0, 0.6, 0.701961, 0.839216 )
 shape = SubResource( 1 )
 
+[node name="SearchRadius" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape" type="CollisionShape2D" parent="SearchRadius"]
+modulate = Color( 0.580392, 0.584314, 0.584314, 0.839216 )
+shape = SubResource( 2 )
