@@ -67,6 +67,8 @@ position = Vector2( 0, 5.5 )
 rotation = 1.5708
 shape = SubResource( 1 )
 
+[node name="SoftCollision" parent="." instance=ExtResource( 16 )]
+
 [node name="AttackingHurtbox" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 8
@@ -91,5 +93,3 @@ zoom = Vector2( 0.2, 0.2 )
 limit_smoothed = true
 smoothing_enabled = true
 smoothing_speed = 8.0
-
-[node name="SoftCollision" parent="." instance=ExtResource( 16 )]
