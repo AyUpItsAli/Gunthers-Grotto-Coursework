@@ -29,3 +29,7 @@ collision_mask = 4
 [node name="CollisionShape" type="CollisionShape2D" parent="SearchRadius"]
 modulate = Color( 0.580392, 0.584314, 0.584314, 0.839216 )
 shape = SubResource( 2 )
+
+[node name="NavigationLine" type="Line2D" parent="."]
+width = 3.0
+default_color = Color( 0.945098, 0.129412, 0.129412, 0.839216 )
