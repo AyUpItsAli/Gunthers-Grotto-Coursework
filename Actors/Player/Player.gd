@@ -6,6 +6,7 @@ enum Tools { PICKAXE, REVOLVER, DYNAMITE }
 const PICKAXE_TEXTURE = preload("res://Assets/Actors/Player/Pickaxe.png")
 const REVOLVER_TEXTURE = preload("res://Assets/Actors/Player/Revolver.png")
 const DYNAMITE_TEXTURE = preload("res://Assets/Actors/Player/Dynamite.png")
+const PICKAXE_DAMAGE = 1
 
 # Node references
 onready var body_sprite: Sprite = $BodySprite
@@ -103,6 +104,14 @@ func mine_objects():
 			var pos = mining_hurtbox.get_node("CollisionShape").global_position
 			body.on_player_mine(pos)
 
+# Calls the "take_damage" method
+# on enemy hitboxes overlapping the mining hurtbox
+func damage_enemies():
+	for area in attacking_hurtbox.get_overlapping_areas():
+		var node = area.get_parent()
+		if node.has_method("take_damage"):
+			node.take_damage(PICKAXE_DAMAGE)
+
 # Called when the user presses left-click.
 # Carrys out the action specific to the currently equipped tool.
 func use_tool():
@@ -116,6 +125,7 @@ func use_tool():
 			_: player_animations.play("Melee_Down")
 		
 		mine_objects()
+		damage_enemies()
 		
 		yield(player_animations, "animation_finished")
 		attacking = false

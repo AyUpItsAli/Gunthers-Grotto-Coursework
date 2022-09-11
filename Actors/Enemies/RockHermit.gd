@@ -9,11 +9,13 @@ onready var search_radius: Area2D = $SearchRadius
 onready var world: Navigation2D = get_parent().get_parent()
 onready var navigation_line: Line2D = $NavigationLine
 onready var soft_collision: Area2D = $SoftCollision
+onready var sprite: Sprite = $Sprite
 
 # Variables
 var player: KinematicBody2D # Reference to the player node, once detected
 var path: Array # Array of points that the enemy must follow
 var velocity = Vector2.ZERO
+var health = 5
 
 func _ready():
 	search_radius.connect("body_entered", self, "body_entered_search_radius")
@@ -52,3 +54,11 @@ func determine_velocity(delta):
 func _physics_process(delta):
 	determine_velocity(delta)
 	velocity = move_and_slide(velocity)
+
+func take_damage(damage: int):
+	sprite.modulate = Color.red
+	health -= damage
+	if health <= 0:
+		return queue_free()
+	yield(get_tree().create_timer(0.1), "timeout")
+	sprite.modulate = Color.white
