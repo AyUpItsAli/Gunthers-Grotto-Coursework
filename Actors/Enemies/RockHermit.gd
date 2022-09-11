@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 # Constants
 const MOVE_SPEED = 2500
-const STOP_DISTANCE = 30
+const STOP_DISTANCE = 25
 
 # Node references
 onready var search_radius: Area2D = $SearchRadius
