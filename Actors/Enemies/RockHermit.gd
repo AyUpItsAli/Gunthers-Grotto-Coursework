@@ -1,6 +1,8 @@
 extends KinematicBody2D
 
 # Constants
+const TEXTURE_LEFT = preload("res://Assets/Actors/Enemies/Rock_Hermit_Left.png")
+const TEXTURE_RIGHT = preload("res://Assets/Actors/Enemies/Rock_Hermit_Right.png")
 const MOVE_SPEED = 2500
 const STOP_DISTANCE = 25
 const ATTACK_DAMAGE = 1
@@ -36,10 +38,18 @@ func determine_path_to_player():
 		path = world.get_simple_path(position, player.position, false)
 		navigation_line.points = path
 
+func determine_sprite():
+	if player:
+		if player.position.x > position.x:
+			sprite.texture = TEXTURE_RIGHT
+		elif player.position.x < position.x:
+			sprite.texture = TEXTURE_LEFT
+
 func _process(delta):
 	navigation_line.global_position = Vector2.ZERO
 	if player:
 		determine_path_to_player()
+		determine_sprite()
 		hurtbox.look_at(player.position)
 
 # Determines the enemy's velocity to move along the path
