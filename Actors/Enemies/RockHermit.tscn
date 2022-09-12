@@ -15,8 +15,8 @@ radius = 8.0
 height = 8.0
 
 [sub_resource type="CapsuleShape2D" id=4]
-radius = 9.0
-height = 14.0
+radius = 7.0
+height = 12.0
 
 [node name="RockHermit" type="KinematicBody2D"]
 collision_layer = 0
@@ -57,7 +57,7 @@ collision_mask = 4
 
 [node name="CollisionShape" type="CollisionShape2D" parent="Hurtbox"]
 modulate = Color( 0.945098, 0.129412, 0.129412, 0.839216 )
-position = Vector2( 18, 0 )
+position = Vector2( 16, 0 )
 shape = SubResource( 4 )
 
 [node name="NavigationLine" type="Line2D" parent="."]
