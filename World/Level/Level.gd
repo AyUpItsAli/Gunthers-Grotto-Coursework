@@ -29,4 +29,4 @@ func generate_level():
 	
 	# Spawn objects
 	objects.spawn_stalagmites()
-	#objects.spawn_player()
+	objects.spawn_player()
