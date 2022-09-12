@@ -3,12 +3,14 @@ extends YSort
 # Objects
 const STALAGMITE = preload("res://World/Objects/Stalagmite.tscn")
 const PLAYER = preload("res://Actors/Player/Player.tscn")
+const ROCK_HERMIT = preload("res://Actors/Enemies/RockHermit.tscn")
 
 # Node references
 onready var rock_layer = get_parent().get_node("RockLayer")
 
 # Constants
 const CLUSTER_CHANCE = 40 # Chance to spawn each stalagmite in the cluster
+const HERMIT_CHANCE = 50 # Chance for a cluster to contain rock hermits instead
 
 var occupied_tiles = [] # List of tile coordinates occupied by an object
 
@@ -49,10 +51,22 @@ func spawn_stalagmite(tile_pos: Vector2):
 	occupied_tiles.append(tile_pos)
 	add_child(stalagmite)
 
+# Spawns a rock hermit enemy at the given tile coordinates
+func spawn_rock_hermit(tile_pos: Vector2):
+	if not is_unoccupied(tile_pos): return
+	
+	var rock_hermit = ROCK_HERMIT.instance()
+	rock_hermit.position = tile_pos_to_world_pos(tile_pos)
+	occupied_tiles.append(tile_pos)
+	add_child(rock_hermit)
+
 # Spawns a stalagmite and a cluster of other stalagmites around it
 func spawn_stalagmite_cluster():
+	var hermit_cluster = GameManager.percent_chance(HERMIT_CHANCE)
+	
 	var origin_pos = get_random_unoccupied_tile_pos()
-	spawn_stalagmite(origin_pos)
+	if hermit_cluster: spawn_rock_hermit(origin_pos)
+	else: spawn_stalagmite(origin_pos)
 	
 	for i in range(-1, 2, 1):
 		for j in range(-1, 2, 1):
@@ -60,7 +74,8 @@ func spawn_stalagmite_cluster():
 				var tile_pos = Vector2(origin_pos.x+i, origin_pos.y+j)
 				var do_spawn = GameManager.percent_chance(CLUSTER_CHANCE)
 				if is_unoccupied(tile_pos) and do_spawn:
-					spawn_stalagmite(tile_pos)
+					if hermit_cluster: spawn_rock_hermit(tile_pos)
+					else: spawn_stalagmite(tile_pos)
 
 # Spawns a number of stalagmite clusters into the world
 func spawn_stalagmites():
