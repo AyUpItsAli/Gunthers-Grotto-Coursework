@@ -3,6 +3,8 @@ extends KinematicBody2D
 # Constants
 const MOVE_SPEED = 2500
 const STOP_DISTANCE = 25
+const ATTACK_COOLDOWN = 1
+const ATTACK_DAMAGE = 1
 
 # Node references
 onready var search_radius: Area2D = $SearchRadius
@@ -20,6 +22,7 @@ var health = 5
 
 func _ready():
 	search_radius.connect("body_entered", self, "body_entered_search_radius")
+	hurtbox.connect("area_entered", self, "area_entered_hurtbox")
 
 func body_entered_search_radius(body):
 	if not player:
@@ -64,3 +67,15 @@ func take_damage(damage: int):
 		return queue_free()
 	yield(get_tree().create_timer(0.1), "timeout")
 	sprite.modulate = Color.white
+
+func area_entered_hurtbox(area):
+	get_tree().create_timer(ATTACK_COOLDOWN).connect("timeout", self, "attack")
+
+func attack():
+	var areas = hurtbox.get_overlapping_areas()
+	if areas.size() > 0:
+		var hitbox: Area2D = areas[0]
+		var player = hitbox.get_parent()
+		if player.has_method("take_damage"):
+			player.take_damage(ATTACK_DAMAGE)
+		get_tree().create_timer(ATTACK_COOLDOWN).connect("timeout", self, "attack")
