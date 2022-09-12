@@ -140,3 +140,10 @@ func _unhandled_input(event):
 		equip(Tools.DYNAMITE)
 	elif event.is_action_pressed("use_tool"):
 		use_tool()
+
+func take_damage(damage: int):
+	print("damage")
+	body_sprite.modulate = Color.red
+	PlayerData.reduce_health(damage)
+	yield(get_tree().create_timer(0.1), "timeout")
+	body_sprite.modulate = Color.white
