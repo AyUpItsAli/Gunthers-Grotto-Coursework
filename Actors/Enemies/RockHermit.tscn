@@ -63,6 +63,7 @@ position = Vector2( 16, 0 )
 shape = SubResource( 4 )
 
 [node name="NavigationLine" type="Line2D" parent="."]
+visible = false
 width = 2.0
 default_color = Color( 0.945098, 0.129412, 0.129412, 0.839216 )
 
