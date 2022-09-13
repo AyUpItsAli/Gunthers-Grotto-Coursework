@@ -15,7 +15,7 @@ const HERMIT_CHANCE = 50 # Chance for a cluster to contain rock hermits instead
 const GEMSTONE_CHANCE = 2 # Chance for a rock tile to contain a gemstone
 
 var occupied_tiles = [] # List of tile coordinates occupied by an object
-var gemstones = {}
+var gemstones = {} # Dict of tile coordinates and their corresponding gemstones
 
 # Converts tile coordinates to a global world position
 func tile_pos_to_world_pos(tile_pos: Vector2) -> Vector2:
@@ -94,7 +94,7 @@ func spawn_gemstone(tile_pos: Vector2):
 	gemstones[tile_pos] = gemstone
 	add_child(gemstone)
 
-# Randomly spawn gemstones for each rock tile in the cave
+# Randomly spawns gemstones for each rock tile in the cave
 func spawn_gemstones():
 	for x in range(1, Globals.CAVE_SIZE-1):
 		for y in range(1, Globals.CAVE_SIZE-1):
