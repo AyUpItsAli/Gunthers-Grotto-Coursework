@@ -99,9 +99,9 @@ func spawn_gemstones():
 	for x in range(1, Globals.CAVE_SIZE-1):
 		for y in range(1, Globals.CAVE_SIZE-1):
 			var tile_pos = Vector2(x, y)
-			var do_spawn = GameManager.percent_chance(GEMSTONE_CHANCE)
-			if is_rock(tile_pos) and do_spawn:
-				spawn_gemstone(tile_pos)
+			if is_rock(tile_pos):
+				if GameManager.percent_chance(GEMSTONE_CHANCE):
+					spawn_gemstone(tile_pos)
 
 func player_exists() -> bool:
 	return has_node("Player")
