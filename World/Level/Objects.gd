@@ -4,6 +4,7 @@ extends YSort
 const STALAGMITE = preload("res://World/Objects/Stalagmite.tscn")
 const PLAYER = preload("res://Actors/Player/Player.tscn")
 const ROCK_HERMIT = preload("res://Actors/Enemies/RockHermit.tscn")
+const GEMSTONE = preload("res://World/Objects/Gemstone.tscn")
 
 # Node references
 onready var rock_layer = get_parent().get_node("RockLayer")
@@ -11,8 +12,10 @@ onready var rock_layer = get_parent().get_node("RockLayer")
 # Constants
 const CLUSTER_CHANCE = 40 # Chance to spawn each stalagmite in the cluster
 const HERMIT_CHANCE = 50 # Chance for a cluster to contain rock hermits instead
+const GEMSTONE_CHANCE = 2 # Chance for a rock tile to contain a gemstone
 
 var occupied_tiles = [] # List of tile coordinates occupied by an object
+var gemstones = {}
 
 # Converts tile coordinates to a global world position
 func tile_pos_to_world_pos(tile_pos: Vector2) -> Vector2:
@@ -81,6 +84,24 @@ func spawn_stalagmite_cluster():
 func spawn_stalagmites():
 	for i in range(int(Globals.CAVE_SIZE/2)):
 		spawn_stalagmite_cluster()
+
+# Spawns a gemstone object at the given tile coordinates
+func spawn_gemstone(tile_pos: Vector2):
+	if tile_pos in gemstones: return
+	
+	var gemstone = GEMSTONE.instance()
+	gemstone.position = tile_pos_to_world_pos(tile_pos)
+	gemstones[tile_pos] = gemstone
+	add_child(gemstone)
+
+# Randomly spawn gemstones for each rock tile in the cave
+func spawn_gemstones():
+	for x in range(1, Globals.CAVE_SIZE-1):
+		for y in range(1, Globals.CAVE_SIZE-1):
+			var tile_pos = Vector2(x, y)
+			var do_spawn = GameManager.percent_chance(GEMSTONE_CHANCE)
+			if is_rock(tile_pos) and do_spawn:
+				spawn_gemstone(tile_pos)
 
 func player_exists() -> bool:
 	return has_node("Player")

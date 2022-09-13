@@ -29,4 +29,5 @@ func generate_level():
 	
 	# Spawn objects
 	objects.spawn_stalagmites()
+	objects.spawn_gemstones()
 	objects.spawn_player()
