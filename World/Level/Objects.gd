@@ -126,3 +126,13 @@ func spawn_player():
 	camera.limit_bottom = Globals.CAVE_SIZE * Globals.CAVE_TILE_SIZE
 	
 	add_child(player)
+
+# Called by the rock layer when a rock tile is destroyed.
+# Destroys the gemstone at this tile position, if one is present.
+# Adds a random number of gems, taken from gem_quantity_pool, to the inventory.
+func destroy_gemstone_if_present(tile_pos: Vector2):
+	if tile_pos in gemstones:
+		var gemstone: Node2D = gemstones[tile_pos]
+		var gem_quantity = GameManager.choose_from(Globals.gem_quantity_pool)
+		PlayerData.add_item(Globals.ItemIDs.GEM, gem_quantity)
+		gemstone.queue_free()

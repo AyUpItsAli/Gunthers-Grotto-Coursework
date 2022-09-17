@@ -23,3 +23,7 @@ const ITEMS = {
 		texture = null
 	}
 }
+# Frequencies for each quantity of gems you can recieve from mining gemstones
+const GEM_FREQUENCIES = { 1: 50, 2: 35, 3: 15 }
+# A pool of gem quantities generated from GEM_FREQUENCIES
+var gem_quantity_pool: PoolIntArray

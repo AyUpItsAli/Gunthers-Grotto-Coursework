@@ -11,7 +11,10 @@ func _ready():
 
 # Generates a new level
 func generate_level():
-	GameManager.rng.randomize() # Re-randomise the game's rng
+	# Randomise the rng
+	GameManager.rng.randomize()
+	# Initialise the gem quantity pool
+	Globals.gem_quantity_pool = GameManager.create_pool(Globals.GEM_FREQUENCIES)
 	
 	rock_layer.initialise_rock_layer()
 	var finished = rock_layer.carry_out_generation()

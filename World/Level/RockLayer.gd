@@ -8,6 +8,7 @@ const ROCK = 0 # Tile
 
 onready var ground_layer = get_parent().get_node("GroundLayer")
 onready var walls_layer = get_parent().get_node("WallsLayer")
+onready var objects = get_parent().get_node("Objects")
 
 # Initialises random grid of rock tiles
 func initialise_rock_layer():
@@ -80,5 +81,6 @@ func on_player_mine(pos) -> bool:
 	set_cell(x, y, -1)
 	ground_layer.set_cell(x, y, ground_layer.NAVABLE)
 	walls_layer.update_walls_layer()
+	objects.destroy_gemstone_if_present(tile_pos)
 	update_bitmask_region(tile_pos-Vector2.ONE, tile_pos+Vector2.ONE)
 	return true
