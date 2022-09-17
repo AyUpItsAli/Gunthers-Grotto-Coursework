@@ -133,6 +133,6 @@ func spawn_player():
 func destroy_gemstone_if_present(tile_pos: Vector2):
 	if tile_pos in gemstones:
 		var gemstone: Node2D = gemstones[tile_pos]
-		var gem_quantity = GameManager.choose_from(Globals.gem_quantity_pool)
+		var gem_quantity = GameManager.get_random_gem_quantity()
 		PlayerData.add_item(Globals.ItemIDs.GEM, gem_quantity)
 		gemstone.queue_free()
