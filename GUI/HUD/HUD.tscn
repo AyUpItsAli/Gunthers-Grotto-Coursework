@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/GUI/Cursor.png" type="Texture" id=1]
+[ext_resource path="res://Assets/GUI/Animations/CursorIdle.tres" type="Animation" id=2]
+[ext_resource path="res://GUI/HUD/Cursor.gd" type="Script" id=3]
+
+[node name="HUD" type="CanvasLayer"]
+
+[node name="Cursor" type="Sprite" parent="."]
+scale = Vector2( 2, 2 )
+texture = ExtResource( 1 )
+script = ExtResource( 3 )
+
+[node name="CursorAnimations" type="AnimationPlayer" parent="Cursor"]
+anims/CursorIdle = ExtResource( 2 )
