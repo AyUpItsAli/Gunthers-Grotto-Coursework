@@ -5,6 +5,7 @@ onready var ground_layer = $World/GroundLayer
 onready var walls_layer = $World/WallsLayer
 onready var rock_layer = $World/RockLayer
 onready var objects = $World/Objects
+onready var minimap = $HUD/Minimap
 
 func _ready():
 	generate_level() # Generate a new level when the scene is loaded
@@ -27,6 +28,9 @@ func generate_level():
 	
 	# Update the walls layer to match the current rock layer
 	walls_layer.update_walls_layer()
+	
+	# Update the minimap to match the current rock layer
+	minimap.update_minimap(rock_layer)
 	
 	# Spawn objects
 	objects.spawn_stalagmites()

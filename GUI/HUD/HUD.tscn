@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/GUI/Cursor.png" type="Texture" id=1]
 [ext_resource path="res://Assets/GUI/Animations/CursorIdle.tres" type="Animation" id=2]
 [ext_resource path="res://GUI/HUD/Cursor.gd" type="Script" id=3]
 [ext_resource path="res://GUI/HUD/Minimap.tres" type="TileSet" id=4]
+[ext_resource path="res://GUI/HUD/Minimap.gd" type="Script" id=5]
 
 [node name="HUD" type="CanvasLayer"]
 
@@ -12,6 +13,7 @@ scale = Vector2( 5, 5 )
 tile_set = ExtResource( 4 )
 cell_size = Vector2( 1, 1 )
 format = 1
+script = ExtResource( 5 )
 
 [node name="Cursor" type="Sprite" parent="."]
 scale = Vector2( 2, 2 )
