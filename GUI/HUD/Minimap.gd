@@ -13,7 +13,7 @@ func _ready():
 func update_scale():
 	var viewport_width = get_viewport_rect().size.x
 	var minimap_width = Globals.CAVE_SIZE * cell_size.x
-	var multiplier = VIEWPORT_PERCENTAGE * 0.01
+	var multiplier = VIEWPORT_PERCENTAGE / 100.0
 	scale.x = (viewport_width * multiplier) / minimap_width
 	scale.y = scale.x # Y scale equals the X scale as the map is square
 
