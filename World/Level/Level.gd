@@ -10,6 +10,12 @@ onready var minimap = $HUD/Minimap
 func _ready():
 	generate_level() # Generate a new level when the scene is loaded
 
+func _process(delta):
+	if objects.player_exists():
+		var player_pos = objects.get_player().position
+		var player_tile_pos = ground_layer.world_to_map(player_pos)
+		minimap.update_player_pos(player_tile_pos)
+
 # Generates a new level
 func generate_level():
 	# Randomise the rng
