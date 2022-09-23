@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Assets/GUI/Cursor.png" type="Texture" id=1]
 [ext_resource path="res://Assets/GUI/Animations/CursorIdle.tres" type="Animation" id=2]
 [ext_resource path="res://GUI/HUD/Cursor.gd" type="Script" id=3]
 [ext_resource path="res://GUI/HUD/Minimap.tres" type="TileSet" id=4]
 [ext_resource path="res://GUI/HUD/Minimap.gd" type="Script" id=5]
+[ext_resource path="res://Assets/GUI/Health_Bar_Base.png" type="Texture" id=6]
+[ext_resource path="res://GUI/HUD/HealthBar.gd" type="Script" id=7]
+[ext_resource path="res://Assets/GUI/Health_Bar_Fill.png" type="Texture" id=8]
 
 [node name="HUD" type="CanvasLayer"]
 
@@ -14,6 +17,18 @@ tile_set = ExtResource( 4 )
 cell_size = Vector2( 1, 1 )
 format = 1
 script = ExtResource( 5 )
+
+[node name="HealthBar" type="Node2D" parent="."]
+script = ExtResource( 7 )
+
+[node name="BaseSprite" type="Sprite" parent="HealthBar"]
+texture = ExtResource( 6 )
+offset = Vector2( 75, -11 )
+
+[node name="FillSprite" type="Sprite" parent="HealthBar"]
+position = Vector2( 4, -4 )
+texture = ExtResource( 8 )
+offset = Vector2( 71, -7 )
 
 [node name="Cursor" type="Sprite" parent="."]
 scale = Vector2( 2, 2 )

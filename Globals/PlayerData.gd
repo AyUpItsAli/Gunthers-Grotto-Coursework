@@ -1,12 +1,18 @@
 extends Node
 
-var health = 5
+const MAX_HEALTH = 10
+
+var health = MAX_HEALTH
 var inventory = {} # key: Item ID | value: Quantity
+
+signal health_changed
 
 func reduce_health(amount: int):
 	health -= amount
-	if health <= 0:
+	if health < 0:
 		health = 0
+	emit_signal("health_changed")
+	if health == 0:
 		print("Game Over")
 
 # Attempts to ADD an item to the inventory
