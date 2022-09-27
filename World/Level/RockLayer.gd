@@ -9,7 +9,7 @@ const ROCK = 0 # Tile
 onready var ground_layer = get_parent().get_node("GroundLayer")
 onready var walls_layer = get_parent().get_node("WallsLayer")
 onready var objects = get_parent().get_node("Objects")
-onready var minimap = get_parent().get_parent().get_node("HUD/Minimap")
+onready var minimap = get_parent().get_parent().get_node("HUD/UI/Minimap")
 
 # Initialises random grid of rock tiles
 func initialise_rock_layer():

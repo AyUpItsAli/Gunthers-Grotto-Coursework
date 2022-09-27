@@ -5,7 +5,7 @@ onready var ground_layer = $World/GroundLayer
 onready var walls_layer = $World/WallsLayer
 onready var rock_layer = $World/RockLayer
 onready var objects = $World/Objects
-onready var minimap = $HUD/Minimap
+onready var minimap = $HUD/UI/Minimap
 
 func _ready():
 	generate_level() # Generate a new level when the scene is loaded
