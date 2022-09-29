@@ -34,6 +34,10 @@ position = Vector2( 4, -4 )
 texture = ExtResource( 8 )
 offset = Vector2( 71, -7 )
 
+[node name="DebugInvLine" type="Line2D" parent="UI"]
+width = 2.0
+default_color = Color( 0.0392157, 0.960784, 0.0313726, 1 )
+
 [node name="Cursor" type="Sprite" parent="."]
 scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
