@@ -53,7 +53,6 @@ func update_ui():
 	set_inventory_display_dimensions()
 	center_health_bar_against_inventory()
 	rearrange_item_displays()
-	draw_inventory_display_bounding_box()
 
 # Sets the minimap's dimensions, based on the size of the viewport
 func set_minimap_dimensions():

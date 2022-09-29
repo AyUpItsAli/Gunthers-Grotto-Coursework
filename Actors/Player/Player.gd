@@ -136,10 +136,8 @@ func _unhandled_input(event):
 		equip(Tools.PICKAXE)
 	elif event.is_action_pressed("equip_revolver"):
 		equip(Tools.REVOLVER)
-		PlayerData.add_item(Globals.ItemIDs.REVOLVER_AMMO)
 	elif event.is_action_pressed("equip_dynamite"):
 		equip(Tools.DYNAMITE)
-		PlayerData.add_item(Globals.ItemIDs.DYNAMITE_STICK)
 	elif event.is_action_pressed("use_tool"):
 		use_tool()
 
