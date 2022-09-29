@@ -6,6 +6,7 @@ var health = MAX_HEALTH
 var inventory = {} # key: Item ID | value: Quantity
 
 signal health_changed
+signal inventory_changed
 
 func reduce_health(amount: int):
 	health -= amount
@@ -23,6 +24,7 @@ func add_item(item_id: int, amount: int = 1) -> bool:
 		inventory[item_id] += amount
 	else:
 		inventory[item_id] = amount
+	emit_signal("inventory_changed")
 	return true
 
 # Attempts to REMOVE an item from the inventory
@@ -35,7 +37,9 @@ func remove_item(item_id: int, amount: int = 1) -> bool:
 		return false
 	elif amount == current_quantity:
 		inventory.erase(item_id)
+		emit_signal("inventory_changed")
 		return true
 	else:
 		inventory[item_id] -= amount
+		emit_signal("inventory_changed")
 		return true

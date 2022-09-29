@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Assets/GUI/Cursor.png" type="Texture" id=1]
 [ext_resource path="res://Assets/GUI/Animations/CursorIdle.tres" type="Animation" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://GUI/HUD/HealthBar.gd" type="Script" id=7]
 [ext_resource path="res://Assets/GUI/Health_Bar_Fill.png" type="Texture" id=8]
 [ext_resource path="res://GUI/HUD/UI.gd" type="Script" id=9]
+[ext_resource path="res://GUI/HUD/InventoryDisplay.gd" type="Script" id=10]
 
 [node name="HUD" type="CanvasLayer"]
 
@@ -33,6 +34,9 @@ offset = Vector2( 75, -11 )
 position = Vector2( 4, -4 )
 texture = ExtResource( 8 )
 offset = Vector2( 71, -7 )
+
+[node name="InventoryDisplay" type="Node2D" parent="UI"]
+script = ExtResource( 10 )
 
 [node name="DebugInvLine" type="Line2D" parent="UI"]
 width = 2.0

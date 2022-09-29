@@ -4,6 +4,7 @@ extends Node2D
 onready var minimap = $Minimap
 onready var health_bar = $HealthBar
 onready var health_bar_sprite = $HealthBar/BaseSprite
+onready var inventory_display = $InventoryDisplay
 onready var debug_inv_line = $DebugInvLine
 
 # Space between UI elements. Scales with the size of the viewport.
@@ -19,11 +20,6 @@ const HEALTH_BAR_MAX_HEIGHT_PERCENTAGE = 7.5
 # Inventory display's height will be the health bar's height,
 # multiplied by this number. For example, 2x the health bar's height
 const INVENTORY_HEALTH_BAR_HEIGHT_RATIO = 1.75
-
-# Before test:
-# INVENTORY_HEALTH_BAR_HEIGHT_RATIO = 2
-# remove center_inventory_and_health_bar()
-# remove "Add the starting point again, to close the shape"
 
 # Viewport dimensions
 var viewport_width: float
@@ -55,7 +51,8 @@ func update_ui():
 	set_minimap_dimensions()
 	set_health_bar_dimensions()
 	set_inventory_display_dimensions()
-	center_inventory_and_health_bar()
+	center_health_bar_against_inventory()
+	rearrange_item_displays()
 	draw_inventory_display_bounding_box()
 
 # Sets the minimap's dimensions, based on the size of the viewport
@@ -109,14 +106,56 @@ func set_inventory_display_dimensions():
 	inv_start_y = viewport_height - padding
 	# Set the width, so that the inventory display is symmetrical
 	inv_width = ((viewport_width / 2) - inv_start_x) * 2
-	# Set the height to
+	# Set the height to health bar's height multiplied by the ratio constant
 	inv_height = hb_height * INVENTORY_HEALTH_BAR_HEIGHT_RATIO
 
 # Centers the health bar against the inventory display in the Y axis
-func center_inventory_and_health_bar():
+func center_health_bar_against_inventory():
 	health_bar.position.y = inv_start_y - (abs(hb_height - inv_height) / 2)
 
-# Adds points to the DebugLine at each corner of the inventory display,
+# Rearranges each item display under the inventory display
+# to fit within the inventory display's dimensions
+func rearrange_item_displays():
+	var num_items = inventory_display.get_child_count()
+	
+	for i in range(num_items):
+		var item_display: Node2D = inventory_display.get_child(i)
+		var image: Sprite = item_display.get_node("Image")
+		var label: Label = item_display.get_node("Label")
+		
+		# Set local width and height for image and label
+		var image_local_width = image.texture.get_width() * image.scale.x
+		var image_local_height = image.texture.get_height() * image.scale.y
+		var label_local_width = max(label.rect_size.x, image_local_width)
+		var label_local_height = label.rect_size.y
+		label.rect_size.x = label_local_width
+		
+		# Set local position for image and label
+		image.position.x = (label_local_width / 2) - (image_local_width / 2)
+		image.position.y = -label_local_height
+		label.rect_position.x = 0
+		label.rect_position.y = -label_local_height
+		
+		# Store item display local width and height
+		var item_local_width = label_local_width
+		var item_local_height = image_local_height + label_local_height
+		
+		# Scale item display to fill the height of the inventory
+		var item_scale = inv_height / item_local_height
+		item_display.scale.x = item_scale
+		item_display.scale.y = item_scale
+		
+		# Calculate the space between each item display
+		var item_width = item_local_width * item_scale
+		var free_space = inv_width - (item_width * num_items)
+		var space_between = free_space * (1 / float(num_items + 1))
+		
+		# Set position of each item display with equal space between them
+		var item_start_x = inv_start_x + (item_width*i) + (space_between*(i+1))
+		item_display.global_position.x = item_start_x
+		item_display.global_position.y = inv_start_y
+
+# Adds a point to the DebugInvLine for each corner of the inventory display,
 # to visually see the extents of the inventory display
 func draw_inventory_display_bounding_box():
 	var points = []
@@ -126,6 +165,5 @@ func draw_inventory_display_bounding_box():
 	points.append(Vector2(inv_start_x, inv_end_y))
 	points.append(Vector2(inv_end_x, inv_end_y))
 	points.append(Vector2(inv_end_x, inv_start_y))
-	# Add the starting point again, to close the shape
 	points.append(Vector2(inv_start_x, inv_start_y))
 	debug_inv_line.points = points

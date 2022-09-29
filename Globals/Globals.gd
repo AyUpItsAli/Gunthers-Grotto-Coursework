@@ -10,17 +10,17 @@ const ITEMS = {
 	ItemIDs.GEM: {
 		single = "Gem",
 		plural = "Gems",
-		texture = null
+		texture = preload("res://Assets/GUI/Items/Gem.png")
 	},
 	ItemIDs.REVOLVER_AMMO: {
 		single = "Bullet",
 		plural = "Bullets",
-		texture = null
+		texture = preload("res://Assets/GUI/Items/Bullet.png")
 	},
 	ItemIDs.DYNAMITE_STICK: {
 		single = "Dynamite Stick",
 		plural = "Dynamite Sticks",
-		texture = null
+		texture = preload("res://Assets/GUI/Items/Dynamite.png")
 	}
 }
 # Frequencies for each quantity of gems you can recieve from mining gemstones
