@@ -20,6 +20,11 @@ const HEALTH_BAR_MAX_HEIGHT_PERCENTAGE = 7.5
 # multiplied by this number. For example, 2x the health bar's height
 const INVENTORY_HEALTH_BAR_HEIGHT_RATIO = 1.75
 
+# Before test:
+# INVENTORY_HEALTH_BAR_HEIGHT_RATIO = 2
+# remove center_inventory_and_health_bar()
+# remove "Add the starting point again, to close the shape"
+
 # Viewport dimensions
 var viewport_width: float
 var viewport_height: float
