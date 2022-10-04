@@ -5,10 +5,17 @@ onready var ground_layer = $World/GroundLayer
 onready var walls_layer = $World/WallsLayer
 onready var rock_layer = $World/RockLayer
 onready var objects = $World/Objects
+
+# HUD
 onready var minimap = $HUD/UI/Minimap
+onready var loading_screen = $HUD/LoadingScreen
+
+# Objects
+onready var cave_exit = $World/Objects/CaveExit
 
 func _ready():
-	generate_level() # Generate a new level when the scene is loaded
+	cave_exit.connect("player_entered", self, "on_player_exited_cave")
+	generate_level() # Generate a new level when this scene is loaded
 
 func _process(delta):
 	if objects.player_exists():
@@ -39,6 +46,21 @@ func generate_level():
 	minimap.update_minimap(rock_layer)
 	
 	# Spawn objects
+	objects.clear_objects()
 	objects.spawn_stalagmites()
 	objects.spawn_gemstones()
-	objects.spawn_player()
+	#objects.spawn_player() Disable random player spawning while testing
+	
+	# Fade out the loading screen AFTER the level has finished generating
+	if loading_screen.visible:
+		var animations = loading_screen.get_node("LoadingScreenAnimations")
+		animations.play("Fade_Out")
+
+# Called when the player enters the CaveExit detection radius
+func on_player_exited_cave():
+	print("Player exited cave...")
+	if not loading_screen.visible:
+		var animations = loading_screen.get_node("LoadingScreenAnimations")
+		animations.play("Fade_In")
+		yield(animations, "animation_finished")
+		generate_level()

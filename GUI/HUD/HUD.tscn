@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Assets/GUI/Cursor.png" type="Texture" id=1]
 [ext_resource path="res://Assets/GUI/Animations/CursorIdle.tres" type="Animation" id=2]
@@ -10,6 +10,62 @@
 [ext_resource path="res://Assets/GUI/Health_Bar_Fill.png" type="Texture" id=8]
 [ext_resource path="res://GUI/HUD/UI.gd" type="Script" id=9]
 [ext_resource path="res://GUI/HUD/InventoryDisplay.gd" type="Script" id=10]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Fade_In"
+length = 2.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Fade_Out"
+length = 2.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
 [node name="HUD" type="CanvasLayer"]
 
@@ -42,6 +98,19 @@ script = ExtResource( 10 )
 visible = false
 width = 2.0
 default_color = Color( 0.0392157, 0.960784, 0.0313726, 1 )
+
+[node name="LoadingScreen" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LoadingScreenAnimations" type="AnimationPlayer" parent="LoadingScreen"]
+anims/Fade_In = SubResource( 1 )
+anims/Fade_Out = SubResource( 2 )
 
 [node name="Cursor" type="Sprite" parent="."]
 scale = Vector2( 2, 2 )

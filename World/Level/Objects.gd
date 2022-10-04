@@ -17,6 +17,18 @@ const GEMSTONE_CHANCE = 2 # Chance for a rock tile to contain a gemstone
 var occupied_tiles = [] # List of tile coordinates occupied by an object
 var gemstones = {} # Dict of tile coordinates and their corresponding gemstones
 
+# Completely removes all objects present in the level
+func clear_objects():
+	# Remove all objects
+	for child in get_children():
+		# DEBUG: Don't remove player or cave exit while testing!
+		if child.name == "Player" or child.name == "CaveExit":
+			continue
+		remove_child(child)
+	# Clear object lists
+	occupied_tiles = []
+	gemstones = {}
+
 # Converts tile coordinates to a global world position
 func tile_pos_to_world_pos(tile_pos: Vector2) -> Vector2:
 	var offset = Vector2.ONE * Globals.CAVE_TILE_SIZE/2
