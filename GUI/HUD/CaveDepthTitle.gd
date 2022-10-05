@@ -3,7 +3,7 @@ extends Node2D
 onready var label: Label = $Label
 onready var animations: AnimationPlayer = $LabelAnimations
 
-var queue = [] # List of cave depths to be displayed in order
+var queue = [] # List of cave depths, in order, to be displayed to the user
 
 func _process(delta):
 	if queue and not animations.is_playing():
