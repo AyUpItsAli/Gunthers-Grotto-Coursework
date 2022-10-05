@@ -133,7 +133,6 @@ func set_cave_depth_title_dimensions():
 	var max_y_scale = max_height / local_height
 	# Pick the smallest scale, as to not exceed either of them
 	var title_scale = min(max_x_scale, max_y_scale) # Pick the smallest scale
-	print(title_scale)
 	# Set the scale
 	cave_depth_title.scale.x = title_scale
 	cave_depth_title.scale.y = title_scale
