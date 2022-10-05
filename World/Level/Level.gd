@@ -9,6 +9,7 @@ onready var objects = $World/Objects
 # HUD
 onready var minimap = $HUD/UI/Minimap
 onready var loading_screen = $HUD/LoadingScreen
+onready var cave_depth_title = $HUD/UI/CaveDepthTitle
 
 # Objects
 onready var cave_exit = $World/Objects/CaveExit
@@ -55,10 +56,12 @@ func generate_level():
 	if loading_screen.visible:
 		var animations = loading_screen.get_node("LoadingScreenAnimations")
 		animations.play("Fade_Out")
+		yield(animations, "animation_finished")
+		GameManager.increase_cave_depth()
+		cave_depth_title.add_depth_to_queue(GameManager.cave_depth)
 
 # Called when the player enters the CaveExit detection radius
 func on_player_exited_cave():
-	print("Player exited cave...")
 	if not loading_screen.visible:
 		var animations = loading_screen.get_node("LoadingScreenAnimations")
 		animations.play("Fade_In")

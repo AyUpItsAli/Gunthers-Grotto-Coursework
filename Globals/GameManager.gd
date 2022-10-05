@@ -6,6 +6,14 @@ onready var rng := RandomNumberGenerator.new()
 # A pool of gem quantities generated from Globals.GEM_FREQUENCIES
 onready var gem_quantity_pool = create_pool(Globals.GEM_FREQUENCIES)
 
+# How many caves the player has visited
+# This acts as the player's score
+var cave_depth = 0
+
+# Called whenever a cave is generated
+func increase_cave_depth():
+	cave_depth += 1
+
 # Creates a pool of items from the given dictionary of item frequencies
 func create_pool(frequencies: Dictionary) -> Array:
 	var pool = []
