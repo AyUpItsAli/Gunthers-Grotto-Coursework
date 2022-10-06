@@ -5,8 +5,10 @@ const STALAGMITE = preload("res://World/Objects/Stalagmite.tscn")
 const PLAYER = preload("res://Actors/Player/Player.tscn")
 const ROCK_HERMIT = preload("res://Actors/Enemies/RockHermit.tscn")
 const GEMSTONE = preload("res://World/Objects/Gemstone.tscn")
+const CAVE_EXIT = preload("res://World/Objects/CaveExit.tscn")
 
 # Node references
+onready var level = get_parent().get_parent() # Root node of the Level scene
 onready var rock_layer = get_parent().get_node("RockLayer")
 
 # Constants
@@ -21,9 +23,6 @@ var gemstones = {} # Dict of tile coordinates and their corresponding gemstones
 func clear_objects():
 	# Remove all objects
 	for child in get_children():
-		# DEBUG: Don't remove player or cave exit while testing!
-		if child.name == "Player" or child.name == "CaveExit":
-			continue
 		remove_child(child)
 	# Clear object lists
 	occupied_tiles = []
@@ -138,6 +137,43 @@ func spawn_player():
 	camera.limit_bottom = Globals.CAVE_SIZE * Globals.CAVE_TILE_SIZE
 	
 	add_child(player)
+
+# Returns whether the given tile position is a valid spawning location for the
+# cave exit, using the given player position
+func is_valid_cave_exit_pos(cave_exit_pos: Vector2, player_pos: Vector2) -> bool:
+	if cave_exit_pos.distance_to(player_pos) < (Globals.CAVE_SIZE / 2):
+		return false
+	# Loop through all x and y offsets (-1, 0 and 1)
+	for x in range(-1, 2, 1):
+		for y in range(-1, 2, 1):
+			# Don't count (0,0) as this is the original cave exit pos
+			if not (x == 0 and y == 0):
+				var offset = Vector2(x, y)
+				if not is_unoccupied(cave_exit_pos + offset):
+					return false
+	return true
+
+# Returns a random tile position that is valid for spawning the cave exit
+func get_random_cave_exit_pos(player_pos: Vector2) -> Vector2:
+	var cave_exit_pos = get_random_unoccupied_tile_pos()
+	while not is_valid_cave_exit_pos(cave_exit_pos, player_pos):
+		cave_exit_pos = get_random_unoccupied_tile_pos()
+	return cave_exit_pos
+
+# Spawns the cave exit at a random position, a certain distance from the player
+func spawn_cave_exit():
+	if not player_exists():
+		return
+	var cave_exit = CAVE_EXIT.instance()
+	var player_pos = rock_layer.world_to_map(get_player().position)
+	var cave_exit_pos = get_random_cave_exit_pos(player_pos)
+	cave_exit.position = tile_pos_to_world_pos(cave_exit_pos)
+	for x in range(-1, 2, 1):
+		for y in range(-1, 2, 1):
+			var offset = Vector2(x, y)
+			occupied_tiles.append(cave_exit_pos + offset)
+	cave_exit.connect("player_entered", level, "on_player_exited_cave")
+	add_child(cave_exit)
 
 # Called by the rock layer when a rock tile is destroyed.
 # Destroys the gemstone at this tile position, if one is present.

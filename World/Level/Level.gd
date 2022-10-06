@@ -11,12 +11,14 @@ onready var minimap = $HUD/UI/Minimap
 onready var loading_screen = $HUD/LoadingScreen
 onready var cave_depth_title = $HUD/UI/CaveDepthTitle
 
-# Objects
-onready var cave_exit = $World/Objects/CaveExit
-
 func _ready():
-	cave_exit.connect("player_entered", self, "on_player_exited_cave")
 	generate_level() # Generate a new level when this scene is loaded
+
+func _unhandled_input(event):
+	# Used for testing: Executes the "player exited cave" procedure,
+	# without having to actually locate the cave exit
+	if event.is_action_pressed("test"):
+		on_player_exited_cave()
 
 func _process(delta):
 	if objects.player_exists():
@@ -50,7 +52,8 @@ func generate_level():
 	objects.clear_objects()
 	objects.spawn_stalagmites()
 	objects.spawn_gemstones()
-	#objects.spawn_player() Disable random player spawning while testing
+	objects.spawn_player()
+	objects.spawn_cave_exit()
 	
 	# Fade out the loading screen AFTER the level has finished generating
 	if loading_screen.visible:
