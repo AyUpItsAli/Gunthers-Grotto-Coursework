@@ -15,9 +15,10 @@ func _ready():
 	generate_level() # Generate a new level when this scene is loaded
 
 func _unhandled_input(event):
-	# Used for testing: Executes the "player exited cave" procedure,
-	# without having to actually locate the cave exit
-	if event.is_action_pressed("test"):
+	# DEBUGGING:
+	# Instantly executes the "on_player_exited_cave" procedure,
+	# when the Enter key is pressed
+	if event.is_action_pressed("force_exit_cave"):
 		on_player_exited_cave()
 
 func _process(delta):
