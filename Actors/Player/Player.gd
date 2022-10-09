@@ -7,6 +7,7 @@ const PICKAXE_TEXTURE = preload("res://Assets/Actors/Player/Pickaxe.png")
 const REVOLVER_TEXTURE = preload("res://Assets/Actors/Player/Revolver.png")
 const DYNAMITE_TEXTURE = preload("res://Assets/Actors/Player/Dynamite.png")
 const PICKAXE_DAMAGE = 1
+const BULLET = preload("res://Actors/Player/Bullet.tscn")
 
 # Node references
 onready var body_sprite: Sprite = $BodySprite
@@ -129,6 +130,11 @@ func use_tool():
 		
 		yield(player_animations, "animation_finished")
 		attacking = false
+	elif equipped == Tools.REVOLVER:
+		var bullet = BULLET.instance()
+		bullet.position = position
+		bullet.velocity = Vector2.RIGHT
+		get_parent().add_child(bullet)
 
 # Called when this node detects mouse/keyboard inputs
 func _unhandled_input(event):

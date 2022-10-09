@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://World/Level/RockLayer.tres" type="TileSet" id=1]
 [ext_resource path="res://World/Level/RockLayer.gd" type="Script" id=2]
@@ -8,7 +8,9 @@
 [ext_resource path="res://World/Level/WallsLayer.tres" type="TileSet" id=6]
 [ext_resource path="res://World/Level/WallsLayer.gd" type="Script" id=7]
 [ext_resource path="res://GUI/HUD/HUD.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Actors/Player/Bullet.tscn" type="PackedScene" id=9]
 [ext_resource path="res://World/Level/Objects.gd" type="Script" id=10]
+[ext_resource path="res://Actors/Player/Player.tscn" type="PackedScene" id=11]
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 3 )
@@ -42,3 +44,9 @@ script = ExtResource( 2 )
 
 [node name="Objects" type="YSort" parent="World"]
 script = ExtResource( 10 )
+
+[node name="Player" parent="World/Objects" instance=ExtResource( 11 )]
+position = Vector2( 112, 112 )
+
+[node name="Bullet" parent="World/Objects" instance=ExtResource( 9 )]
+position = Vector2( 144, 112 )
