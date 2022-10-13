@@ -2,6 +2,7 @@ extends Area2D
 
 # Constants
 const BULLET_SPEED = 200
+const BULLET_DAMAGE = 1
 
 # Variables
 var velocity: Vector2
@@ -21,7 +22,8 @@ func on_collision(body):
 
 # Called when an area enters the bullet's hurtbox
 func on_area_entered_hurtbox(area):
-	print("hit enemy!")
-	var enemy = area.get_parent()
-	# As the enemy is not a "body", invoke on_collision() manually
-	on_collision(enemy)
+	var node = area.get_parent()
+	if node.has_method("take_damage"):
+		node.take_damage(BULLET_DAMAGE)
+	# As the node is not a "body", invoke on_collision() manually
+	on_collision(node)
