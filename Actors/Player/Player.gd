@@ -131,12 +131,13 @@ func use_tool():
 		yield(player_animations, "animation_finished")
 		attacking = false
 	elif equipped == Tools.REVOLVER:
-		var mouse_pos = get_global_mouse_position()
-		var bullet = BULLET.instance()
-		bullet.position = position
-		bullet.velocity = position.direction_to(mouse_pos)
-		bullet.look_at(mouse_pos)
-		get_parent().add_child(bullet)
+		if PlayerData.remove_item(Globals.ItemIDs.REVOLVER_AMMO):
+			var mouse_pos = get_global_mouse_position()
+			var bullet = BULLET.instance()
+			bullet.position = position
+			bullet.velocity = position.direction_to(mouse_pos)
+			bullet.look_at(mouse_pos)
+			get_parent().add_child(bullet)
 
 # Called when this node detects mouse/keyboard inputs
 func _unhandled_input(event):
