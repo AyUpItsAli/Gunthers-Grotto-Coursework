@@ -1,7 +1,7 @@
 extends Area2D
 
 # Constants
-const BULLET_SPEED = 100
+const BULLET_SPEED = 200
 
 # Variables
 var velocity: Vector2
@@ -16,7 +16,8 @@ func _physics_process(delta):
 # Called when the bullet collides with something "physical"
 # The bullet should be destroyed on impact
 func on_collision(body):
-	queue_free()
+	if body.name != "WallsLayer": # Pass freely over wall tiles
+		queue_free()
 
 # Called when an area enters the bullet's hurtbox
 func on_area_entered_hurtbox(area):
