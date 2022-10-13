@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Pickaxe.png-3eb0f6b9bb0fc9690d7d2252681c4031.stex"
+path="res://.import/Revolver_In_Hand.png-658406bfb11eda30b0991b919e84bc10.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Actors/Player/Pickaxe.png"
-dest_files=[ "res://.import/Pickaxe.png-3eb0f6b9bb0fc9690d7d2252681c4031.stex" ]
+source_file="res://Assets/Actors/Player/Revolver_In_Hand.png"
+dest_files=[ "res://.import/Revolver_In_Hand.png-658406bfb11eda30b0991b919e84bc10.stex" ]
 
 [params]
 

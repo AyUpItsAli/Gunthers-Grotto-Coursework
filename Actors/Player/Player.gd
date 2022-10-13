@@ -3,9 +3,9 @@ extends KinematicBody2D
 # Constants
 const MOVE_SPEED = 5000
 enum Tools { PICKAXE, REVOLVER, DYNAMITE }
-const PICKAXE_TEXTURE = preload("res://Assets/Actors/Player/Pickaxe.png")
-const REVOLVER_TEXTURE = preload("res://Assets/Actors/Player/Revolver.png")
-const DYNAMITE_TEXTURE = preload("res://Assets/Actors/Player/Dynamite.png")
+const PICKAXE_TEXTURE = preload("res://Assets/Actors/Player/Pickaxe_In_Hand.png")
+const REVOLVER_TEXTURE = preload("res://Assets/Actors/Player/Revolver_In_Hand.png")
+const DYNAMITE_TEXTURE = preload("res://Assets/Actors/Player/Dynamite_In_Hand.png")
 const PICKAXE_DAMAGE = 1
 const BULLET = preload("res://Actors/Player/Bullet.tscn")
 
