@@ -2,6 +2,7 @@ extends Area2D
 
 # Constants
 const DYNAMITE_SPEED = 200
+const EXPLOSION_DAMAGE = 5
 
 # Node references
 onready var sprite: Sprite = $Sprite
@@ -12,6 +13,12 @@ onready var explosion_radius: Area2D = $ExplosionRadius
 var destination: Vector2
 var destination_reached = false
 var previous_velocity: Vector2
+var exploded = false
+
+func _ready():
+	connect("body_entered", self, "on_collision")
+	explosion_timer.connect("timeout", self, "explode")
+	explosion_timer.start()
 
 # Called once the dynamite has reached its destination.
 # Causes the dynamite to stop moving sets its Z index to -1
@@ -31,3 +38,26 @@ func _physics_process(delta):
 		previous_velocity = this_velocity
 	else:
 		reach_destination()
+
+# Called when the dynamite collides with something "physical"
+func on_collision(body):
+	if destination_reached: return
+	if body.name == "WallsLayer": return # Pass freely over wall tiles
+	explode()
+
+# Called when the explosion timer times out, OR
+# when the dynamite collides with something
+func explode():
+	if exploded: return # Don't explode if already exploded
+	
+	reach_destination() # Dynamite should stop moving
+	exploded = true # Dynamite has now exploded
+	
+	# Damage the owners of overlapping hitboxes, including the player
+	for area in explosion_radius.get_overlapping_areas():
+		var node = area.get_parent()
+		if node.has_method("take_damage"):
+			node.take_damage(EXPLOSION_DAMAGE)
+	
+	# Remove the dynamite
+	queue_free()
