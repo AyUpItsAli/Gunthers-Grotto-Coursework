@@ -8,6 +8,7 @@ const REVOLVER_TEXTURE = preload("res://Assets/Actors/Player/Revolver_In_Hand.pn
 const DYNAMITE_TEXTURE = preload("res://Assets/Actors/Player/Dynamite_In_Hand.png")
 const PICKAXE_DAMAGE = 1
 const BULLET = preload("res://Actors/Player/Bullet.tscn")
+const DYNAMITE = preload("res://Actors/Player/Dynamite.tscn")
 
 # Node references
 onready var body_sprite: Sprite = $BodySprite
@@ -138,6 +139,14 @@ func use_tool():
 			bullet.velocity = position.direction_to(clicked_pos)
 			bullet.look_at(clicked_pos)
 			get_parent().add_child(bullet)
+	elif equipped == Tools.DYNAMITE:
+		if PlayerData.remove_item(Globals.ItemIDs.DYNAMITE_STICK):
+			var clicked_pos = get_global_mouse_position()
+			var dynamite = DYNAMITE.instance()
+			dynamite.position = position
+			dynamite.destination = clicked_pos
+			dynamite.rotation_degrees = rand_range(0, 360)
+			get_parent().add_child(dynamite)
 
 # Called when this node detects mouse/keyboard inputs
 func _unhandled_input(event):
