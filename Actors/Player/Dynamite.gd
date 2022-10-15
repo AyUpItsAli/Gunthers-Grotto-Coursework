@@ -8,6 +8,7 @@ const EXPLOSION_DAMAGE = 5
 onready var sprite: Sprite = $Sprite
 onready var explosion_timer: Timer = $ExplosionTimer
 onready var explosion_radius: Area2D = $ExplosionRadius
+onready var explosion: Particles2D = $Explosion
 
 # Variables
 var destination: Vector2
@@ -63,5 +64,10 @@ func explode():
 		if body.has_method("on_explosion"):
 			body.on_explosion(position)
 	
-	# Remove the dynamite
+	# Hide the dynamite sprite and set the explosion effect to start emitting
+	sprite.visible = false
+	explosion.emitting = true
+	
+	# Wait out the duration of the explosion effect, then remove the dynamite
+	yield(get_tree().create_timer(explosion.lifetime), "timeout")
 	queue_free()

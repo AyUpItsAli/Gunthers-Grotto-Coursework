@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Assets/Actors/Player/Dynamite.png" type="Texture" id=1]
 [ext_resource path="res://Actors/Player/Dynamite.gd" type="Script" id=2]
@@ -9,6 +9,26 @@ height = 4.0
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 48.0
+
+[sub_resource type="Gradient" id=3]
+colors = PoolColorArray( 0.956863, 0.184314, 0.0431373, 1, 0.976471, 0.741176, 0.0588235, 0.533333 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+lifetime_randomness = 1.0
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 150.0
+initial_velocity_random = 0.7
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 100.0
+damping_random = 0.5
+scale = 2.0
+color_ramp = SubResource( 4 )
 
 [node name="Dynamite" type="Area2D"]
 collision_layer = 0
@@ -32,3 +52,11 @@ collision_mask = 14
 [node name="CollisionShape" type="CollisionShape2D" parent="ExplosionRadius"]
 modulate = Color( 0.945098, 0.129412, 0.129412, 0.839216 )
 shape = SubResource( 2 )
+
+[node name="Explosion" type="Particles2D" parent="."]
+emitting = false
+amount = 100
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.9
+process_material = SubResource( 5 )
