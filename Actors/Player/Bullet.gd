@@ -25,5 +25,3 @@ func on_area_entered_hurtbox(area):
 	var node = area.get_parent()
 	if node.has_method("take_damage"):
 		node.take_damage(BULLET_DAMAGE)
-	# As the node is not a "body", invoke on_collision() manually
-	on_collision(node)
