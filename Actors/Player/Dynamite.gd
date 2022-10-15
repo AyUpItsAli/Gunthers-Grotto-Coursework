@@ -58,6 +58,10 @@ func explode():
 		var node = area.get_parent()
 		if node.has_method("take_damage"):
 			node.take_damage(EXPLOSION_DAMAGE)
+	# Let objects know that an explosion took place at the given position
+	for body in explosion_radius.get_overlapping_bodies():
+		if body.has_method("on_explosion"):
+			body.on_explosion(position)
 	
 	# Remove the dynamite
 	queue_free()

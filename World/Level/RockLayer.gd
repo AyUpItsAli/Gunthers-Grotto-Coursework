@@ -69,20 +69,38 @@ func initialise_outside_border():
 		set_cell(-1, y, ROCK)
 		set_cell(Globals.CAVE_SIZE, y, ROCK)
 
-# Called from the player node when the mining hurtbox detects the rock layer
-func on_player_mine(pos) -> bool:
-	var tile_pos = world_to_map(pos)
+# Destroys the tile at the given tile position and handles subsequent actions,
+# as a result of the tile being removed.
+func destroy_tile(tile_pos: Vector2, update: bool) -> bool:
 	var x = tile_pos.x
 	var y = tile_pos.y
 	
-	if get_cell(x, y) != ROCK: return false
+	if get_cell(x, y) != ROCK:
+		return false
 	if x <= 0 or x >= Globals.CAVE_SIZE-1 or y <= 0 or y >= Globals.CAVE_SIZE-1:
 		return false
 	
 	set_cell(x, y, -1)
 	ground_layer.set_cell(x, y, ground_layer.NAVABLE)
-	walls_layer.update_walls_layer()
-	objects.destroy_gemstone_if_present(tile_pos)
 	minimap.set_cell(x, y, minimap.GROUND)
-	update_bitmask_region(tile_pos-Vector2.ONE, tile_pos+Vector2.ONE)
+	objects.destroy_gemstone_if_present(tile_pos)
+	if update:
+		walls_layer.update_walls_layer()
+		update_bitmask_region(tile_pos-Vector2.ONE, tile_pos+Vector2.ONE)
 	return true
+
+# Called when the player's mining hurtbox detects the rock layer
+func on_player_mine(pos: Vector2) -> bool:
+	var tile_pos = world_to_map(pos)
+	return destroy_tile(tile_pos, true)
+
+# Called when an explosion detects the rock layer
+func on_explosion(pos: Vector2):
+	var tile_pos = world_to_map(pos)
+	for x in range(-1, 2, 1):
+		for y in range(-1, 2, 1):
+			var offset = Vector2(x, y)
+			destroy_tile(tile_pos + offset, false)
+	# Only update ONCE, after all tiles are removed
+	walls_layer.update_walls_layer()
+	update_bitmask_region(tile_pos-Vector2.ONE, tile_pos+Vector2.ONE)
