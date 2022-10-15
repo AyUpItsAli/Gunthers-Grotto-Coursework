@@ -44,7 +44,7 @@ func _physics_process(delta):
 func on_collision(body):
 	if destination_reached: return
 	if body.name == "WallsLayer": return # Pass freely over wall tiles
-	explode()
+	call_deferred("explode") # Call explode() during idle time
 
 # Called when the explosion timer times out, OR
 # when the dynamite collides with something
