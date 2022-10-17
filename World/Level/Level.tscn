@@ -21,6 +21,7 @@ script = ExtResource( 3 )
 z_index = -1
 tile_set = ExtResource( 4 )
 cell_size = Vector2( 32, 32 )
+collision_mask = 0
 format = 1
 script = ExtResource( 5 )
 
