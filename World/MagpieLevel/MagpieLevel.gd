@@ -1,29 +1,29 @@
 extends Node2D
 
 # Node references
-onready var ground_layer = $GroundLayer
 onready var rock_layer = $RockLayer
-onready var objects = $Objects
+onready var player = $Objects/Player
 
 # HUD
 onready var minimap = $HUD/UI/Minimap
 onready var loading_screen = $HUD/LoadingScreen
 
 func _ready():
-	load_level() # Do any required setup for the magpie level
-
-func _process(delta):
-	if objects.player_exists():
-		var player_pos = objects.get_player().position
-		var player_tile_pos = ground_layer.world_to_map(player_pos)
-		minimap.update_player_pos(player_tile_pos)
-
-# Loads the magpie level
-func load_level():
-	# Update the minimap to match the rock layer
+	# Update the minimap to display the layout of the magpie level
 	minimap.update_minimap(rock_layer)
+	
+	# Set camera limits
+	var camera: Camera2D = player.get_camera()
+	camera.limit_left = 0
+	camera.limit_top = 0
+	camera.limit_right = 24 * Globals.CAVE_TILE_SIZE
+	camera.limit_bottom = 9 * Globals.CAVE_TILE_SIZE
 	
 	# Fade out the loading screen
 	if loading_screen.visible:
 		var animations = loading_screen.get_node("LoadingScreenAnimations")
 		animations.play("Fade_Out")
+
+func _process(delta):
+	var player_tile_pos = rock_layer.world_to_map(player.position)
+	minimap.update_player_pos(player_tile_pos)
