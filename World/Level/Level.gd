@@ -22,6 +22,15 @@ func _unhandled_input(event):
 	# when the Enter key is pressed
 	if event.is_action_pressed("force_exit_cave"):
 		on_player_exited_cave()
+	# DEBUGGING:
+	# Simulates the loading of the magpie level,
+	# when the "M" key is pressed
+	elif event.is_action_pressed("load_magpie_level"):
+		if not loading_screen.visible:
+			var animations = loading_screen.get_node("LoadingScreenAnimations")
+			animations.play("Fade_In")
+			yield(animations, "animation_finished")
+			get_tree().change_scene("res://World/MagpieLevel/MagpieLevel.tscn")
 
 func _process(delta):
 	if objects.player_exists():
