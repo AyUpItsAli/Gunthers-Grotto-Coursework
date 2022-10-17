@@ -12,13 +12,6 @@ func _ready():
 	# Update the minimap to display the layout of the magpie level
 	minimap.update_minimap(rock_layer)
 	
-	# Set camera limits
-	var camera: Camera2D = player.get_camera()
-	camera.limit_left = 0
-	camera.limit_top = 0
-	camera.limit_right = 24 * Globals.CAVE_TILE_SIZE
-	camera.limit_bottom = 9 * Globals.CAVE_TILE_SIZE
-	
 	# Fade out the loading screen
 	if loading_screen.visible:
 		var animations = loading_screen.get_node("LoadingScreenAnimations")
