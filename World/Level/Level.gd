@@ -72,4 +72,4 @@ func on_player_exited_cave():
 		var animations = loading_screen.get_node("LoadingScreenAnimations")
 		animations.play("Fade_In")
 		yield(animations, "animation_finished")
-		get_tree().change_scene("res://World/MagpieLevel/MagpieLevel.tscn")
+		generate_level()
