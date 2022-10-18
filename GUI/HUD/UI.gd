@@ -31,6 +31,10 @@ var viewport_width: float
 var viewport_height: float
 
 # Health bar dimensions
+var minimap_width: float
+var minimap_height: float
+
+# Health bar dimensions
 var hb_width: float
 var hb_height: float
 
@@ -62,22 +66,32 @@ func update_ui():
 
 # Sets the minimap's dimensions, based on the size of the viewport
 func set_minimap_dimensions():
+	if not minimap.get_used_cells(): return
+	var rect = minimap.get_used_rect()
 	# Determine the maximum dimensions
 	var max_width = viewport_width * (MINIMAP_MAX_WIDTH_PERCENTAGE / 100.0)
 	var max_height = viewport_height * (MINIMAP_MAX_HEIGHT_PERCENTAGE / 100.0)
-	# Calculate local size
-	# I can use either cell_size.x or cell_size.y, as the minimap is square
-	var local_size = Globals.CAVE_SIZE * minimap.cell_size.x
-	# Pick the smallest scale, as to not exceed the max_width or max_height
-	var map_scale = min(max_width, max_height) / local_size
+	# Calculate local dimensions
+	var local_width = rect.size.x * minimap.cell_size.x
+	var local_height = rect.size.y * minimap.cell_size.y
+	# Determine maximum scales
+	var max_x_scale = max_width / local_width
+	var max_y_scale = max_height / local_height
+	# Pick the smallest scale, as to not exceed either of them
+	var map_scale = min(max_x_scale, max_y_scale)
 	# Set the scale
 	minimap.scale.x = map_scale
 	minimap.scale.y = map_scale
+	# Set global variables
+	minimap_width = local_width * map_scale
+	minimap_height = local_height * map_scale
+	# Calculate x and y offsets
+	var x_offset = rect.position.x * minimap.cell_size.x * map_scale
+	var y_offset = rect.position.y * minimap.cell_size.y * map_scale
 	# Set the position of the minimap to the top right,
 	# with padding applied
-	var minimap_size = local_size * map_scale
-	minimap.position.x = viewport_width - minimap_size - padding
-	minimap.position.y = padding
+	minimap.position.x = viewport_width - minimap_width - x_offset - padding
+	minimap.position.y = padding - y_offset
 
 # Sets the health bar's dimensions, based on the size of the viewport
 func set_health_bar_dimensions():
