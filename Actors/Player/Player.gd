@@ -14,6 +14,7 @@ const DYNAMITE = preload("res://Actors/Player/Dynamite.tscn")
 onready var body_sprite: Sprite = $BodySprite
 onready var item_sprite: Sprite = $ItemSprite
 onready var player_animations: AnimationPlayer = $PlayerAnimations
+onready var hitbox: Area2D = $Hitbox
 onready var attacking_hurtbox: Area2D = $AttackingHurtbox
 onready var mining_hurtbox: Area2D = $MiningHurtbox
 
@@ -148,6 +149,15 @@ func use_tool():
 			dynamite.rotation_degrees = rand_range(0, 360)
 			get_parent().add_child(dynamite)
 
+# Calls the "on_player_interact" method on the first interactable object
+# that is currently overlapping with the player's hitbox
+func interact():
+	var areas = hitbox.get_overlapping_areas()
+	if areas.size() > 0:
+		var object = areas[0].get_parent()
+		if object.has_method("on_player_interact"):
+			object.on_player_interact()
+
 # Called when this node detects mouse/keyboard inputs
 func _unhandled_input(event):
 	if event.is_action_pressed("equip_pickaxe"):
@@ -158,6 +168,8 @@ func _unhandled_input(event):
 		equip(Tools.DYNAMITE)
 	elif event.is_action_pressed("use_tool"):
 		use_tool()
+	elif event.is_action_pressed("interact"):
+		interact()
 
 func take_damage(damage: int):
 	body_sprite.modulate = Color.red
