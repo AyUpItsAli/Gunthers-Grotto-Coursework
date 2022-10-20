@@ -181,6 +181,7 @@ func spawn_cave_exit():
 func destroy_gemstone_if_present(tile_pos: Vector2):
 	if tile_pos in gemstones:
 		var gemstone: Node2D = gemstones[tile_pos]
-		var gem_quantity = GameManager.get_random_gem_quantity()
+		var gem_quantity = GameManager.random_pool_entry(
+			GameManager.gem_quantity_pool)
 		PlayerData.add_item(Globals.ItemIDs.GEM, gem_quantity)
 		gemstone.queue_free()

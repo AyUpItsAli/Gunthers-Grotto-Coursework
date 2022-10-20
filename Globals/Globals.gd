@@ -25,3 +25,7 @@ const ITEMS = {
 }
 # Frequencies for each quantity of gems you can recieve from mining gemstones
 const GEM_FREQUENCIES = { 1: 50, 2: 35, 3: 15 }
+# Frequencies for each quantity of bullets rewarded by the magpie
+const BULLET_REWARD_FREQUENCIES = { 1: 50, 2: 30, 3: 10, 4: 5, 5: 3, 6: 2}
+# Frequencies for each quantity of dynamite rewarded by the magpie
+const DYNAMITE_REWARD_FREQUENCIES = { 0: 75, 1: 15, 2: 8, 3: 2}
