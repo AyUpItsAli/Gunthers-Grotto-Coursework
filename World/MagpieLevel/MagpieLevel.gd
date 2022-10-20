@@ -7,6 +7,7 @@ onready var cave_exit = $Objects/CaveExit
 
 # HUD
 onready var minimap = $HUD/UI/Minimap
+onready var level_title = $HUD/UI/LevelTitle
 onready var loading_screen = $HUD/LoadingScreen
 
 func _ready():
@@ -30,6 +31,8 @@ func _ready():
 	if loading_screen.visible:
 		var animations = loading_screen.get_node("LoadingScreenAnimations")
 		animations.play("Fade_Out")
+		yield(animations, "animation_finished")
+		level_title.add_title_to_queue("The Magpie")
 
 func _process(delta):
 	var player_tile_pos = rock_layer.world_to_map(player.position)

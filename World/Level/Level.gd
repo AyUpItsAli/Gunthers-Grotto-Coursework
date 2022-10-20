@@ -9,7 +9,7 @@ onready var objects = $World/Objects
 # HUD
 onready var minimap = $HUD/UI/Minimap
 onready var loading_screen = $HUD/LoadingScreen
-onready var cave_depth_title = $HUD/UI/CaveDepthTitle
+onready var level_title = $HUD/UI/LevelTitle
 
 func _ready():
 	generate_level() # Generate a new level when this scene is loaded
@@ -71,7 +71,7 @@ func generate_level():
 		animations.play("Fade_Out")
 		yield(animations, "animation_finished")
 		GameManager.increase_cave_depth()
-		cave_depth_title.add_depth_to_queue(GameManager.cave_depth)
+		level_title.add_title_to_queue("Cave Depth\n" + str(GameManager.cave_depth))
 
 # Called when the player enters the CaveExit detection radius
 func on_player_exited_cave():

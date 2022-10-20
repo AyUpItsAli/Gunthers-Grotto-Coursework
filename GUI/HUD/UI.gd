@@ -5,7 +5,7 @@ onready var minimap = $Minimap
 onready var health_bar = $HealthBar
 onready var health_bar_sprite = $HealthBar/BaseSprite
 onready var inventory_display = $InventoryDisplay
-onready var cave_depth_title = $CaveDepthTitle
+onready var level_title = $LevelTitle
 onready var debug_inv_line = $DebugInvLine
 
 # Space between UI elements. Scales with the size of the viewport.
@@ -21,16 +21,16 @@ const HEALTH_BAR_MAX_HEIGHT_PERCENTAGE = 7.5
 # Inventory display's height will be the health bar's height,
 # multiplied by this number. For example, 2x the health bar's height
 const INVENTORY_HEALTH_BAR_HEIGHT_RATIO = 1.75
-# Maximum percentage of the viewport's WIDTH that the cave depth title can occupy
-const CAVE_DEPTH_TITLE_MAX_WIDTH_PERCENTAGE = 20
-# Maximum percentage of the viewport's HEIGHT that the cave depth title can occupy
-const CAVE_DEPTH_TITLE_MAX_HEIGHT_PERCENTAGE = 15
+# Maximum percentage of the viewport's WIDTH that the level title can occupy
+const LEVEL_TITLE_MAX_WIDTH_PERCENTAGE = 20
+# Maximum percentage of the viewport's HEIGHT that the level title can occupy
+const LEVEL_TITLE_MAX_HEIGHT_PERCENTAGE = 15
 
 # Viewport dimensions
 var viewport_width: float
 var viewport_height: float
 
-# Health bar dimensions
+# Minimap dimensions
 var minimap_width: float
 var minimap_height: float
 
@@ -63,7 +63,7 @@ func update_ui():
 	set_health_bar_dimensions()
 	set_inventory_display_dimensions()
 	center_health_bar_against_inventory()
-	set_cave_depth_title_dimensions()
+	set_level_title_dimensions()
 	rearrange_item_displays()
 
 # Sets the minimap's dimensions, based on the size of the viewport
@@ -134,13 +134,13 @@ func set_inventory_display_dimensions():
 func center_health_bar_against_inventory():
 	health_bar.position.y = inv_start_y - (abs(hb_height - inv_height) / 2)
 
-# Sets the cave depth title's dimensions, based on the size of the viewport
-func set_cave_depth_title_dimensions():
+# Sets the level title's dimensions, based on the size of the viewport
+func set_level_title_dimensions():
 	# Get a reference to the label node
-	var label: Label = cave_depth_title.get_node("Label")
+	var label: Label = level_title.get_node("Label")
 	# Determine maximum dimensions
-	var max_width = viewport_width * (CAVE_DEPTH_TITLE_MAX_WIDTH_PERCENTAGE / 100.0)
-	var max_height = viewport_height * (CAVE_DEPTH_TITLE_MAX_HEIGHT_PERCENTAGE / 100.0)
+	var max_width = viewport_width * (LEVEL_TITLE_MAX_WIDTH_PERCENTAGE / 100.0)
+	var max_height = viewport_height * (LEVEL_TITLE_MAX_HEIGHT_PERCENTAGE / 100.0)
 	# Store local dimensions
 	var local_width = label.rect_size.x
 	var local_height = label.rect_size.y
@@ -150,11 +150,11 @@ func set_cave_depth_title_dimensions():
 	# Pick the smallest scale, as to not exceed either of them
 	var title_scale = min(max_x_scale, max_y_scale) # Pick the smallest scale
 	# Set the scale
-	cave_depth_title.scale.x = title_scale
-	cave_depth_title.scale.y = title_scale
+	level_title.scale.x = title_scale
+	level_title.scale.y = title_scale
 	# Set position to be top centre of the screen
 	var title_width = local_width * title_scale
-	cave_depth_title.position.x = (viewport_width / 2) - (title_width / 2)
+	level_title.position.x = (viewport_width / 2) - (title_width / 2)
 
 # Rearranges each item display under the inventory display
 # to fit within the inventory display's dimensions

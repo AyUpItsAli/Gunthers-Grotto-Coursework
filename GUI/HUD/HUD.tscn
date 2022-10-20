@@ -11,7 +11,7 @@
 [ext_resource path="res://GUI/HUD/UI.gd" type="Script" id=9]
 [ext_resource path="res://GUI/HUD/InventoryDisplay.gd" type="Script" id=10]
 [ext_resource path="res://Assets/Roboto-Regular.ttf" type="DynamicFontData" id=11]
-[ext_resource path="res://GUI/HUD/CaveDepthTitle.gd" type="Script" id=12]
+[ext_resource path="res://GUI/HUD/LevelTitle.gd" type="Script" id=12]
 
 [sub_resource type="DynamicFont" id=5]
 size = 64
@@ -114,10 +114,10 @@ offset = Vector2( 71, -7 )
 [node name="InventoryDisplay" type="Node2D" parent="UI"]
 script = ExtResource( 10 )
 
-[node name="CaveDepthTitle" type="Node2D" parent="UI"]
+[node name="LevelTitle" type="Node2D" parent="UI"]
 script = ExtResource( 12 )
 
-[node name="Label" type="Label" parent="UI/CaveDepthTitle"]
+[node name="Label" type="Label" parent="UI/LevelTitle"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_top = -155.0
@@ -130,7 +130,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LabelAnimations" type="AnimationPlayer" parent="UI/CaveDepthTitle"]
+[node name="LabelAnimations" type="AnimationPlayer" parent="UI/LevelTitle"]
 anims/Show = SubResource( 6 )
 
 [node name="DebugInvLine" type="Line2D" parent="UI"]
