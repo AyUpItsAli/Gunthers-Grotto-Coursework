@@ -49,6 +49,7 @@ var padding: float
 
 func _ready():
 	get_viewport().connect("size_changed", self, "update_ui")
+	health_bar.update_health_bar()
 	inventory_display.update_inventory_display()
 	update_ui()
 
