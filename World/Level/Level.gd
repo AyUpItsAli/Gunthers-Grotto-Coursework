@@ -79,4 +79,7 @@ func on_player_exited_cave():
 		var animations = loading_screen.get_node("LoadingScreenAnimations")
 		animations.play("Fade_In")
 		yield(animations, "animation_finished")
-		generate_level()
+		if GameManager.magie_level_should_spawn():
+			get_tree().change_scene("res://World/MagpieLevel/MagpieLevel.tscn")
+		else:
+			generate_level()

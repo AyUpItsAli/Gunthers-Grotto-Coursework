@@ -1,5 +1,11 @@
 extends Node
 
+# Minimum and maximum number of caves between visiting the magpie level
+const MIN_CAVES_BETWEEN_MAGPIE = 3
+const MAX_CAVES_BETWEEN_MAGPIE = 10
+# Chance for the magpie level to spawn
+const MAGPIE_CHANCE = 15
+
 # Random number generator used throughout the game
 onready var rng := RandomNumberGenerator.new()
 
@@ -14,9 +20,19 @@ onready var dynamite_reward_pool = create_pool(Globals.DYNAMITE_REWARD_FREQUENCI
 # This acts as the player's score
 var cave_depth = 0
 
+# Number of caves visited since the last time the magpie level spawned
+var caves_since_magpie = 0
+
 # Called whenever a cave is generated
 func increase_cave_depth():
 	cave_depth += 1
+	caves_since_magpie += 1
+
+# Returns whether the magpie level should spawn at this time
+func magie_level_should_spawn() -> bool:
+	if caves_since_magpie < MIN_CAVES_BETWEEN_MAGPIE: return false
+	if caves_since_magpie >= MAX_CAVES_BETWEEN_MAGPIE: return true
+	return percent_chance(MAGPIE_CHANCE)
 
 # Creates a pool of items from the given dictionary of item frequencies
 func create_pool(frequencies: Dictionary) -> Array:
