@@ -13,8 +13,6 @@ onready var cave_depth_title = $HUD/UI/CaveDepthTitle
 
 func _ready():
 	generate_level() # Generate a new level when this scene is loaded
-	PlayerData.add_item(Globals.ItemIDs.REVOLVER_AMMO, 9999)
-	PlayerData.add_item(Globals.ItemIDs.DYNAMITE_STICK, 9999)
 
 func _unhandled_input(event):
 	# DEBUGGING:
