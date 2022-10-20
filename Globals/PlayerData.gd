@@ -20,6 +20,8 @@ func reduce_health(amount: int):
 # Returns whether the item was able to be added or not
 func add_item(item_id: int, amount: int = 1) -> bool:
 	if not item_id in Globals.ITEMS: return false
+	if amount < 0: return false
+	if amount == 0: return true
 	if item_id in inventory:
 		inventory[item_id] += amount
 	else:
@@ -32,6 +34,8 @@ func add_item(item_id: int, amount: int = 1) -> bool:
 func remove_item(item_id: int, amount: int = 1) -> bool:
 	if not item_id in Globals.ITEMS: return false
 	if not item_id in inventory: return false
+	if amount < 0: return false
+	if amount == 0: return true
 	var current_quantity: int = inventory[item_id]
 	if amount > current_quantity:
 		return false
