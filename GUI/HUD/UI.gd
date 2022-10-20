@@ -49,6 +49,7 @@ var padding: float
 
 func _ready():
 	get_viewport().connect("size_changed", self, "update_ui")
+	inventory_display.update_inventory_display()
 	update_ui()
 
 # Sets the dimensions and position for each UI element,
