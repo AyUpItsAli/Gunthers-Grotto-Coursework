@@ -24,6 +24,15 @@ PlayerData="*res://Globals/PlayerData.gd"
 
 shapes/collision/shape_color=Color( 1, 1, 1, 0.419608 )
 
+[display]
+
+window/size/width=1920
+window/size/height=1080
+window/size/resizable=false
+window/size/fullscreen=true
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
+
 [gui]
 
 common/snapping/use_gpu_pixel_snap=true
