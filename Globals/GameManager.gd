@@ -23,6 +23,10 @@ var cave_depth = 0
 # Number of caves visited since the last time the magpie level spawned
 var caves_since_magpie = 0
 
+func reset_score():
+	cave_depth = 0
+	caves_since_magpie = 0
+
 # Called whenever a cave is generated
 func increase_cave_depth():
 	cave_depth += 1
