@@ -19,7 +19,7 @@ func on_play_button_pressed():
 	# Prevent the user from pressing the button again
 	play_button.disabled = true
 	# Reset game data, eg: score, health and inventory
-	GameManager.reset_score()
+	GameManager.reset_game_data()
 	PlayerData.reset_player_data()
 	# Play loading screen animation
 	var animations = loading_screen.get_node("LoadingScreenAnimations")
