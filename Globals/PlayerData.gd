@@ -3,7 +3,7 @@ extends Node
 const MAX_HEALTH = 10
 
 onready var starting_inventory = {
-	Globals.ItemIDs.REVOLVER_AMMO: 9999,
+	Globals.ItemIDs.REVOLVER_AMMO: 24,
 	Globals.ItemIDs.DYNAMITE_STICK: 2
 }
 
