@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Play_Button.png-1056c81d877944f8455e6e06aa1ac436.stex"
+path="res://.import/Button_Quit_Hover.png-bb4758e10f77d20c1be604c61e164966.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/GUI/Play_Button.png"
-dest_files=[ "res://.import/Play_Button.png-1056c81d877944f8455e6e06aa1ac436.stex" ]
+source_file="res://Assets/GUI/Main Menu/Button_Quit_Hover.png"
+dest_files=[ "res://.import/Button_Quit_Hover.png-bb4758e10f77d20c1be604c61e164966.stex" ]
 
 [params]
 

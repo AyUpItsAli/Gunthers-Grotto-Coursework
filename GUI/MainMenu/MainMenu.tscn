@@ -1,12 +1,16 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://Assets/GUI/Main_Menu_Background.png" type="Texture" id=1]
-[ext_resource path="res://Assets/GUI/Play_Button.png" type="Texture" id=2]
-[ext_resource path="res://Assets/GUI/Quit_Button.png" type="Texture" id=3]
-[ext_resource path="res://Assets/GUI/Main_Menu_Title.png" type="Texture" id=4]
-[ext_resource path="res://GUI/MainMenu/MainMenu.gd" type="Script" id=5]
+[ext_resource path="res://Assets/GUI/Main Menu/Main_Menu_Background.png" type="Texture" id=1]
+[ext_resource path="res://Assets/GUI/Main Menu/Button_Quit_Pressed.png" type="Texture" id=2]
+[ext_resource path="res://Assets/GUI/Main Menu/Button_Play_Normal.png" type="Texture" id=3]
+[ext_resource path="res://Assets/GUI/Main Menu/Main_Menu_Title.png" type="Texture" id=4]
+[ext_resource path="res://Assets/GUI/Main Menu/Button_Play_Pressed.png" type="Texture" id=5]
 [ext_resource path="res://Assets/GUI/Cursor.png" type="Texture" id=6]
 [ext_resource path="res://GUI/HUD/Cursor.gd" type="Script" id=7]
+[ext_resource path="res://Assets/GUI/Main Menu/Button_Quit_Normal.png" type="Texture" id=8]
+[ext_resource path="res://Assets/GUI/Main Menu/Button_Play_Hover.png" type="Texture" id=9]
+[ext_resource path="res://Assets/GUI/Main Menu/Button_Quit_Hover.png" type="Texture" id=10]
+[ext_resource path="res://GUI/MainMenu/MainMenu.gd" type="Script" id=11]
 
 [sub_resource type="Animation" id=1]
 length = 2.5
@@ -81,7 +85,7 @@ tracks/0/keys = {
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 5 )
+script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -105,21 +109,27 @@ __meta__ = {
 }
 
 [node name="PlayButton" type="TextureButton" parent="."]
-margin_left = 510.0
+margin_left = 500.0
 margin_top = 540.0
-margin_right = 760.0
+margin_right = 770.0
 margin_bottom = 720.0
-texture_normal = ExtResource( 2 )
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 5 )
+texture_hover = ExtResource( 9 )
+texture_disabled = ExtResource( 9 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="QuitButton" type="TextureButton" parent="."]
-margin_left = 1160.0
+margin_left = 1150.0
 margin_top = 540.0
-margin_right = 1410.0
+margin_right = 1420.0
 margin_bottom = 720.0
-texture_normal = ExtResource( 3 )
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 2 )
+texture_hover = ExtResource( 10 )
+texture_disabled = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
