@@ -1,5 +1,6 @@
 extends Control
 
+# Node references
 onready var play_button = $PlayButton
 onready var quit_button = $QuitButton
 onready var loading_screen = $LoadingScreen
