@@ -14,22 +14,6 @@ onready var level_title = $HUD/UI/LevelTitle
 func _ready():
 	generate_level() # Generate a new level when this scene is loaded
 
-func _unhandled_input(event):
-	# DEBUGGING:
-	# Instantly executes the "on_player_exited_cave" procedure,
-	# when the Enter key is pressed
-	if event.is_action_pressed("force_exit_cave"):
-		on_player_exited_cave()
-	# DEBUGGING:
-	# Simulates the loading of the magpie level,
-	# when the "M" key is pressed
-	elif event.is_action_pressed("load_magpie_level"):
-		if not loading_screen.visible:
-			var animations = loading_screen.get_node("LoadingScreenAnimations")
-			animations.play("Fade_In")
-			yield(animations, "animation_finished")
-			get_tree().change_scene("res://World/MagpieLevel/MagpieLevel.tscn")
-
 func _process(delta):
 	if objects.player_exists():
 		var player_pos = objects.get_player().position
@@ -38,6 +22,10 @@ func _process(delta):
 
 # Generates a new level
 func generate_level():
+	# Ensure the loading screen is visible and fully opaque
+	loading_screen.visible = true
+	loading_screen.color.a = 1
+	
 	# Randomise the rng
 	GameManager.rng.randomize()
 	
@@ -66,12 +54,11 @@ func generate_level():
 	objects.spawn_cave_exit()
 	
 	# Fade out the loading screen AFTER the level has finished generating
-	if loading_screen.visible:
-		var animations = loading_screen.get_node("LoadingScreenAnimations")
-		animations.play("Fade_Out")
-		yield(animations, "animation_finished")
-		GameManager.increase_cave_depth()
-		level_title.add_title_to_queue("Cave Depth\n" + str(GameManager.cave_depth))
+	var animations = loading_screen.get_node("LoadingScreenAnimations")
+	animations.play("Fade_Out")
+	yield(animations, "animation_finished")
+	GameManager.increase_cave_depth()
+	level_title.add_title_to_queue("Cave Depth\n" + str(GameManager.cave_depth))
 
 # Called when the player enters the CaveExit detection radius
 func on_player_exited_cave():

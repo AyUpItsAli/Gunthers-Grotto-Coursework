@@ -6,6 +6,7 @@ onready var quit_button = $QuitButton
 onready var loading_screen = $LoadingScreen
 
 func _ready():
+	loading_screen.color.a = 0 # Ensure the loading screen is transparent
 	play_button.connect("pressed", self, "on_play_button_pressed")
 	quit_button.connect("pressed", self, "on_quit_button_pressed")
 

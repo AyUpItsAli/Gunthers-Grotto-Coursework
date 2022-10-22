@@ -13,6 +13,10 @@ onready var loading_screen = $HUD/LoadingScreen
 func _ready():
 	cave_exit.connect("player_entered", self, "on_player_exited_cave")
 	
+	# Ensure the loading screen is visible and fully opaque
+	loading_screen.visible = true
+	loading_screen.color.a = 1
+	
 	# Reset the number of caves since the magpie level spawned
 	GameManager.caves_since_magpie = 0
 	
@@ -28,11 +32,10 @@ func _ready():
 	camera.limit_bottom = (rect.position.y + rect.size.y - 1) * Globals.CAVE_TILE_SIZE
 	
 	# Fade out the loading screen
-	if loading_screen.visible:
-		var animations = loading_screen.get_node("LoadingScreenAnimations")
-		animations.play("Fade_Out")
-		yield(animations, "animation_finished")
-		level_title.add_title_to_queue("The Magpie")
+	var animations = loading_screen.get_node("LoadingScreenAnimations")
+	animations.play("Fade_Out")
+	yield(animations, "animation_finished")
+	level_title.add_title_to_queue("The Magpie")
 
 func _process(delta):
 	var player_tile_pos = rock_layer.world_to_map(player.position)

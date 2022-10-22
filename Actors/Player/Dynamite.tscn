@@ -44,6 +44,7 @@ modulate = Color( 0, 0.6, 0.701961, 0.839216 )
 shape = SubResource( 1 )
 
 [node name="ExplosionTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="ExplosionRadius" type="Area2D" parent="."]
 collision_layer = 0

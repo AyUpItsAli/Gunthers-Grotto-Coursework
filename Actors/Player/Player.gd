@@ -16,6 +16,9 @@ onready var body_sprite: Sprite = $BodySprite
 onready var item_sprite: Sprite = $ItemSprite
 onready var player_animations: AnimationPlayer = $PlayerAnimations
 onready var hitbox: Area2D = $Hitbox
+onready var pickaxe_cooldown: Timer = $PickaxeCooldown
+onready var revolver_cooldown: Timer = $RevolverCooldown
+onready var dynamite_cooldown: Timer = $DynamiteCooldown
 onready var attacking_hurtbox: Area2D = $AttackingHurtbox
 onready var mining_hurtbox: Area2D = $MiningHurtbox
 
@@ -123,7 +126,7 @@ func damage_enemies():
 # Called when the user presses left-click.
 # Carrys out the action specific to the currently equipped tool.
 func use_tool():
-	if equipped == Tools.PICKAXE:
+	if equipped == Tools.PICKAXE and pickaxe_cooldown.is_stopped():
 		attacking = true
 		
 		match facing:
@@ -137,7 +140,8 @@ func use_tool():
 		
 		yield(player_animations, "animation_finished")
 		attacking = false
-	elif equipped == Tools.REVOLVER:
+		pickaxe_cooldown.start()
+	elif equipped == Tools.REVOLVER and revolver_cooldown.is_stopped():
 		if PlayerData.remove_item(Globals.ItemIDs.REVOLVER_AMMO):
 			var clicked_pos = get_global_mouse_position()
 			var bullet = BULLET.instance()
@@ -145,7 +149,8 @@ func use_tool():
 			bullet.velocity = position.direction_to(clicked_pos)
 			bullet.look_at(clicked_pos)
 			get_parent().add_child(bullet)
-	elif equipped == Tools.DYNAMITE:
+			revolver_cooldown.start()
+	elif equipped == Tools.DYNAMITE and dynamite_cooldown.is_stopped():
 		if PlayerData.remove_item(Globals.ItemIDs.DYNAMITE_STICK):
 			var clicked_pos = get_global_mouse_position()
 			var dynamite = DYNAMITE.instance()
@@ -153,6 +158,7 @@ func use_tool():
 			dynamite.destination = clicked_pos
 			dynamite.rotation_degrees = rand_range(0, 360)
 			get_parent().add_child(dynamite)
+			dynamite_cooldown.start()
 
 # Calls the "on_player_interact" method on the first interactable object
 # that is currently overlapping with the player's hitbox
