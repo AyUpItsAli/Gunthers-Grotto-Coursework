@@ -15,7 +15,7 @@ signal inventory_changed
 
 func reset_player_data():
 	health = MAX_HEALTH
-	inventory = starting_inventory
+	inventory = starting_inventory.duplicate()
 
 func reduce_health(amount: int):
 	health -= amount
