@@ -3,7 +3,7 @@ extends Node
 const MAX_HEALTH = 10
 
 onready var starting_inventory = {
-	Globals.ItemIDs.REVOLVER_AMMO: 24,
+	Globals.ItemIDs.REVOLVER_AMMO: 9999,
 	Globals.ItemIDs.DYNAMITE_STICK: 2
 }
 
@@ -17,13 +17,12 @@ func reset_player_data():
 	health = MAX_HEALTH
 	inventory = starting_inventory.duplicate()
 
-func reduce_health(amount: int):
+func reduce_health(amount: int) -> bool:
 	health -= amount
 	if health < 0:
 		health = 0
 	emit_signal("health_changed")
-	if health == 0:
-		print("Game Over")
+	return health > 0 # Return whether the player survived
 
 # Attempts to ADD an item to the inventory
 # Returns whether the item was able to be added or not

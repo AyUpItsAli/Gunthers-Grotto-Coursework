@@ -9,6 +9,7 @@ const DYNAMITE_TEXTURE = preload("res://Assets/Actors/Player/Dynamite_In_Hand.pn
 const PICKAXE_DAMAGE = 1
 const BULLET = preload("res://Actors/Player/Bullet.tscn")
 const DYNAMITE = preload("res://Actors/Player/Dynamite.tscn")
+const WAIT_TIME_AFTER_DEATH = 5 # seconds
 
 # Node references
 onready var body_sprite: Sprite = $BodySprite
@@ -22,14 +23,16 @@ var velocity = Vector2.ZERO
 var facing = Vector2.DOWN
 var equipped = Tools.PICKAXE
 var attacking = false
+var dead = false
 
 func get_camera():
 	return get_node("Camera")
 
 func determine_velocity(delta):
 	velocity = Vector2.ZERO # Reset velocity to 0
+	if dead: return
 	
-	# Alter velocity vector based on user inputs
+	# Alter velocity vector based on user inputs, if not dead
 	if Input.is_action_pressed("move_left"): velocity.x -= 1
 	if Input.is_action_pressed("move_right"): velocity.x += 1
 	if Input.is_action_pressed("move_up"): velocity.y -= 1
@@ -56,6 +59,8 @@ func determine_facing():
 		facing = Vector2.DOWN
 
 func _process(delta):
+	if dead: return
+	
 	var facing_before = facing
 	determine_facing()
 	
@@ -160,6 +165,8 @@ func interact():
 
 # Called when this node detects mouse/keyboard inputs
 func _unhandled_input(event):
+	if dead: return
+	
 	if event.is_action_pressed("equip_pickaxe"):
 		equip(Tools.PICKAXE)
 	elif event.is_action_pressed("equip_revolver"):
@@ -172,7 +179,19 @@ func _unhandled_input(event):
 		interact()
 
 func take_damage(damage: int):
+	if dead: return
 	body_sprite.modulate = Color.red
-	PlayerData.reduce_health(damage)
+	var survived = PlayerData.reduce_health(damage)
 	yield(get_tree().create_timer(0.1), "timeout")
 	body_sprite.modulate = Color.white
+	if not survived: die()
+
+# Called if the player doesn't "survive" the take_damage method
+# Sets dead to true, disabling all user input, and hides player sprites.
+func die():
+	dead = true
+	player_animations.stop()
+	body_sprite.visible = false
+	item_sprite.visible = false
+	yield(get_tree().create_timer(WAIT_TIME_AFTER_DEATH), "timeout")
+	get_tree().change_scene("res://GUI/GameOverScreen/GameOverScreen.tscn")
