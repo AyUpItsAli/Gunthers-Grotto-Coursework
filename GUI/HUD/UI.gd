@@ -176,7 +176,7 @@ func rearrange_item_displays():
 		# Set local position for image and label
 		image.position.x = (label_local_width / 2) - (image_local_width / 2)
 		image.position.y = -label_local_height
-		label.rect_position.x = 0
+		label.rect_position.x = 2.4 # Offset to account for misaligned font
 		label.rect_position.y = -label_local_height
 		
 		# Store item display local width and height
