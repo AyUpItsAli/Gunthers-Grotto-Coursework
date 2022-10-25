@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Github Discussions
+    url: https://github.com/AyUpItsAli/Gunthers-Grotto/discussions
+    about: If you do not have a specific bug to report, feature to suggest, or you just want to ask a question, please prefer to open a discussion over an issue.
