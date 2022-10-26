@@ -1,11 +1,13 @@
 extends Control
 
 # Node references
+onready var version_label = $Version
 onready var play_button = $PlayButton
 onready var quit_button = $QuitButton
 onready var loading_screen = $LoadingScreen
 
 func _ready():
+	version_label.text = ProjectSettings.get_setting("application/config/name") + " " + Globals.PRODUCT_VERSION
 	loading_screen.color.a = 0 # Ensure the loading screen is transparent
 	play_button.connect("pressed", self, "on_play_button_pressed")
 	quit_button.connect("pressed", self, "on_quit_button_pressed")
