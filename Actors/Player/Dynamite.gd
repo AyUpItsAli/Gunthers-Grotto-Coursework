@@ -43,7 +43,6 @@ func _physics_process(delta):
 # Called when the dynamite collides with something "physical"
 func on_collision(body):
 	if destination_reached: return
-	if body.name == "WallsLayer": return # Pass freely over wall tiles
 	reach_destination() # Dynamite stops moving when it hits something
 
 # Called when the explosion timer times out, OR
