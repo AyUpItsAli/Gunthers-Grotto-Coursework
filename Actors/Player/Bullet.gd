@@ -17,7 +17,6 @@ func _physics_process(delta):
 # Called when the bullet collides with something "physical"
 # The bullet should be destroyed on impact
 func on_collision(body):
-	if body.name == "WallsLayer": return # Pass freely over wall tiles
 	queue_free()
 
 # Called when an area enters the bullet's hurtbox
