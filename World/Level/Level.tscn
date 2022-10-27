@@ -18,7 +18,7 @@ script = ExtResource( 3 )
 [node name="World" type="Navigation2D" parent="."]
 
 [node name="GroundLayer" type="TileMap" parent="World"]
-z_index = -1
+z_index = -2
 tile_set = ExtResource( 4 )
 cell_size = Vector2( 32, 32 )
 collision_mask = 0
@@ -27,6 +27,7 @@ format = 1
 script = ExtResource( 5 )
 
 [node name="WallsLayer" type="TileMap" parent="World"]
+z_index = -1
 tile_set = ExtResource( 6 )
 cell_size = Vector2( 32, 32 )
 collision_layer = 2
