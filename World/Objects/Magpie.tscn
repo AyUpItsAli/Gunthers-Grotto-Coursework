@@ -11,6 +11,7 @@ extents = Vector2( 6.5, 7.5 )
 radius = 22.0
 
 [node name="Magpie" type="StaticBody2D"]
+collision_layer = 8
 collision_mask = 0
 script = ExtResource( 3 )
 
@@ -23,7 +24,7 @@ modulate = Color( 0, 0.6, 0.701961, 0.839216 )
 shape = SubResource( 1 )
 
 [node name="InteractionRadius" type="Area2D" parent="."]
-collision_layer = 32
+collision_layer = 256
 collision_mask = 0
 
 [node name="CollisionShape" type="CollisionShape2D" parent="InteractionRadius"]
