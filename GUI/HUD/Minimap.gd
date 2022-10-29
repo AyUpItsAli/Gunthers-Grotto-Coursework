@@ -1,7 +1,7 @@
 extends TileMap
 
 const GROUND = 0
-const ROCK = 1
+const WALL = 1
 const PLAYER = 2
 
 # A reference to the UI node
@@ -9,16 +9,16 @@ onready var ui = get_parent()
 
 var player_tile_pos: Vector2 # Player's current tile position
 
-# Copies the layout of the given rock layer tilemap to the minimap tilemap
-func update_minimap(rock_layer: TileMap):
-	# Do nothing if the rock layer is empty
-	if not rock_layer.get_used_cells(): return
+# Copies the layout of the given walls tilemap to the minimap tilemap
+func update_minimap(walls: TileMap):
+	# Do nothing if the walls tilemap is empty
+	if not walls.get_used_cells(): return
 	# Get the rect which defines the region of the tilemap that is in use
-	var rect = rock_layer.get_used_rect()
+	var rect = walls.get_used_rect()
 	# Loop over the used rect and place minimap tiles accordingly
 	for x in range(rect.position.x, rect.position.x+rect.size.x):
 		for y in range(rect.position.y, rect.position.y+rect.size.y):
-			var tile = GROUND if rock_layer.get_cell(x, y) == -1 else ROCK
+			var tile = GROUND if walls.get_cell(x, y) == -1 else WALL
 			set_cell(x, y, tile)
 	# Update minimap UI element
 	ui.set_minimap_dimensions()

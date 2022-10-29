@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Gemstone.png-3ab53798f5eaa168cd7abff1818bb724.stex"
+path="res://.import/Walls_Tileset.png-7fc020971b89dc61733378aac41362dd.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/World/Gemstone.png"
-dest_files=[ "res://.import/Gemstone.png-3ab53798f5eaa168cd7abff1818bb724.stex" ]
+source_file="res://Assets/World/Walls_Tileset.png"
+dest_files=[ "res://.import/Walls_Tileset.png-7fc020971b89dc61733378aac41362dd.stex" ]
 
 [params]
 

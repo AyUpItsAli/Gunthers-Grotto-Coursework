@@ -4,27 +4,26 @@ const START_ALIVE_CHANCE = 40 # % chance for tile to begin alive
 const MIN_ALIVE = 3 # minimum alive neighbours to stay alive
 const MIN_BIRTH = 5 # minimum alive neighbours to become alive
 
-const ROCK = 0 # Tile 
+const WALL = 0 # Tile id
 
-onready var ground_layer = get_parent().get_node("GroundLayer")
-onready var walls_layer = get_parent().get_node("WallsLayer")
+onready var ground = get_parent().get_node("Ground")
 onready var objects = get_parent().get_node("Objects")
 onready var minimap = get_parent().get_parent().get_node("HUD/UI/Minimap")
 
-# Initialises random grid of rock tiles
-func initialise_rock_layer():
+# Initialises random grid of wall tiles
+func initialise_walls():
 	for x in range(Globals.CAVE_SIZE):
 		for y in range(Globals.CAVE_SIZE):
-			var tile = ROCK if GameManager.percent_chance(START_ALIVE_CHANCE) else -1
+			var tile = WALL if GameManager.percent_chance(START_ALIVE_CHANCE) else -1
 			
-			# Create a border of rock tiles with a width of 3
+			# Create a border of wall tiles with a width of 3
 			if x < 3 or x > Globals.CAVE_SIZE-4 or y < 3 or y > Globals.CAVE_SIZE-4:
-				tile = ROCK
+				tile = WALL
 			
 			set_cell(x, y, tile)
 
-# Returns number of alive (rock) neighbours for a given tile
-func num_rock_neighbours(tile_x, tile_y) -> int:
+# Returns number of alive (wall) neighbours for a given tile
+func num_wall_neighbours(tile_x, tile_y) -> int:
 	var count = 0
 	# Loop through all x and y offsets (-1, 0 and 1)
 	for i in range(-1, 2, 1):
@@ -33,7 +32,7 @@ func num_rock_neighbours(tile_x, tile_y) -> int:
 			if not (i == 0 and j == 0):
 				var x = tile_x+i
 				var y = tile_y+j
-				if get_cell(x, y) == ROCK: # If rock increase count
+				if get_cell(x, y) == WALL: # If wall increase count
 					count += 1
 	return count
 
@@ -45,12 +44,12 @@ func carry_out_generation() -> bool:
 	for x in range(Globals.CAVE_SIZE):
 		for y in range(Globals.CAVE_SIZE):
 			var tile = get_cell(x, y)
-			if tile == ROCK:
-				if num_rock_neighbours(x, y) < MIN_ALIVE: # Tile should "die"
+			if tile == WALL:
+				if num_wall_neighbours(x, y) < MIN_ALIVE: # Tile should "die"
 					changed_tiles.append({"x": x, "y": y, "value": -1})
-			elif tile != ROCK:
-				if num_rock_neighbours(x, y) >= MIN_BIRTH: # Tile should be "born"
-					changed_tiles.append({"x": x, "y": y, "value": ROCK})
+			elif tile != WALL:
+				if num_wall_neighbours(x, y) >= MIN_BIRTH: # Tile should be "born"
+					changed_tiles.append({"x": x, "y": y, "value": WALL})
 	
 	# Make changes to tilemap
 	for tile in changed_tiles:
@@ -62,12 +61,12 @@ func carry_out_generation() -> bool:
 # Adds a border outside the map to make the edges blend in with the cave
 func initialise_outside_border():
 	for x in range(-1, Globals.CAVE_SIZE+1):
-		set_cell(x, -1, ROCK)
-		set_cell(x, Globals.CAVE_SIZE, ROCK)
+		set_cell(x, -1, WALL)
+		set_cell(x, Globals.CAVE_SIZE, WALL)
 	
 	for y in range(-1, Globals.CAVE_SIZE+1):
-		set_cell(-1, y, ROCK)
-		set_cell(Globals.CAVE_SIZE, y, ROCK)
+		set_cell(-1, y, WALL)
+		set_cell(Globals.CAVE_SIZE, y, WALL)
 
 # Destroys the tile at the given tile position and handles subsequent actions,
 # as a result of the tile being removed.
@@ -75,26 +74,25 @@ func destroy_tile(tile_pos: Vector2, update: bool) -> bool:
 	var x = tile_pos.x
 	var y = tile_pos.y
 	
-	if get_cell(x, y) != ROCK:
+	if get_cell(x, y) != WALL:
 		return false
 	if x <= 0 or x >= Globals.CAVE_SIZE-1 or y <= 0 or y >= Globals.CAVE_SIZE-1:
 		return false
 	
 	set_cell(x, y, -1)
-	ground_layer.set_cell(x, y, ground_layer.NAVABLE)
+	ground.set_cell(x, y, ground.NAVABLE)
 	minimap.set_cell(x, y, minimap.GROUND)
 	objects.destroy_gemstone_if_present(tile_pos)
 	if update:
-		walls_layer.update_walls_layer()
 		update_bitmask_region(tile_pos-Vector2.ONE, tile_pos+Vector2.ONE)
 	return true
 
-# Called when the player's mining hurtbox detects the rock layer
+# Called when the player's mining hurtbox detects the walls tilemap
 func on_player_mine(pos: Vector2) -> bool:
 	var tile_pos = world_to_map(pos)
 	return destroy_tile(tile_pos, true)
 
-# Called when an explosion detects the rock layer
+# Called when an explosion detects the walls tilemap
 func on_explosion(pos: Vector2):
 	var tile_pos = world_to_map(pos)
 	for x in range(-1, 2, 1):
@@ -102,5 +100,4 @@ func on_explosion(pos: Vector2):
 			var offset = Vector2(x, y)
 			destroy_tile(tile_pos + offset, false)
 	# Only update ONCE, after all tiles are removed
-	walls_layer.update_walls_layer()
 	update_bitmask_region(tile_pos-Vector2.ONE, tile_pos+Vector2.ONE)
