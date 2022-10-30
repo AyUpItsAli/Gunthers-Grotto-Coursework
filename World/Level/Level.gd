@@ -27,6 +27,7 @@ func generate_level():
 	
 	# Randomise the rng
 	GameManager.rng.randomize()
+	print("The cave seed is: " + str(GameManager.rng.get_seed()))
 	
 	walls.initialise_walls()
 	var finished = walls.carry_out_generation()
