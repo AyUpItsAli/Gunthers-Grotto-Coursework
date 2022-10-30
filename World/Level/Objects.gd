@@ -9,12 +9,12 @@ const CAVE_EXIT = preload("res://World/Objects/CaveExit.tscn")
 
 # Node references
 onready var level = get_parent().get_parent() # Root node of the Level scene
-onready var rock_layer = get_parent().get_node("RockLayer")
+onready var walls = get_parent().get_node("Walls")
 
 # Constants
 const CLUSTER_CHANCE = 40 # Chance to spawn each stalagmite in the cluster
 const HERMIT_CHANCE = 50 # Chance for a cluster to contain rock hermits instead
-const GEMSTONE_CHANCE = 2 # Chance for a rock tile to contain a gemstone
+const GEMSTONE_CHANCE = 2 # Chance for a wall tile to contain a gemstone
 
 var occupied_tiles = [] # List of tile coordinates occupied by an object
 var gemstones = {} # Dict of tile coordinates and their corresponding gemstones
@@ -31,17 +31,17 @@ func clear_objects():
 # Converts tile coordinates to a global world position
 func tile_pos_to_world_pos(tile_pos: Vector2) -> Vector2:
 	var offset = Vector2.ONE * Globals.CAVE_TILE_SIZE/2
-	return rock_layer.map_to_world(tile_pos) + offset
+	return walls.map_to_world(tile_pos) + offset
 
-# Returns whether the given tile coordinates are occupied by a rock tile
+# Returns whether the given tile coordinates are occupied by a wall tile
 # Used to validate: Objects inside walls
-func is_rock(tile_pos: Vector2):
-	return rock_layer.get_cell(tile_pos.x, tile_pos.y) == rock_layer.ROCK
+func is_wall(tile_pos: Vector2):
+	return walls.get_cell(tile_pos.x, tile_pos.y) == walls.WALL
 
 # Returns whether the given tile coordinates are unoccupied
 # Used to validate: Objects on the ground
 func is_unoccupied(tile_pos: Vector2):
-	if is_rock(tile_pos): return false
+	if is_wall(tile_pos): return false
 	if tile_pos in occupied_tiles: return false
 	return true
 
@@ -105,12 +105,12 @@ func spawn_gemstone(tile_pos: Vector2):
 	gemstones[tile_pos] = gemstone
 	add_child(gemstone)
 
-# Randomly spawns gemstones for each rock tile in the cave
+# Randomly spawns gemstones for each wall tile in the cave
 func spawn_gemstones():
 	for x in range(1, Globals.CAVE_SIZE-1):
 		for y in range(1, Globals.CAVE_SIZE-1):
 			var tile_pos = Vector2(x, y)
-			if is_rock(tile_pos):
+			if is_wall(tile_pos):
 				if GameManager.percent_chance(GEMSTONE_CHANCE):
 					spawn_gemstone(tile_pos)
 
@@ -165,7 +165,7 @@ func spawn_cave_exit():
 	if not player_exists():
 		return
 	var cave_exit = CAVE_EXIT.instance()
-	var player_pos = rock_layer.world_to_map(get_player().position)
+	var player_pos = walls.world_to_map(get_player().position)
 	var cave_exit_pos = get_random_cave_exit_pos(player_pos)
 	cave_exit.position = tile_pos_to_world_pos(cave_exit_pos)
 	for x in range(-1, 2, 1):
@@ -175,7 +175,7 @@ func spawn_cave_exit():
 	cave_exit.connect("player_entered", level, "on_player_exited_cave")
 	add_child(cave_exit)
 
-# Called by the rock layer when a rock tile is destroyed.
+# Called by the walls tilemap when a wall tile is destroyed.
 # Destroys the gemstone at this tile position, if one is present.
 # Adds a random number of gems, taken from gem_quantity_pool, to the inventory.
 func destroy_gemstone_if_present(tile_pos: Vector2):
