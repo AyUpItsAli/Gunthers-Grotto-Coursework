@@ -37,18 +37,17 @@ collision_mask = 14
 script = ExtResource( 2 )
 
 [node name="BodySprite" type="Sprite" parent="."]
-position = Vector2( 0.5, -6.5 )
+position = Vector2( 0.5, -12 )
 texture = ExtResource( 1 )
 hframes = 6
 vframes = 8
-frame = 12
 
 [node name="ItemSprite" type="Sprite" parent="."]
-position = Vector2( -6.8, 5.5 )
-rotation = 0.436332
+position = Vector2( -7.5, 0.5 )
 texture = ExtResource( 11 )
 centered = false
-offset = Vector2( -6, -22 )
+offset = Vector2( -18, -22 )
+flip_h = true
 
 [node name="PlayerAnimations" type="AnimationPlayer" parent="."]
 anims/Idle_Down = ExtResource( 8 )
@@ -66,11 +65,15 @@ anims/Walk_Up = ExtResource( 5 )
 
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
 modulate = Color( 0, 0.6, 0.701961, 0.839216 )
-position = Vector2( 0, 5.5 )
 rotation = 1.5708
 shape = SubResource( 1 )
 
+[node name="ScentTimer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
 [node name="Hitbox" type="Area2D" parent="."]
+position = Vector2( 0, -5.5 )
 collision_layer = 16
 collision_mask = 256
 
@@ -91,6 +94,7 @@ wait_time = 0.5
 one_shot = true
 
 [node name="AttackingHurtbox" type="Area2D" parent="."]
+position = Vector2( 0, -5.5 )
 collision_layer = 0
 collision_mask = 32
 
@@ -100,6 +104,7 @@ position = Vector2( 19, 0 )
 shape = SubResource( 3 )
 
 [node name="MiningHurtbox" type="Area2D" parent="."]
+position = Vector2( 0, -5.5 )
 collision_layer = 0
 collision_mask = 64
 
@@ -109,6 +114,7 @@ position = Vector2( 15, 0 )
 shape = SubResource( 4 )
 
 [node name="Camera" type="Camera2D" parent="."]
+position = Vector2( 0, -5.5 )
 current = true
 zoom = Vector2( 0.2, 0.2 )
 limit_smoothed = true

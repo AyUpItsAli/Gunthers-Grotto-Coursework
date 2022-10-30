@@ -10,6 +10,7 @@ const PICKAXE_DAMAGE = 1
 const BULLET = preload("res://Actors/Player/Bullet.tscn")
 const DYNAMITE = preload("res://Actors/Player/Dynamite.tscn")
 const WAIT_TIME_AFTER_DEATH = 5 # seconds
+const PLAYER_SCENT = preload("res://Actors/Player/PlayerScent.tscn")
 
 # Node references
 onready var body_sprite: Sprite = $BodySprite
@@ -27,6 +28,27 @@ var facing = Vector2.DOWN
 var equipped = Tools.PICKAXE
 var attacking = false
 var dead = false
+var scent_trail = []
+
+func _ready():
+	$ScentTimer.connect("timeout", self, "leave_scent")
+
+# Leave player scent at current position
+func leave_scent():
+	if dead: return
+	
+	var scent = PLAYER_SCENT.instance()
+	scent.player = self
+	scent.position = position
+	
+	get_parent().add_child(scent)
+	scent_trail.push_front(scent)
+
+# Clears the player's scent trail
+func clear_scent():
+	for scent in scent_trail:
+		scent.queue_free()
+	scent_trail.clear()
 
 func get_camera():
 	return get_node("Camera")
@@ -199,5 +221,6 @@ func die():
 	player_animations.stop()
 	body_sprite.visible = false
 	item_sprite.visible = false
+	clear_scent()
 	yield(get_tree().create_timer(WAIT_TIME_AFTER_DEATH), "timeout")
 	get_tree().change_scene("res://GUI/GameOverScreen/GameOverScreen.tscn")
