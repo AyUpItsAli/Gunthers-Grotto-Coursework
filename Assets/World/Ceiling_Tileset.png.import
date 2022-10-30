@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Cave_Tileset.png-71f92bc87790a7be46c91688019c99c0.stex"
+path="res://.import/Ceiling_Tileset.png-cdeda58d796d968dc212631fb1ef1829.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/World/Cave_Tileset.png"
-dest_files=[ "res://.import/Cave_Tileset.png-71f92bc87790a7be46c91688019c99c0.stex" ]
+source_file="res://Assets/World/Ceiling_Tileset.png"
+dest_files=[ "res://.import/Ceiling_Tileset.png-cdeda58d796d968dc212631fb1ef1829.stex" ]
 
 [params]
 
@@ -28,6 +28,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true
