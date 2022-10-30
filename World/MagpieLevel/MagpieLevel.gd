@@ -4,6 +4,7 @@ extends Node2D
 onready var walls = $Walls
 onready var player = $Objects/Player
 onready var cave_exit = $Objects/CaveExit
+onready var ceiling = $Ceiling
 
 # HUD
 onready var minimap = $HUD/UI/Minimap
@@ -38,8 +39,7 @@ func _ready():
 	level_title.add_title_to_queue("The Magpie")
 
 func _process(delta):
-	var player_tile_pos = walls.world_to_map(player.position)
-	minimap.update_player_pos(player_tile_pos)
+	minimap.update_player_pos(player.position, ceiling)
 
 # Called when the player enters the CaveExit detection radius
 func on_player_exited_cave():
