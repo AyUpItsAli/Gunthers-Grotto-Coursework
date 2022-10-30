@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Assets/Actors/Player/Player_Sprite_Sheet.png" type="Texture" id=1]
 [ext_resource path="res://Actors/Player/Player.gd" type="Script" id=2]
@@ -15,7 +15,6 @@
 [ext_resource path="res://Assets/Actors/Player/Animations/Melee_Left.tres" type="Animation" id=13]
 [ext_resource path="res://Assets/Actors/Player/Animations/Melee_Right.tres" type="Animation" id=14]
 [ext_resource path="res://Assets/Actors/Player/Animations/Melee_Up.tres" type="Animation" id=15]
-[ext_resource path="res://Actors/SoftCollision.tscn" type="PackedScene" id=16]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 4.0
@@ -78,8 +77,6 @@ collision_mask = 256
 [node name="CollisionShape" type="CollisionShape2D" parent="Hitbox"]
 modulate = Color( 0.0784314, 0.941176, 0.27451, 0.839216 )
 shape = SubResource( 2 )
-
-[node name="SoftCollision" parent="." instance=ExtResource( 16 )]
 
 [node name="PickaxeCooldown" type="Timer" parent="."]
 wait_time = 0.1
