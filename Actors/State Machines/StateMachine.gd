@@ -30,3 +30,7 @@ func enter_state(new_state: String, ctx: Dictionary = {}):
 
 func is_state(state: String) -> bool:
 	return current_state.name == state
+
+func call_method(method: String, args: Array = []):
+	if current_state.has_method(method):
+		current_state.callv(method, args)
