@@ -5,6 +5,7 @@ const BULLET_SPEED = 300
 const BULLET_DAMAGE = 3
 
 # Variables
+var player: Player # Player node that shot the bullet
 var velocity: Vector2
 
 func _ready():
@@ -23,5 +24,5 @@ func on_collision(body):
 func on_area_entered_hurtbox(area):
 	var node = area.get_parent()
 	if node.has_method("take_damage"):
-		node.take_damage(BULLET_DAMAGE)
+		node.take_damage(player, BULLET_DAMAGE)
 	on_collision(node) # Bullet has collided with enemy

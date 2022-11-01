@@ -19,9 +19,10 @@ func update(delta):
 		state_machine.enter_state("Walk")
 
 # Reduces the player's health and triggers death state
-func take_damage(damage: int):
+func take_damage(attacker, damage: int):
 	player.body_sprite.modulate = Color.red
 	var survived = PlayerData.reduce_health(damage)
 	yield(get_tree().create_timer(0.1), "timeout")
 	player.body_sprite.modulate = Color.white
-	if not survived: state_machine.enter_state("Dead")
+	if not survived:
+		state_machine.enter_state("Dead")

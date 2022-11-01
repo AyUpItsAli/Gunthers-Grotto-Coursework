@@ -41,12 +41,13 @@ func damage_enemies_with_pickaxe():
 	for area in player.attacking_hurtbox.get_overlapping_areas():
 		var node = area.get_parent()
 		if node.has_method("take_damage"):
-			node.take_damage(PICKAXE_DAMAGE)
+			node.take_damage(player, PICKAXE_DAMAGE)
 
 func use_revolver():
 	if PlayerData.remove_item(Globals.ItemIDs.REVOLVER_AMMO):
 		var clicked_pos = player.get_global_mouse_position()
 		var bullet = BULLET.instance()
+		bullet.player = player
 		bullet.position = player.position
 		bullet.velocity = player.position.direction_to(clicked_pos)
 		bullet.look_at(clicked_pos)
@@ -56,6 +57,7 @@ func use_dynamite():
 	if PlayerData.remove_item(Globals.ItemIDs.DYNAMITE_STICK):
 		var clicked_pos = player.get_global_mouse_position()
 		var dynamite = DYNAMITE.instance()
+		dynamite.player = player
 		dynamite.position = player.position
 		dynamite.destination = clicked_pos
 		dynamite.rotation_degrees = rand_range(0, 360)

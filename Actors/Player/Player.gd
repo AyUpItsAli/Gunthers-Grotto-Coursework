@@ -66,8 +66,8 @@ func update_item_sprite():
 		_: item_sprite.texture = null
 
 # Called, usually externally, when the player needs to take damage
-func take_damage(damage: int):
-	main_state_machine.call_method("take_damage", [damage])
+func take_damage(attacker, damage: int):
+	main_state_machine.call_method("take_damage", [attacker, damage])
 
 # Called when scent timer times out
 func leave_scent():
