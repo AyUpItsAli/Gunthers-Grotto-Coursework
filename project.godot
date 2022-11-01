@@ -49,6 +49,31 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Actors/State Machines/Player States/PlayerWalkState.gd"
 }, {
+"base": "KinematicBody2D",
+"class": "RockHermit",
+"language": "GDScript",
+"path": "res://Actors/Enemies/RockHermit.gd"
+}, {
+"base": "RockHermitState",
+"class": "RockHermitChaseState",
+"language": "GDScript",
+"path": "res://Actors/State Machines/Enemy States/Rock Hermit/RockHermitChaseState.gd"
+}, {
+"base": "RockHermitState",
+"class": "RockHermitDeadState",
+"language": "GDScript",
+"path": "res://Actors/State Machines/Enemy States/Rock Hermit/RockHermitDeadState.gd"
+}, {
+"base": "RockHermitState",
+"class": "RockHermitHiddenState",
+"language": "GDScript",
+"path": "res://Actors/State Machines/Enemy States/Rock Hermit/RockHermitHiddenState.gd"
+}, {
+"base": "State",
+"class": "RockHermitState",
+"language": "GDScript",
+"path": "res://Actors/State Machines/Enemy States/Rock Hermit/RockHermitState.gd"
+}, {
 "base": "Node",
 "class": "State",
 "language": "GDScript",
@@ -68,6 +93,11 @@ _global_script_class_icons={
 "PlayerState": "",
 "PlayerUseToolState": "",
 "PlayerWalkState": "",
+"RockHermit": "",
+"RockHermitChaseState": "",
+"RockHermitDeadState": "",
+"RockHermitHiddenState": "",
+"RockHermitState": "",
 "State": "",
 "StateMachine": ""
 }

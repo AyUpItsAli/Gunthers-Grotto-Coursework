@@ -1,64 +1,50 @@
+class_name RockHermit
 extends KinematicBody2D
 
 # Constants
-const TEXTURE_LEFT = preload("res://Assets/Actors/Enemies/Rock_Hermit_Left.png")
-const TEXTURE_RIGHT = preload("res://Assets/Actors/Enemies/Rock_Hermit_Right.png")
-const MOVE_SPEED = 2500
-const STOP_DISTANCE = 25
 const ATTACK_DAMAGE = 1
 
 # Node references
-onready var search_radius: Area2D = $SearchRadius
-onready var sprite: Sprite = $Sprite
+onready var body_sprite: Sprite = $BodySprite
 onready var hurtbox: Area2D = $Hurtbox
 onready var attack_timer: Timer = $AttackTimer
+onready var detection_radius: Area2D = $DetectionRadius
+onready var line_of_sight: RayCast2D = $LineOfSight
+onready var state_machine: StateMachine = $StateMachine
 
 # Variables
-var player: KinematicBody2D # Reference to the player node, once detected
+var target: Player
+var direction: Vector2
 var velocity = Vector2.ZERO
 var health = 5
 
 func _ready():
-	search_radius.connect("body_entered", self, "body_entered_search_radius")
-	hurtbox.connect("area_entered", self, "area_entered_hurtbox")
-	attack_timer.connect("timeout", self, "attack")
+	detection_radius.connect("body_entered", self, "on_body_detected")
+	$ChaseTimer.connect("timeout", self, "chase_target")
 
-func body_entered_search_radius(body):
-	if not player and body.name == "Player":
-		player = body
+# Called when a body enters the enemy's detection radius
+func on_body_detected(body):
+	state_machine.call_method("on_body_detected", [body])
 
-func determine_sprite():
-	if player:
-		if player.position.x > position.x:
-			sprite.texture = TEXTURE_RIGHT
-		elif player.position.x < position.x:
-			sprite.texture = TEXTURE_LEFT
+func chase_target():
+	state_machine.call_method("chase_target")
 
-func _physics_process(delta):
-	if player:
-		determine_sprite()
-		hurtbox.look_at(player.position)
-	velocity = move_and_slide(velocity)
+# Called, usually externally, when the enemy needs to take damage
+func take_damage(attacker, damage: int):
+	state_machine.call_method("take_damage", [attacker, damage])
 
-func take_damage(damage: int):
-	sprite.modulate = Color.red
-	health -= damage
-	if health <= 0:
-		return queue_free()
-	yield(get_tree().create_timer(0.1), "timeout")
-	sprite.modulate = Color.white
-
-func area_entered_hurtbox(area):
-	attack_timer.start()
-
-func attack():
-	var areas = hurtbox.get_overlapping_areas()
-	if areas.size() > 0:
-		var hitbox: Area2D = areas[0]
-		var player = hitbox.get_parent()
-		if player.has_method("take_damage"):
-			player.take_damage(ATTACK_DAMAGE)
-		attack_timer.start()
+# --- OLD ATTACKING CODE ---
+#func area_entered_hurtbox(area):
+#	attack_timer.start()
+#
+#func attack():
+#	var areas = hurtbox.get_overlapping_areas()
+#	if areas.size() > 0:
+#		var hitbox: Area2D = areas[0]
+#		var player = hitbox.get_parent()
+#		if player.has_method("take_damage"):
+#			player.take_damage(self, ATTACK_DAMAGE)
+#		attack_timer.start()
 
 # --- OLD PATHFINDING CODE ---
 ## Stores an array of points leading towards the player in the path variable
