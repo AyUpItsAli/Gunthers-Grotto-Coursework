@@ -20,13 +20,6 @@ var target_pos: Vector2
 var velocity = Vector2.ZERO
 var health = 5
 
-func _ready():
-	detection_radius.connect("body_entered", self, "on_body_detected")
-
-# Called when a body enters the enemy's detection radius
-func on_body_detected(body):
-	state_machine.call_method("on_body_detected", [body])
-
 # Called, usually externally, when the enemy needs to take damage
 func take_damage(attacker, damage: int):
 	state_machine.call_method("take_damage", [attacker, damage])
