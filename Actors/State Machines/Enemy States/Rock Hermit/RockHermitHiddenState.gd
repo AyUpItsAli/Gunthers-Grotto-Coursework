@@ -6,6 +6,7 @@ const TEXTURE_HIDDEN = preload("res://Assets/World/Stalagmite.png")
 func enter(ctx: Dictionary = {}):
 	enemy.body_sprite.texture = TEXTURE_HIDDEN
 	enemy.target = null
+	# Check if player is within detection radius
 
 func on_body_detected(body):
 	state_machine.enter_state("Chase", {"target":body})
