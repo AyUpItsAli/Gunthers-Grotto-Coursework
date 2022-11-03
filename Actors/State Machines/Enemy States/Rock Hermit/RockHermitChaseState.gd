@@ -63,6 +63,9 @@ func get_seek_direction() -> Vector2:
 			if !enemy.target_ray.is_colliding():
 				return enemy.target_ray.cast_to.normalized()
 	
+	# TODO
+	# Rock hermits should attempt to reach the last seen location,
+	# even if the scent is removed. 
 	return Vector2.ZERO
 
 func take_damage(attacker, damage: int):
