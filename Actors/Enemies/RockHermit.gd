@@ -9,25 +9,29 @@ onready var body_sprite: Sprite = $BodySprite
 onready var hurtbox: Area2D = $Hurtbox
 onready var attack_timer: Timer = $AttackTimer
 onready var detection_radius: Area2D = $DetectionRadius
-onready var line_of_sight: RayCast2D = $LineOfSight
+onready var target_ray: RayCast2D = $TargetRay
+onready var agent: NavigationAgent2D = $NavigationAgent
+onready var avoidance_rays: Node2D = $AvoidanceRays
+onready var debug_ray: RayCast2D = $DebugRay
 onready var state_machine: StateMachine = $StateMachine
 
 # Variables
 var target: Player
-var direction: Vector2
 var velocity = Vector2.ZERO
 var health = 5
 
 func _ready():
 	detection_radius.connect("body_entered", self, "on_body_detected")
-	$ChaseTimer.connect("timeout", self, "chase_target")
+	agent.connect("velocity_computed", self, "move")
+
+func move(new_velocity):
+	debug_ray.rotation = new_velocity.angle()
+	debug_ray.cast_to.x = new_velocity.length()
+	velocity = move_and_slide(new_velocity)
 
 # Called when a body enters the enemy's detection radius
 func on_body_detected(body):
 	state_machine.call_method("on_body_detected", [body])
-
-func chase_target():
-	state_machine.call_method("chase_target")
 
 # Called, usually externally, when the enemy needs to take damage
 func take_damage(attacker, damage: int):

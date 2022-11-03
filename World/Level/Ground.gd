@@ -9,4 +9,7 @@ const GROUND = 0
 func update_ground_layer():
 	for x in range(Globals.CAVE_SIZE):
 		for y in range(Globals.CAVE_SIZE):
-			set_cell(x, y, GROUND)
+			if walls.get_cell(x, y) == walls.WALL:
+				set_cell(x, y, 1)
+			else:
+				set_cell(x, y, GROUND)
