@@ -16,7 +16,7 @@ onready var state_machine: StateMachine = $StateMachine
 
 # Variables
 var target: Player
-var target_pos: Vector2
+var last_known_location: Vector2
 var velocity = Vector2.ZERO
 var health = 5
 

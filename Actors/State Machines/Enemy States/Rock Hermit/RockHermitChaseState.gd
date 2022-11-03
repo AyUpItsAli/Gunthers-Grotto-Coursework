@@ -3,7 +3,7 @@ extends RockHermitState
 
 const TEXTURE_RIGHT = preload("res://Assets/Actors/Enemies/Rock_Hermit_Right.png")
 const TEXTURE_LEFT = preload("res://Assets/Actors/Enemies/Rock_Hermit_Left.png")
-const MAX_SPEED = 3000
+const MAX_SPEED = 3500
 const MAX_STEERING = 5
 const AVOID_FORCE = MAX_SPEED
 const STOP_DISTANCE = 25
@@ -15,11 +15,6 @@ func enter(ctx: Dictionary = {}):
 func update(delta):
 	update_sprite()
 	enemy.hurtbox.look_at(enemy.target.position)
-#	if enemy.velocity == Vector2.ZERO:
-#		# AND has no line of sight of player
-#		# Add timer
-#		# Switch to "Wander" state
-#		state_machine.enter_state("Hidden")
 
 func update_sprite():
 	if enemy.target.position.x > enemy.position.x:
@@ -40,13 +35,17 @@ func physics_update(delta):
 	
 	enemy.debug_ray.rotation = enemy.velocity.angle()
 	enemy.debug_ray.cast_to.x = enemy.velocity.length()
-
+	
 	enemy.velocity = enemy.move_and_slide(enemy.velocity)
 
 func get_seek_steering(delta) -> Vector2:
 	var desired_velocity = Vector2.ZERO
 	if enemy.position.distance_to(enemy.target.position) > STOP_DISTANCE:
-		desired_velocity = get_seek_direction() * MAX_SPEED * delta
+		var direction = get_seek_direction()
+		if direction == Vector2.ZERO:
+			state_machine.enter_state("Hidden")
+		else:
+			desired_velocity = direction * MAX_SPEED * delta
 	return desired_velocity - enemy.velocity
 
 func get_seek_direction() -> Vector2:
@@ -54,6 +53,7 @@ func get_seek_direction() -> Vector2:
 	enemy.target_ray.force_raycast_update()
 	
 	if !enemy.target_ray.is_colliding():
+		enemy.last_known_location = enemy.target.position
 		return enemy.target_ray.cast_to.normalized()
 	else:
 		for player_scent in enemy.target.scent_trail:
@@ -61,11 +61,14 @@ func get_seek_direction() -> Vector2:
 			enemy.target_ray.force_raycast_update()
 	
 			if !enemy.target_ray.is_colliding():
+				enemy.last_known_location = player_scent.position
 				return enemy.target_ray.cast_to.normalized()
 	
-	# TODO
-	# Rock hermits should attempt to reach the last seen location,
-	# even if the scent is removed. 
+	enemy.target_ray.cast_to = enemy.last_known_location - enemy.position
+	enemy.target_ray.force_raycast_update()
+	var distance = enemy.position.distance_to(enemy.last_known_location)
+	if !enemy.target_ray.is_colliding() and distance > STOP_DISTANCE:
+		return enemy.target_ray.cast_to.normalized()
 	return Vector2.ZERO
 
 func take_damage(attacker, damage: int):
