@@ -7,7 +7,6 @@ func _ready():
 
 # Randomises the rotation only when a new collision occurs
 func on_area_entered(area):
-	#var diff = area.global_position - global_position
 	var neg_or_pos = -1 if randf() < 0.5 else 1
 	vector_rotation = neg_or_pos * deg2rad(50)
 
