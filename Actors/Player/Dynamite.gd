@@ -11,6 +11,7 @@ onready var explosion_radius: Area2D = $ExplosionRadius
 onready var explosion: Particles2D = $Explosion
 
 # Variables
+var player: Player # Player node that threw the dynamite
 var destination: Vector2
 var destination_reached = false
 var previous_velocity: Vector2
@@ -57,7 +58,7 @@ func explode():
 	for area in explosion_radius.get_overlapping_areas():
 		var node = area.get_parent()
 		if node.has_method("take_damage"):
-			node.take_damage(EXPLOSION_DAMAGE)
+			node.take_damage(player, EXPLOSION_DAMAGE)
 	# Let objects know that an explosion took place at the given position
 	for body in explosion_radius.get_overlapping_bodies():
 		if body.has_method("on_explosion"):

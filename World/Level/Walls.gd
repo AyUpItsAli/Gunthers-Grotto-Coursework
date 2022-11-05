@@ -80,7 +80,7 @@ func destroy_tile(tile_pos: Vector2, update: bool) -> bool:
 		return false
 	
 	set_cell(x, y, -1)
-	ground.set_cell(x, y, ground.NAVABLE)
+	ground.set_cell(x, y, ground.GROUND)
 	minimap.set_cell(x, y, minimap.GROUND)
 	objects.destroy_gemstone_if_present(tile_pos)
 	if update:

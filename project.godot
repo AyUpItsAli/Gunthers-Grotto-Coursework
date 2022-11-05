@@ -8,6 +8,100 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "KinematicBody2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://Actors/Player/Player.gd"
+}, {
+"base": "PlayerState",
+"class": "PlayerDeadState",
+"language": "GDScript",
+"path": "res://Actors/State Machines/Player States/PlayerDeadState.gd"
+}, {
+"base": "PlayerState",
+"class": "PlayerIdleState",
+"language": "GDScript",
+"path": "res://Actors/State Machines/Player States/PlayerIdleState.gd"
+}, {
+"base": "PlayerState",
+"class": "PlayerInteractState",
+"language": "GDScript",
+"path": "res://Actors/State Machines/Player States/PlayerInteractState.gd"
+}, {
+"base": "PlayerState",
+"class": "PlayerNoActionState",
+"language": "GDScript",
+"path": "res://Actors/State Machines/Player States/PlayerNoActionState.gd"
+}, {
+"base": "State",
+"class": "PlayerState",
+"language": "GDScript",
+"path": "res://Actors/State Machines/Player States/PlayerState.gd"
+}, {
+"base": "PlayerState",
+"class": "PlayerUseToolState",
+"language": "GDScript",
+"path": "res://Actors/State Machines/Player States/PlayerUseToolState.gd"
+}, {
+"base": "PlayerState",
+"class": "PlayerWalkState",
+"language": "GDScript",
+"path": "res://Actors/State Machines/Player States/PlayerWalkState.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "RockHermit",
+"language": "GDScript",
+"path": "res://Actors/Enemies/RockHermit.gd"
+}, {
+"base": "RockHermitState",
+"class": "RockHermitChaseState",
+"language": "GDScript",
+"path": "res://Actors/State Machines/Enemy States/Rock Hermit/RockHermitChaseState.gd"
+}, {
+"base": "RockHermitState",
+"class": "RockHermitDeadState",
+"language": "GDScript",
+"path": "res://Actors/State Machines/Enemy States/Rock Hermit/RockHermitDeadState.gd"
+}, {
+"base": "RockHermitState",
+"class": "RockHermitHiddenState",
+"language": "GDScript",
+"path": "res://Actors/State Machines/Enemy States/Rock Hermit/RockHermitHiddenState.gd"
+}, {
+"base": "State",
+"class": "RockHermitState",
+"language": "GDScript",
+"path": "res://Actors/State Machines/Enemy States/Rock Hermit/RockHermitState.gd"
+}, {
+"base": "Node",
+"class": "State",
+"language": "GDScript",
+"path": "res://Actors/State Machines/State.gd"
+}, {
+"base": "Node",
+"class": "StateMachine",
+"language": "GDScript",
+"path": "res://Actors/State Machines/StateMachine.gd"
+} ]
+_global_script_class_icons={
+"Player": "",
+"PlayerDeadState": "",
+"PlayerIdleState": "",
+"PlayerInteractState": "",
+"PlayerNoActionState": "",
+"PlayerState": "",
+"PlayerUseToolState": "",
+"PlayerWalkState": "",
+"RockHermit": "",
+"RockHermitChaseState": "",
+"RockHermitDeadState": "",
+"RockHermitHiddenState": "",
+"RockHermitState": "",
+"State": "",
+"StateMachine": ""
+}
+
 [application]
 
 config/name="Gunther's Grotto"
