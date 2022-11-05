@@ -25,7 +25,7 @@ func generate_level():
 	loading_screen.visible = true
 	loading_screen.color.a = 1
 	
-	# Randomise the rng
+	# Randomise the rng / seed
 	GameManager.rng.randomize()
 	print("The cave seed is: " + str(GameManager.rng.get_seed()))
 	
