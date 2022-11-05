@@ -68,7 +68,6 @@ position = Vector2( 16, 0 )
 shape = SubResource( 4 )
 
 [node name="AttackDelayTimer" type="Timer" parent="."]
-wait_time = 0.5
 one_shot = true
 
 [node name="AttackCooldownTimer" type="Timer" parent="."]
