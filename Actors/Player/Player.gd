@@ -47,12 +47,6 @@ func determine_facing():
 		if facing == Vector2.UP: move_child(body_sprite, 1)
 		else: move_child(body_sprite, 0)
 
-# Rotate the hurtboxes to face the mouse
-func rotate_hurtboxes():
-	var mouse_pos = get_global_mouse_position()
-	attacking_hurtbox.look_at(mouse_pos)
-	mining_hurtbox.look_at(mouse_pos)
-
 # Equips the given tool and updates the item sprite
 func equip(new_tool: int):
 	equipped = new_tool
