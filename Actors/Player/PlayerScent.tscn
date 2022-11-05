@@ -11,6 +11,7 @@ wait_time = 5.0
 autostart = true
 
 [node name="DebugRect" type="ColorRect" parent="."]
+visible = false
 margin_left = -4.0
 margin_top = -4.0
 margin_right = 4.0
