@@ -2,7 +2,6 @@ extends TileMap
 
 # Node references
 onready var minimap = get_parent().get_parent().get_node("HUD/UI/Minimap")
-onready var ground = get_parent().get_node("Ground")
 onready var walls = get_parent().get_node("Walls")
 onready var objects = get_parent().get_node("Objects")
 
@@ -24,7 +23,6 @@ func destroy_tile(tile_pos: Vector2, update: bool):
 	if not obstructed or out_of_bounds_x or out_of_bounds_y: return
 	
 	minimap.set_cell(tile_pos.x, tile_pos.y, minimap.GROUND)
-	ground.set_cell(tile_pos.x, tile_pos.y, ground.GROUND)
 	walls.set_cell(tile_pos.x, tile_pos.y, -1)
 	objects.destroy_gemstone_if_present(tile_pos)
 	set_cell(tile_pos.x, tile_pos.y, -1)
