@@ -3,7 +3,7 @@ extends RockHermitState
 
 const TEXTURE_RIGHT = preload("res://Assets/Actors/Enemies/Rock_Hermit_Right.png")
 const TEXTURE_LEFT = preload("res://Assets/Actors/Enemies/Rock_Hermit_Left.png")
-const MAX_SPEED = 4000
+const MAX_SPEED = 3500
 const MAX_STEERING = 5
 const AVOID_FORCE = MAX_SPEED
 const STOP_DISTANCE = 25
