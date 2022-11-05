@@ -110,6 +110,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
+Utils="*res://Globals/Utils.gd"
 Globals="*res://Globals/Globals.gd"
 GameManager="*res://Globals/GameManager.gd"
 PlayerData="*res://Globals/PlayerData.gd"

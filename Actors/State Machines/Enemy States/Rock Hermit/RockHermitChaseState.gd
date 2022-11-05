@@ -32,8 +32,7 @@ func update_sprite():
 	elif enemy.target.position.x < enemy.position.x:
 		enemy.body_sprite.texture = TEXTURE_LEFT
 	elif enemy.body_sprite.texture != TEXTURE_RIGHT and enemy.body_sprite.texture != TEXTURE_LEFT:
-		randomize()
-		enemy.body_sprite.texture = TEXTURE_RIGHT if randf() < 0.5 else TEXTURE_LEFT
+		enemy.body_sprite.texture = Utils.choose_from([TEXTURE_RIGHT, TEXTURE_LEFT])
 
 func physics_update(delta):
 	var steering = get_seek_steering(delta)
