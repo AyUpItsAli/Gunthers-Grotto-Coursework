@@ -11,7 +11,7 @@ onready var attack_timer: Timer = $AttackTimer
 onready var detection_radius: Area2D = $DetectionRadius
 onready var target_ray: RayCast2D = $TargetRay
 onready var soft_collision: Area2D = $SoftCollision
-onready var debug_ray: RayCast2D = $DebugRay
+onready var debug_ray: RayCast2D = $DebugRay # Used to display vectors for debugging
 onready var state_machine: StateMachine = $StateMachine
 
 # Variables
