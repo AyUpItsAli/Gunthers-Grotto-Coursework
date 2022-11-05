@@ -24,16 +24,8 @@ func use_pickaxe():
 		Vector2.RIGHT: player.animations.play("Melee_Right")
 		Vector2.LEFT: player.animations.play("Melee_Left")
 		_: player.animations.play("Melee_Down")
-	mine_objects_with_pickaxe()
 	damage_enemies_with_pickaxe()
-
-# Calls the "on_player_mine" method
-# on all bodies overlapping the mining hurtbox
-func mine_objects_with_pickaxe():
-	for body in player.mining_hurtbox.get_overlapping_bodies():
-		if body.has_method("on_player_mine"):
-			var pos = player.mining_hurtbox.get_node("CollisionShape").global_position
-			body.on_player_mine(pos)
+	player.emit_signal("pickaxe_used")
 
 # Calls the "take_damage" method
 # on all hitboxes overlapping the attacking hurtbox

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://World/Level/Walls.gd" type="Script" id=1]
 [ext_resource path="res://World/Level/Ground.gd" type="Script" id=2]
@@ -12,6 +12,8 @@
 [ext_resource path="res://World/Level/Objects.gd" type="Script" id=10]
 [ext_resource path="res://Actors/Enemies/RockHermit.tscn" type="PackedScene" id=11]
 [ext_resource path="res://World/Objects/Stalagmite.tscn" type="PackedScene" id=12]
+[ext_resource path="res://World/Level/MiningGrid.tres" type="TileSet" id=13]
+[ext_resource path="res://World/Level/MiningGrid.gd" type="Script" id=14]
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 3 )
@@ -96,3 +98,11 @@ bake_navigation = true
 format = 1
 tile_data = PoolIntArray( 65540, 0, 1, 65541, 0, 196610, 65542, 0, 196610, 65543, 0, 196610, 65544, 0, 196610, 65545, 0, 196610, 65546, 0, 196610, 65547, 0, 196610, 65548, 0, 196610, 65549, 0, 196610, 65550, 0, 196610, 65551, 0, 3, 131076, 0, 65536, 131087, 0, 65536, 196612, 0, 65536, 196623, 0, 65536, 262145, 0, 1, 262146, 0, 196610, 262147, 0, 196610, 262148, 0, 131075, 262152, 0, 1, 262153, 0, 196610, 262154, 0, 196610, 262155, 0, 196610, 262156, 0, 3, 262159, 0, 65536, 327681, 0, 65536, 327688, 0, 65536, 327692, 0, 65536, 327695, 0, 65536, 393217, 0, 65536, 393224, 0, 65536, 393228, 0, 65536, 393231, 0, 65536, 458753, 0, 65536, 458757, 0, 196609, 458758, 0, 196610, 458759, 0, 196610, 458760, 0, 65539, 458764, 0, 131072, 458767, 0, 131072, 524289, 0, 65536, 524296, 0, 65536, 589825, 0, 65536, 589832, 0, 65536, 655361, 0, 131073, 655362, 0, 196610, 655363, 0, 196610, 655364, 0, 196611, 655368, 0, 65536, 720904, 0, 65536, 786440, 0, 65536, 851969, 0, 196609, 851970, 0, 196610, 851971, 0, 196610, 851972, 0, 196610, 851973, 0, 196610, 851974, 0, 196610, 851975, 0, 196610, 851976, 0, 131075 )
 script = ExtResource( 6 )
+
+[node name="MiningGrid" type="TileMap" parent="World"]
+z_index = 2
+tile_set = ExtResource( 13 )
+cell_size = Vector2( 32, 32 )
+bake_navigation = true
+format = 1
+script = ExtResource( 14 )

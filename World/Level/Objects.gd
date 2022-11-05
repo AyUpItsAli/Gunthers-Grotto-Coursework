@@ -117,8 +117,8 @@ func spawn_gemstones():
 func player_exists() -> bool:
 	return has_node("Player")
 
-func get_player():
-	return get_node("Player")
+func get_player() -> Player:
+	return get_node("Player") as Player
 
 # Spawns the player node at a random position in the cave
 func spawn_player():

@@ -25,6 +25,8 @@ var facing = Vector2.DOWN
 var equipped = Tools.PICKAXE
 var scent_trail = []
 
+signal pickaxe_used # Emitted when the player uses their pickaxe
+
 func _ready():
 	$ScentTimer.connect("timeout", self, "leave_scent")
 

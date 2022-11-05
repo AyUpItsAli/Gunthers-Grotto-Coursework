@@ -5,6 +5,7 @@ onready var ground = $World/Ground
 onready var walls = $World/Walls
 onready var objects = $World/Objects
 onready var ceiling = $World/Ceiling
+onready var mining_grid = $World/MiningGrid
 
 # HUD
 onready var minimap = $HUD/UI/Minimap
@@ -53,6 +54,8 @@ func generate_level():
 	objects.spawn_gemstones()
 	objects.spawn_player()
 	objects.spawn_cave_exit()
+	
+	mining_grid.initialise_mining_grid()
 	
 	# Fade out the loading screen AFTER the level has finished generating
 	var animations = loading_screen.get_node("LoadingScreenAnimations")
