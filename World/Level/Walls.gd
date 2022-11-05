@@ -6,12 +6,8 @@ const MIN_BIRTH = 5 # minimum alive neighbours to become alive
 
 const WALL = 0 # Tile id
 
-onready var ground = get_parent().get_node("Ground")
-onready var objects = get_parent().get_node("Objects")
-onready var minimap = get_parent().get_parent().get_node("HUD/UI/Minimap")
-
 # Initialises random grid of wall tiles
-func initialise_walls():
+func initialise_walls_layer():
 	for x in range(Globals.CAVE_SIZE):
 		for y in range(Globals.CAVE_SIZE):
 			var tile = WALL if GameManager.percent_chance(START_ALIVE_CHANCE) else -1
@@ -67,37 +63,3 @@ func initialise_outside_border():
 	for y in range(-1, Globals.CAVE_SIZE+1):
 		set_cell(-1, y, WALL)
 		set_cell(Globals.CAVE_SIZE, y, WALL)
-
-# Destroys the tile at the given tile position and handles subsequent actions,
-# as a result of the tile being removed.
-func destroy_tile(tile_pos: Vector2, update: bool) -> bool:
-	var x = tile_pos.x
-	var y = tile_pos.y
-	
-	if get_cell(x, y) != WALL:
-		return false
-	if x <= 0 or x >= Globals.CAVE_SIZE-1 or y <= 0 or y >= Globals.CAVE_SIZE-1:
-		return false
-	
-	set_cell(x, y, -1)
-	ground.set_cell(x, y, ground.GROUND)
-	minimap.set_cell(x, y, minimap.GROUND)
-	objects.destroy_gemstone_if_present(tile_pos)
-	if update:
-		update_bitmask_region(tile_pos-Vector2.ONE, tile_pos+Vector2.ONE)
-	return true
-
-# Called when the player's mining hurtbox detects the walls tilemap
-func on_player_mine(pos: Vector2) -> bool:
-	var tile_pos = world_to_map(pos)
-	return destroy_tile(tile_pos, true)
-
-# Called when an explosion detects the walls tilemap
-func on_explosion(pos: Vector2):
-	var tile_pos = world_to_map(pos)
-	for x in range(-1, 2, 1):
-		for y in range(-1, 2, 1):
-			var offset = Vector2(x, y)
-			destroy_tile(tile_pos + offset, false)
-	# Only update ONCE, after all tiles are removed
-	update_bitmask_region(tile_pos-Vector2.ONE, tile_pos+Vector2.ONE)

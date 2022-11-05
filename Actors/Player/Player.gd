@@ -12,8 +12,7 @@ onready var body_sprite: Sprite = $BodySprite
 onready var item_sprite: Sprite = $ItemSprite
 onready var animations: AnimationPlayer = $Animations
 onready var hitbox: Area2D = $Hitbox
-onready var attacking_hurtbox: Area2D = $AttackingHurtbox
-onready var mining_hurtbox: Area2D = $MiningHurtbox
+onready var hurtbox: Area2D = $Hurtbox
 onready var pickaxe_cooldown: Timer = $PickaxeCooldown
 onready var revolver_cooldown: Timer = $RevolverCooldown
 onready var dynamite_cooldown: Timer = $DynamiteCooldown
@@ -24,6 +23,8 @@ var velocity = Vector2.ZERO
 var facing = Vector2.DOWN
 var equipped = Tools.PICKAXE
 var scent_trail = []
+
+signal pickaxe_used # Emitted when the player uses their pickaxe
 
 func _ready():
 	$ScentTimer.connect("timeout", self, "leave_scent")
@@ -45,12 +46,6 @@ func determine_facing():
 	if facing != facing_before:
 		if facing == Vector2.UP: move_child(body_sprite, 1)
 		else: move_child(body_sprite, 0)
-
-# Rotate the hurtboxes to face the mouse
-func rotate_hurtboxes():
-	var mouse_pos = get_global_mouse_position()
-	attacking_hurtbox.look_at(mouse_pos)
-	mining_hurtbox.look_at(mouse_pos)
 
 # Equips the given tool and updates the item sprite
 func equip(new_tool: int):

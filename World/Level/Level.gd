@@ -5,6 +5,7 @@ onready var ground = $World/Ground
 onready var walls = $World/Walls
 onready var objects = $World/Objects
 onready var ceiling = $World/Ceiling
+onready var mining_grid = $World/MiningGrid
 
 # HUD
 onready var minimap = $HUD/UI/Minimap
@@ -29,7 +30,7 @@ func generate_level():
 	GameManager.rng.randomize()
 	print("The cave seed is: " + str(GameManager.rng.get_seed()))
 	
-	walls.initialise_walls()
+	walls.initialise_walls_layer()
 	var finished = walls.carry_out_generation()
 	while not finished:
 		# Continue algorithm until generation is finished
@@ -53,6 +54,8 @@ func generate_level():
 	objects.spawn_gemstones()
 	objects.spawn_player()
 	objects.spawn_cave_exit()
+	
+	mining_grid.initialise_mining_grid()
 	
 	# Fade out the loading screen AFTER the level has finished generating
 	var animations = loading_screen.get_node("LoadingScreenAnimations")

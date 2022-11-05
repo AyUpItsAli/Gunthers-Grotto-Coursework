@@ -6,7 +6,7 @@ const MAX_CAVES_BETWEEN_MAGPIE = 10
 # Chance for the magpie level to spawn
 const MAGPIE_CHANCE = 15
 
-# Random number generator used throughout the game
+# Random number generator specific to the current cave seed
 onready var rng := RandomNumberGenerator.new()
 
 # A pool of gem quantities generated from Globals.GEM_FREQUENCIES
@@ -36,7 +36,7 @@ func increase_cave_depth():
 func magie_level_should_spawn() -> bool:
 	if caves_since_magpie < MIN_CAVES_BETWEEN_MAGPIE: return false
 	if caves_since_magpie >= MAX_CAVES_BETWEEN_MAGPIE: return true
-	return percent_chance(MAGPIE_CHANCE)
+	return Utils.percent_chance(MAGPIE_CHANCE)
 
 # Creates a pool of items from the given dictionary of item frequencies
 func create_pool(frequencies: Dictionary) -> Array:
@@ -47,11 +47,11 @@ func create_pool(frequencies: Dictionary) -> Array:
 			pool.append(item) # Add this item to the pool, n times
 	return pool
 
-# Takes in a float from 0 to 100 representing a percentage chance
 # Returns whether the chance was successful or not
+# Uses the rng with the current cave seed
 func percent_chance(chance: float) -> bool:
-	return rng.randf_range(0, 99) < chance
+	return Utils.percent_chance(chance, rng)
 
 # Picks a random entry from the given pool
 func random_pool_entry(pool: Array):
-	return pool[randi() % pool.size()]
+	return Utils.choose_from(pool)
