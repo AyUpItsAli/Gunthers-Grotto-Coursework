@@ -31,9 +31,10 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 script = ExtResource( 2 )
 
 [node name="Walls" type="TileMap" parent="World"]
+z_index = -1
 tile_set = ExtResource( 5 )
 cell_size = Vector2( 32, 32 )
-collision_layer = 66
+collision_layer = 2
 collision_mask = 0
 bake_navigation = true
 format = 1
@@ -86,9 +87,10 @@ position = Vector2( 528, 432 )
 position = Vector2( 560, 432 )
 
 [node name="Ceiling" type="TileMap" parent="World"]
+z_index = 1
 tile_set = ExtResource( 7 )
 cell_size = Vector2( 32, 32 )
-collision_layer = 4
+collision_layer = 68
 collision_mask = 0
 bake_navigation = true
 format = 1
