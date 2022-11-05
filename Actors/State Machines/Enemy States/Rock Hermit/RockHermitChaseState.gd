@@ -33,9 +33,6 @@ func physics_update(delta):
 	enemy.velocity += steering
 	enemy.velocity = enemy.velocity.limit_length(MAX_SPEED * delta)
 	
-	enemy.debug_ray.rotation = enemy.velocity.angle()
-	enemy.debug_ray.cast_to.x = enemy.velocity.length()
-	
 	enemy.velocity = enemy.move_and_slide(enemy.velocity)
 
 func get_seek_steering(delta) -> Vector2:
