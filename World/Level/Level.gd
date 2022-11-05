@@ -30,7 +30,7 @@ func generate_level():
 	GameManager.rng.randomize()
 	print("The cave seed is: " + str(GameManager.rng.get_seed()))
 	
-	walls.initialise_walls()
+	walls.initialise_walls_layer()
 	var finished = walls.carry_out_generation()
 	while not finished:
 		# Continue algorithm until generation is finished

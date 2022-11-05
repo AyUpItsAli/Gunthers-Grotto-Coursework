@@ -7,7 +7,7 @@ const MIN_BIRTH = 5 # minimum alive neighbours to become alive
 const WALL = 0 # Tile id
 
 # Initialises random grid of wall tiles
-func initialise_walls():
+func initialise_walls_layer():
 	for x in range(Globals.CAVE_SIZE):
 		for y in range(Globals.CAVE_SIZE):
 			var tile = WALL if GameManager.percent_chance(START_ALIVE_CHANCE) else -1
