@@ -59,7 +59,6 @@ modulate = Color( 0.0784314, 0.941176, 0.27451, 0.839216 )
 shape = SubResource( 3 )
 
 [node name="Hurtbox" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 16
 
@@ -68,8 +67,11 @@ modulate = Color( 0.945098, 0.129412, 0.129412, 0.839216 )
 position = Vector2( 16, 0 )
 shape = SubResource( 4 )
 
-[node name="AttackTimer" type="Timer" parent="."]
+[node name="AttackDelayTimer" type="Timer" parent="."]
 wait_time = 0.5
+one_shot = true
+
+[node name="AttackCooldownTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="TargetRay" type="RayCast2D" parent="."]
