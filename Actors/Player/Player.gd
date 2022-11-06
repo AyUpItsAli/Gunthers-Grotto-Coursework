@@ -35,13 +35,9 @@ func get_camera():
 # Determines the player's facing direction based on the mouse position
 func determine_facing():
 	var facing_before = facing
-	
-	var mouse_pos = get_local_mouse_position()
-	if -abs(mouse_pos.y) > mouse_pos.x: facing = Vector2.LEFT
-	elif abs(mouse_pos.y) < mouse_pos.x: facing = Vector2.RIGHT
-	elif -abs(mouse_pos.x) > mouse_pos.y: facing = Vector2.UP
-	else: facing = Vector2.DOWN
-	
+	# Mouse direction from the player is the same as its local position
+	var mouse_direction = get_local_mouse_position()
+	facing = Utils.approximate_direction_4_ways(mouse_direction)
 	# Render body sprite above item sprite if facing upwards
 	if facing != facing_before:
 		if facing == Vector2.UP: move_child(body_sprite, 1)

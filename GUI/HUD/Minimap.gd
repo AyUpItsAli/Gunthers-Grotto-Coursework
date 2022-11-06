@@ -31,34 +31,19 @@ func set_player_tile(new_tile_pos: Vector2):
 	player_tile_pos = new_tile_pos
 
 # Updates the player tile position displayed in the minimap
-func update_player_pos(new_player_pos: Vector2, ceiling: TileMap):
-	var new_tile_pos = ceiling.world_to_map(new_player_pos)
-	if new_tile_pos == player_tile_pos: return
-	
-	# If new tile is unobstructed, set player tile here
-	if ceiling.get_cell(new_tile_pos.x, new_tile_pos.y) == -1:
-		set_player_tile(new_tile_pos)
+func update_player_tile_pos(player_pos: Vector2, ceiling: TileMap):
+	var actual_tile_pos = ceiling.world_to_map(player_pos)
+	# Set player tile to the actual tile pos, if unobstructed
+	if ceiling.get_cell(actual_tile_pos.x, actual_tile_pos.y) == -1:
+		set_player_tile(actual_tile_pos)
 	else:
-		# If new tile is obstructed, get the centre pos of the new tile
-		var offset = Vector2.ONE * ceiling.cell_size / 2
-		var centre_pos = ceiling.map_to_world(new_tile_pos) + offset
-		
-		# Find the direction from the centre of the tile to the player
-		var direction = centre_pos.direction_to(new_player_pos)
-		
-		# Get the next tile in the estimated direction
-		var next_tile_pos: Vector2
-		if abs(direction.x) > abs(direction.y):
-			if direction.x < 0:
-				next_tile_pos = new_tile_pos + Vector2.LEFT
-			else:
-				next_tile_pos = new_tile_pos + Vector2.RIGHT
-		else:
-			if direction.y < 0:
-				next_tile_pos = new_tile_pos + Vector2.UP
-			else:
-				next_tile_pos = new_tile_pos + Vector2.DOWN
-		
-		# Set the player tile at the next tile pos instead
+		# If actual tile is obstructed, get the centre pos of the actual tile
+		var offset = Vector2.ONE * cell_size/2
+		var centre_pos = ceiling.map_to_world(actual_tile_pos) + offset
+		# Get the direction from the centre of the tile to the player
+		var direction = centre_pos.direction_to(player_pos)
+		# Approximate direction and get the next tile in that direction 
+		var next_tile_pos = actual_tile_pos + Utils.approximate_direction_4_ways(direction)
+		# Set player tile to the next tile pos instead, if unobstructed
 		if ceiling.get_cell(next_tile_pos.x, next_tile_pos.y) == -1:
 			set_player_tile(next_tile_pos)
