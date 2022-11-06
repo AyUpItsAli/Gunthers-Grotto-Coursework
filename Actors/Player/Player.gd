@@ -32,6 +32,9 @@ func _ready():
 func get_camera() -> Camera2D:
 	return get_node("Camera") as Camera2D
 
+func get_feet_position() -> Vector2:
+	return get_node("CollisionShape").global_position
+
 # Determines the player's facing direction based on the mouse position
 func determine_facing():
 	var facing_before = facing
