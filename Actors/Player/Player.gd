@@ -29,8 +29,8 @@ signal pickaxe_used # Emitted when the player uses their pickaxe
 func _ready():
 	$ScentTimer.connect("timeout", self, "leave_scent")
 
-func get_camera():
-	return get_node("Camera")
+func get_camera() -> Camera2D:
+	return get_node("Camera") as Camera2D
 
 # Determines the player's facing direction based on the mouse position
 func determine_facing():
