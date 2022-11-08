@@ -4,13 +4,12 @@ extends Control
 onready var version_label = $Version
 onready var play_button = $PlayButton
 onready var quit_button = $QuitButton
-onready var loading_screen = $LoadingScreen
 
 func _ready():
 	version_label.text = ProjectSettings.get_setting("application/config/name") + " " + Globals.PRODUCT_VERSION
-	loading_screen.color.a = 0 # Ensure the loading screen is transparent
 	play_button.connect("pressed", self, "on_play_button_pressed")
 	quit_button.connect("pressed", self, "on_quit_button_pressed")
+	LoadingScreen.animations.play("Fade_Out")
 
 func on_quit_button_pressed():
 	# Prevent the user from pressing the button again
@@ -24,9 +23,5 @@ func on_play_button_pressed():
 	# Reset game data, eg: score, health and inventory
 	GameManager.reset_game_data()
 	PlayerData.reset_player_data()
-	# Play loading screen animation
-	var animations = loading_screen.get_node("LoadingScreenAnimations")
-	animations.play("Fade_In")
-	yield(animations, "animation_finished")
 	# Load the main level scene
-	get_tree().change_scene("res://World/Level/Level.tscn")
+	LoadingScreen.load_scene("res://World/Level/Level.tscn")

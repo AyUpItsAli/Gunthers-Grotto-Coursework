@@ -1,92 +1,20 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Assets/GUI/Main Menu/Main_Menu_Background.png" type="Texture" id=1]
 [ext_resource path="res://Assets/GUI/Main Menu/Button_Quit_Pressed.png" type="Texture" id=2]
 [ext_resource path="res://Assets/GUI/Main Menu/Button_Play_Normal.png" type="Texture" id=3]
 [ext_resource path="res://Assets/GUI/Main Menu/Main_Menu_Title.png" type="Texture" id=4]
 [ext_resource path="res://Assets/GUI/Main Menu/Button_Play_Pressed.png" type="Texture" id=5]
-[ext_resource path="res://Assets/GUI/Cursor.png" type="Texture" id=6]
 [ext_resource path="res://GUI/MainMenu/MainMenu.gd" type="Script" id=7]
 [ext_resource path="res://Assets/GUI/Main Menu/Button_Quit_Normal.png" type="Texture" id=8]
 [ext_resource path="res://Assets/GUI/Main Menu/Button_Play_Hover.png" type="Texture" id=9]
 [ext_resource path="res://Assets/GUI/Main Menu/Button_Quit_Hover.png" type="Texture" id=10]
-[ext_resource path="res://GUI/HUD/Cursor.gd" type="Script" id=11]
 [ext_resource path="res://Assets/at01.ttf" type="DynamicFontData" id=12]
 
 [sub_resource type="DynamicFont" id=4]
 size = 48
 extra_spacing_top = -8
 font_data = ExtResource( 12 )
-
-[sub_resource type="Animation" id=1]
-length = 2.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-
-[sub_resource type="Animation" id=2]
-length = 1.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-
-[sub_resource type="Animation" id=3]
-length = 1.5
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rotation_degrees")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 0.0, 90.0 ]
-}
 
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
@@ -152,24 +80,3 @@ texture_disabled = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="LoadingScreen" type="ColorRect" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-color = Color( 0, 0, 0, 0 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LoadingScreenAnimations" type="AnimationPlayer" parent="LoadingScreen"]
-anims/Fade_In = SubResource( 1 )
-anims/Fade_Out = SubResource( 2 )
-
-[node name="Cursor" type="Sprite" parent="."]
-scale = Vector2( 2, 2 )
-texture = ExtResource( 6 )
-script = ExtResource( 11 )
-
-[node name="CursorAnimations" type="AnimationPlayer" parent="Cursor"]
-anims/CursorIdle = SubResource( 3 )
