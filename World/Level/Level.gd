@@ -18,7 +18,7 @@ func _ready():
 func _process(delta):
 	if objects.player_exists():
 		var player_pos = objects.get_player().position
-		minimap.update_player_pos(player_pos, ceiling)
+		minimap.update_player_tile_pos(player_pos, ceiling)
 
 # Generates a new level
 func generate_level():

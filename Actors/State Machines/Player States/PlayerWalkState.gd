@@ -40,6 +40,6 @@ func take_damage(attacker, damage: int):
 func leave_scent():
 	var scent = PLAYER_SCENT.instance()
 	scent.player = player
-	scent.position = player.position
+	scent.position = player.get_feet_position()
 	player.get_parent().add_child(scent)
 	player.scent_trail.push_front(scent)

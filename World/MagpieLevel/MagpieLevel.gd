@@ -39,7 +39,7 @@ func _ready():
 	level_title.add_title_to_queue("The Magpie")
 
 func _process(delta):
-	minimap.update_player_pos(player.position, ceiling)
+	minimap.update_player_tile_pos(player.position, ceiling)
 
 # Called when the player enters the CaveExit detection radius
 func on_player_exited_cave():
