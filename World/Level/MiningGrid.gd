@@ -34,10 +34,13 @@ func select_tile(tile_pos: Vector2):
 	selected_tile = tile_pos
 	tile_selected = true
 
+func is_solid_tile(x, y):
+	return ceiling.get_cell(x, y) != -1
+
 func get_player_tile_pos() -> Vector2:
 	var actual_tile_pos = world_to_map(player.position)
-	# Return the actual tile pos, if unobstructed
-	if ceiling.get_cell(actual_tile_pos.x, actual_tile_pos.y) == -1:
+	# Return the actual tile pos, if it's not solid
+	if not is_solid_tile(actual_tile_pos.x, actual_tile_pos.y):
 		player_tile = actual_tile_pos
 	else:
 		# If actual tile is obstructed, get the centre pos of the actual tile
@@ -47,8 +50,8 @@ func get_player_tile_pos() -> Vector2:
 		var direction = centre_pos.direction_to(player.position)
 		# Approximate direction and get the next tile in that direction 
 		var next_tile_pos = actual_tile_pos + Utils.approximate_direction_4_ways(direction)
-		# Return the next tile pos instead, if unobstructed
-		if ceiling.get_cell(next_tile_pos.x, next_tile_pos.y) == -1:
+		# Return the next tile pos instead, if it's not solid
+		if not is_solid_tile(next_tile_pos.x, next_tile_pos.y):
 			player_tile = next_tile_pos
 	return player_tile
 
@@ -58,18 +61,26 @@ func update_selected_tile():
 	var direction = Utils.approximate_direction_8_ways(player_tile_pos.direction_to(mouse_tile_pos))
 	var tile_pos = player_tile_pos + direction
 	
-	var obstructed = ceiling.get_cell(tile_pos.x, tile_pos.y) != -1
-	
+	# Check if the tile is out of bounds
+	var out_of_bounds = (1 > tile_pos.x or tile_pos.x >= Globals.CAVE_SIZE-1
+						or 1 > tile_pos.y or tile_pos.y >= Globals.CAVE_SIZE-1)
+	# Check if the tile is solid (otherwise there is nothing to mine)
+	var solid = is_solid_tile(tile_pos.x, tile_pos.y)
+	# Check if the tile is blocked from the player by its neighbouring tiles
+	var blocked = (is_solid_tile(tile_pos.x - direction.x, tile_pos.y)
+					and is_solid_tile(tile_pos.x, tile_pos.y - direction.y))
+	# Get the closest edge or vertex of the tile,
+	# and store the distance from the player to this point
 	var offset = (Vector2.ONE - direction.normalized()) * cell_size/2
-	var closest_point = map_to_world(tile_pos) + offset
-	var distance = player.position.distance_to(closest_point)
+	var closest_edge_or_vertex = map_to_world(tile_pos) + offset
+	var distance = player.position.distance_to(closest_edge_or_vertex)
 	
-	var out_of_bounds_x = 1 > tile_pos.x or tile_pos.x >= Globals.CAVE_SIZE-1
-	var out_of_bounds_y = 1 > tile_pos.y or tile_pos.y >= Globals.CAVE_SIZE-1
-	
-	if obstructed and distance <= MAX_DISTANCE and not (out_of_bounds_x or out_of_bounds_y):
+	# If the tile is not out of bounds, solid, not blocked from the player,
+	# and the distance from the player to the closest edge or vertex is less
+	# than the maximum distance, the tile can be selected...
+	if not out_of_bounds and solid and not blocked and distance <= MAX_DISTANCE:
 		select_tile(tile_pos)
-	else:
+	else: # ... otherwise, ensure no tiles are selected
 		deselect_tile()
 
 func destroy_selected_tile():
