@@ -56,9 +56,14 @@ func get_player_tile_pos() -> Vector2:
 	return player_tile
 
 func update_selected_tile():
-	var mouse_tile_pos = world_to_map(player.get_global_mouse_position())
+	# Get the player's current tile pos and the tile hovered over by the mouse
 	var player_tile_pos = get_player_tile_pos()
-	var direction = Utils.approximate_direction_8_ways(player_tile_pos.direction_to(mouse_tile_pos))
+	var mouse_tile_pos = world_to_map(get_global_mouse_position())
+	# Get the direction from the current tile to the hovered over tile
+	var exact_direction = player_tile_pos.direction_to(mouse_tile_pos)
+	var direction = Utils.approximate_direction_8_ways(exact_direction)
+	# Get the next tile in this direction.
+	# This is the tile the user wants to select.
 	var tile_pos = player_tile_pos + direction
 	
 	# Check if the tile is out of bounds
