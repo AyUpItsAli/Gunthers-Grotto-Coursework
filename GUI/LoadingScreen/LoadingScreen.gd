@@ -2,12 +2,19 @@ extends CanvasLayer
 
 onready var background: ColorRect = $Background
 onready var background_animations: AnimationPlayer = $Background/Animations
+onready var cursor: Sprite = $Cursor
+onready var cursor_animations: AnimationPlayer = $Cursor/Animations
 
 onready var current_scene: Node = get_parent().get_child(get_parent().get_child_count() - 1)
 var loading_thread := Thread.new()
 
 func _ready():
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	background.visible = false
+	cursor_animations.play("Cursor_Spinning")
+
+func _process(delta):
+	cursor.position = get_viewport().get_mouse_position()
 
 func is_showing():
 	return background.visible

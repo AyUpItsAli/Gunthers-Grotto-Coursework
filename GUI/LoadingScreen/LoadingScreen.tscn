@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://GUI/LoadingScreen/LoadingScreen.gd" type="Script" id=1]
-[ext_resource path="res://GUI/HUD/Cursor.gd" type="Script" id=2]
 [ext_resource path="res://Assets/GUI/Cursor.png" type="Texture" id=3]
 
 [sub_resource type="Animation" id=1]
@@ -58,6 +57,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id=3]
+resource_name = "Cursor_Spinning"
 length = 1.5
 loop = true
 tracks/0/type = "value"
@@ -90,7 +90,6 @@ anims/Fade_Out = SubResource( 2 )
 [node name="Cursor" type="Sprite" parent="."]
 scale = Vector2( 2, 2 )
 texture = ExtResource( 3 )
-script = ExtResource( 2 )
 
-[node name="CursorAnimations" type="AnimationPlayer" parent="Cursor"]
-anims/CursorIdle = SubResource( 3 )
+[node name="Animations" type="AnimationPlayer" parent="Cursor"]
+anims/Cursor_Spinning = SubResource( 3 )
