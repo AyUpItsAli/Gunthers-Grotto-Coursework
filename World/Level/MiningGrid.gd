@@ -24,13 +24,13 @@ func _process(delta):
 		deselect_tile()
 
 func deselect_tile():
-	set_cell(selected_tile.x, selected_tile.y, -1)
+	set_cellv(selected_tile, -1)
 	selected_tile = Vector2.ZERO
 	tile_selected = false
 
 func select_tile(tile_pos: Vector2):
-	set_cell(selected_tile.x, selected_tile.y, -1)
-	set_cell(tile_pos.x, tile_pos.y, SELECTED)
+	set_cellv(selected_tile, -1)
+	set_cellv(tile_pos, SELECTED)
 	selected_tile = tile_pos
 	tile_selected = true
 

@@ -26,15 +26,15 @@ func update_minimap(walls: TileMap):
 # Sets the previous tile position to GROUND tile 
 # and the new tile position to PLAYER tile
 func set_player_tile(new_tile_pos: Vector2):
-	if player_tile_pos: set_cell(player_tile_pos.x, player_tile_pos.y, GROUND)
-	set_cell(new_tile_pos.x, new_tile_pos.y, PLAYER)
+	if player_tile_pos: set_cellv(player_tile_pos, GROUND)
+	set_cellv(new_tile_pos, PLAYER)
 	player_tile_pos = new_tile_pos
 
 # Updates the player tile position displayed in the minimap
 func update_player_tile_pos(player_pos: Vector2, ceiling: TileMap):
 	var actual_tile_pos = ceiling.world_to_map(player_pos)
 	# Set player tile to the actual tile pos, if unobstructed
-	if ceiling.get_cell(actual_tile_pos.x, actual_tile_pos.y) == -1:
+	if ceiling.get_cellv(actual_tile_pos) == -1:
 		set_player_tile(actual_tile_pos)
 	else:
 		# If actual tile is obstructed, get the centre pos of the actual tile
@@ -45,5 +45,5 @@ func update_player_tile_pos(player_pos: Vector2, ceiling: TileMap):
 		# Approximate direction and get the next tile in that direction 
 		var next_tile_pos = actual_tile_pos + Utils.approximate_direction_4_ways(direction)
 		# Set player tile to the next tile pos instead, if unobstructed
-		if ceiling.get_cell(next_tile_pos.x, next_tile_pos.y) == -1:
+		if ceiling.get_cellv(next_tile_pos) == -1:
 			set_player_tile(next_tile_pos)
