@@ -20,13 +20,10 @@ func is_showing():
 	return background.visible
 
 func show():
-	# TODO: Better solution for when loading screen is already showing
-	if is_showing(): return yield(get_tree(), "idle_frame")
 	background_animations.play("Fade_In")
 	yield(background_animations, "animation_finished")
 
 func hide():
-	if not is_showing(): return yield(get_tree(), "idle_frame")
 	background_animations.play("Fade_Out")
 	yield(background_animations, "animation_finished")
 

@@ -18,7 +18,9 @@ func _ready():
 	generate_new_level()
 
 func generate_new_level():
-	yield(LoadingScreen.show(), "completed")
+	if generation_thread.is_active(): return
+	if not LoadingScreen.is_showing():
+		yield(LoadingScreen.show(), "completed")
 	
 	# Randomise the rng / seed
 	GameManager.rng.randomize()
@@ -68,7 +70,8 @@ func _generate_new_level():
 
 func post_generation():
 	generation_thread.wait_to_finish()
-	yield(LoadingScreen.hide(), "completed")
+	if LoadingScreen.is_showing():
+		yield(LoadingScreen.hide(), "completed")
 	GameManager.increase_cave_depth()
 	level_title.add_title_to_queue("Cave Depth\n" + str(GameManager.cave_depth))
 

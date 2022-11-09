@@ -27,7 +27,8 @@ func _ready():
 	camera.limit_right = (rect.position.x + rect.size.x - 1) * Globals.CAVE_TILE_SIZE
 	camera.limit_bottom = (rect.position.y + rect.size.y - 1) * Globals.CAVE_TILE_SIZE
 	
-	yield(LoadingScreen.hide(), "completed")
+	if LoadingScreen.is_showing():
+		yield(LoadingScreen.hide(), "completed")
 	level_title.add_title_to_queue("The Magpie")
 
 func _process(delta):

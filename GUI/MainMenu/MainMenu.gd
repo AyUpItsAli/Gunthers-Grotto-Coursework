@@ -9,17 +9,16 @@ func _ready():
 	version_label.text = ProjectSettings.get_setting("application/config/name") + " " + Globals.PRODUCT_VERSION
 	play_button.connect("pressed", self, "on_play_button_pressed")
 	quit_button.connect("pressed", self, "on_quit_button_pressed")
-	LoadingScreen.hide()
+	if LoadingScreen.is_showing():
+		LoadingScreen.hide()
 
 func on_quit_button_pressed():
-	# Prevent the user from pressing the button again
-	quit_button.disabled = true
+	if LoadingScreen.is_showing(): return
 	# Close the program
 	get_tree().quit()
 
 func on_play_button_pressed():
-	# Prevent the user from pressing the button again
-	play_button.disabled = true
+	if LoadingScreen.is_showing(): return
 	# Reset game data, eg: score, health and inventory
 	GameManager.reset_game_data()
 	PlayerData.reset_player_data()
