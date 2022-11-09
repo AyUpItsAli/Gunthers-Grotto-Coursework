@@ -78,7 +78,7 @@ func post_generation():
 func _process(delta):
 	if objects.player_exists():
 		var player_pos = objects.get_player().position
-		minimap.update_player_pos(player_pos, ceiling)
+		minimap.update_player_tile_pos(player_pos, ceiling)
 
 # Called when the player enters the CaveExit detection radius
 func on_player_exited_cave():
