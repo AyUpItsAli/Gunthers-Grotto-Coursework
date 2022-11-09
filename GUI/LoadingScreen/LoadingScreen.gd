@@ -1,26 +1,40 @@
 extends CanvasLayer
 
 onready var background: ColorRect = $Background
-onready var animations: AnimationPlayer = $Animations
-onready var current_scene = get_parent().get_child(get_parent().get_child_count() - 1)
+onready var background_animations: AnimationPlayer = $Background/Animations
 
+onready var current_scene: Node = get_parent().get_child(get_parent().get_child_count() - 1)
 var loading_thread := Thread.new()
 
-func load_scene(path):
+func _ready():
+	background.visible = false
+
+func is_showing():
+	return background.visible
+
+func show():
+	# TODO: Better solution for when loading screen is already showing
+	if is_showing(): return yield(get_tree(), "idle_frame")
+	background_animations.play("Fade_In")
+	yield(background_animations, "animation_finished")
+
+func hide():
+	if not is_showing(): return yield(get_tree(), "idle_frame")
+	background_animations.play("Fade_Out")
+	yield(background_animations, "animation_finished")
+
+func change_scene(scene_path):
 	if loading_thread.is_active(): return
-	animations.play("Fade_In")
-	yield(animations, "animation_finished")
-	loading_thread.start(self, "_load_scene", path)
-
-# Called on the loading thread
-func _load_scene(path):
+	yield(show(), "completed")
 	current_scene.queue_free()
-	var scene = ResourceLoader.load(path).instance()
-	call_deferred("post_scene_loaded")
-	return scene
+	loading_thread.start(self, "_load_scene_resource", scene_path)
 
-# Called on the main thread,
-# after the loading thread has finished loading the scene
-func post_scene_loaded():
-	current_scene = loading_thread.wait_to_finish()
+func _load_scene_resource(scene_path):
+	var scene_resource = ResourceLoader.load(scene_path)
+	call_deferred("instanciate_new_scene")
+	return scene_resource
+
+func instanciate_new_scene():
+	var scene_resource = loading_thread.wait_to_finish()
+	current_scene = scene_resource.instance()
 	get_node("/root").add_child(current_scene)

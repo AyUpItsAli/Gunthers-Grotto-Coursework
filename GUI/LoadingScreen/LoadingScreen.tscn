@@ -31,7 +31,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id=2]
-length = 1.5
+length = 2.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Background:color")
 tracks/0/interp = 1
@@ -39,10 +39,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 1, 2.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Background:visible")
@@ -51,7 +51,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1 ),
+"times": PoolRealArray( 0, 2.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -82,7 +82,8 @@ anchor_bottom = 1.0
 mouse_filter = 2
 color = Color( 0, 0, 0, 0 )
 
-[node name="Animations" type="AnimationPlayer" parent="."]
+[node name="Animations" type="AnimationPlayer" parent="Background"]
+root_node = NodePath("../..")
 anims/Fade_In = SubResource( 1 )
 anims/Fade_Out = SubResource( 2 )
 

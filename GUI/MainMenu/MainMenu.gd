@@ -9,7 +9,7 @@ func _ready():
 	version_label.text = ProjectSettings.get_setting("application/config/name") + " " + Globals.PRODUCT_VERSION
 	play_button.connect("pressed", self, "on_play_button_pressed")
 	quit_button.connect("pressed", self, "on_quit_button_pressed")
-	LoadingScreen.animations.play("Fade_Out")
+	LoadingScreen.hide()
 
 func on_quit_button_pressed():
 	# Prevent the user from pressing the button again
@@ -24,4 +24,4 @@ func on_play_button_pressed():
 	GameManager.reset_game_data()
 	PlayerData.reset_player_data()
 	# Load the main level scene
-	LoadingScreen.load_scene("res://World/Level/Level.tscn")
+	LoadingScreen.change_scene("res://World/Level/Level.tscn")

@@ -27,8 +27,7 @@ func _ready():
 	camera.limit_right = (rect.position.x + rect.size.x - 1) * Globals.CAVE_TILE_SIZE
 	camera.limit_bottom = (rect.position.y + rect.size.y - 1) * Globals.CAVE_TILE_SIZE
 	
-	LoadingScreen.animations.play("Fade_Out")
-	yield(LoadingScreen.animations, "animation_finished")
+	yield(LoadingScreen.hide(), "completed")
 	level_title.add_title_to_queue("The Magpie")
 
 func _process(delta):
@@ -36,4 +35,4 @@ func _process(delta):
 
 # Called when the player enters the CaveExit detection radius
 func on_player_exited_cave():
-	LoadingScreen.load_scene("res://World/Level/Level.tscn")
+	LoadingScreen.change_scene("res://World/Level/Level.tscn")
