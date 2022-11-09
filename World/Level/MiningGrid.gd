@@ -43,7 +43,7 @@ func get_player_tile_pos() -> Vector2:
 	if not is_solid_tile(actual_tile_pos.x, actual_tile_pos.y):
 		player_tile = actual_tile_pos
 	else:
-		# If actual tile is obstructed, get the centre pos of the actual tile
+		# If actual tile is solid, get the centre pos of the actual tile
 		var offset = Vector2.ONE * cell_size / 2
 		var centre_pos = map_to_world(actual_tile_pos) + offset
 		# Get the direction from the centre of the tile to the player
