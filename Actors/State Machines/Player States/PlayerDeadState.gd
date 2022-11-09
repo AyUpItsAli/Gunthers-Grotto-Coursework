@@ -14,4 +14,4 @@ func enter(ctx: Dictionary = {}):
 	player.scent_trail.clear()
 	# Pause after dying, then load the game over screen
 	yield(get_tree().create_timer(WAIT_TIME_AFTER_DEATH), "timeout")
-	get_tree().change_scene("res://GUI/GameOverScreen/GameOverScreen.tscn")
+	LoadingScreen.change_scene("res://GUI/GameOverScreen/GameOverScreen.tscn")

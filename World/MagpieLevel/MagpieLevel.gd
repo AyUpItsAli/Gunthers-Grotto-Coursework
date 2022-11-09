@@ -9,14 +9,9 @@ onready var ceiling = $Ceiling
 # HUD
 onready var minimap = $HUD/UI/Minimap
 onready var level_title = $HUD/UI/LevelTitle
-onready var loading_screen = $HUD/LoadingScreen
 
 func _ready():
 	cave_exit.connect("player_entered", self, "on_player_exited_cave")
-	
-	# Ensure the loading screen is visible and fully opaque
-	loading_screen.visible = true
-	loading_screen.color.a = 1
 	
 	# Reset the number of caves since the magpie level spawned
 	GameManager.caves_since_magpie = 0
@@ -32,10 +27,8 @@ func _ready():
 	camera.limit_right = (rect.position.x + rect.size.x - 1) * Globals.CAVE_TILE_SIZE
 	camera.limit_bottom = (rect.position.y + rect.size.y - 1) * Globals.CAVE_TILE_SIZE
 	
-	# Fade out the loading screen
-	var animations = loading_screen.get_node("LoadingScreenAnimations")
-	animations.play("Fade_Out")
-	yield(animations, "animation_finished")
+	if LoadingScreen.is_showing():
+		yield(LoadingScreen.hide(), "completed")
 	level_title.add_title_to_queue("The Magpie")
 
 func _process(delta):
@@ -43,8 +36,4 @@ func _process(delta):
 
 # Called when the player enters the CaveExit detection radius
 func on_player_exited_cave():
-	if not loading_screen.visible:
-		var animations = loading_screen.get_node("LoadingScreenAnimations")
-		animations.play("Fade_In")
-		yield(animations, "animation_finished")
-		get_tree().change_scene("res://World/Level/Level.tscn")
+	LoadingScreen.change_scene("res://World/Level/Level.tscn")

@@ -1,12 +1,10 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Assets/GUI/Game Over Screen/Game_Over_Screen_Background.png" type="Texture" id=1]
 [ext_resource path="res://Assets/GUI/Game Over Screen/Game_Over_Screen_Title.png" type="Texture" id=2]
 [ext_resource path="res://Assets/GUI/Game Over Screen/Button_Menu_Hover.png" type="Texture" id=3]
 [ext_resource path="res://Assets/GUI/Game Over Screen/Button_Menu_Pressed.png" type="Texture" id=4]
 [ext_resource path="res://Assets/GUI/Game Over Screen/Button_Menu_Normal.png" type="Texture" id=5]
-[ext_resource path="res://Assets/GUI/Cursor.png" type="Texture" id=6]
-[ext_resource path="res://GUI/HUD/Cursor.gd" type="Script" id=7]
 [ext_resource path="res://Assets/at01.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://GUI/GameOverScreen/GameOverScreen.gd" type="Script" id=9]
 [ext_resource path="res://Assets/GUI/Game Over Screen/Game_Over_Screen_Final_Score.png" type="Texture" id=10]
@@ -15,22 +13,6 @@
 size = 96
 extra_spacing_top = -8
 font_data = ExtResource( 8 )
-
-[sub_resource type="Animation" id=3]
-length = 1.5
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rotation_degrees")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 0.0, 90.0 ]
-}
 
 [node name="GameOverScreen" type="Control"]
 anchor_right = 1.0
@@ -94,11 +76,3 @@ texture_disabled = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Cursor" type="Sprite" parent="."]
-scale = Vector2( 2, 2 )
-texture = ExtResource( 6 )
-script = ExtResource( 7 )
-
-[node name="CursorAnimations" type="AnimationPlayer" parent="Cursor"]
-anims/CursorIdle = SubResource( 3 )
