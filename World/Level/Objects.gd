@@ -138,27 +138,41 @@ func spawn_player():
 	
 	add_child(player)
 
-# Returns whether the given tile position is a valid spawning location for the
-# cave exit, using the given player position
-func is_valid_cave_exit_pos(cave_exit_pos: Vector2, player_pos: Vector2) -> bool:
-	if cave_exit_pos.distance_to(player_pos) < (Globals.CAVE_SIZE / 2):
-		return false
-	# Loop through all x and y offsets (-1, 0 and 1)
+# Returns whether the given tile pos is a valid spawning location for the cave exit.
+# All tiles in a 3x3 grid should be unoccupied, as the cave exit is a large object
+func is_valid_cave_exit_pos(tile_pos: Vector2) -> bool:
 	for x in range(-1, 2, 1):
 		for y in range(-1, 2, 1):
-			# Don't count (0,0) as this is the original cave exit pos
-			if not (x == 0 and y == 0):
-				var offset = Vector2(x, y)
-				if not is_unoccupied(cave_exit_pos + offset):
-					return false
+			var offset = Vector2(x, y)
+			if not is_unoccupied(tile_pos + offset):
+				return false
 	return true
 
 # Returns a random tile position that is valid for spawning the cave exit
 func get_random_cave_exit_pos(player_pos: Vector2) -> Vector2:
-	var cave_exit_pos = get_random_unoccupied_tile_pos()
-	while not is_valid_cave_exit_pos(cave_exit_pos, player_pos):
-		cave_exit_pos = get_random_unoccupied_tile_pos()
-	return cave_exit_pos
+	var furthest_valid_tile: Vector2
+	var furthest_distance: float
+	var valid_tiles = [] # List of tiles that are far enough away from the player
+	
+	var rect = walls.get_used_rect()
+	for x in range(rect.position.x, rect.position.x+rect.size.x):
+		for y in range(rect.position.y, rect.position.y+rect.size.y):
+			var tile_pos = Vector2(x, y)
+			if not is_valid_cave_exit_pos(tile_pos): # Tile must be valid
+				continue
+			var distance = player_pos.distance_to(tile_pos)
+			if distance > furthest_distance:
+				furthest_valid_tile = tile_pos
+				furthest_distance = distance
+			# Idealy, the tile must be at least half the width of the map away
+			# If no tiles meet this criteria, the furthest tile will be picked (see below)
+			if distance >= Globals.CAVE_SIZE/2:
+				valid_tiles.append(tile_pos)
+	# If there ARE tiles far enough away, pick a random one...
+	if valid_tiles:
+		return GameManager.choose_from(valid_tiles)
+	else: # ...otherwise pick the furthest tile possible
+		return furthest_valid_tile
 
 # Spawns the cave exit at a random position, a certain distance from the player
 func spawn_cave_exit():
