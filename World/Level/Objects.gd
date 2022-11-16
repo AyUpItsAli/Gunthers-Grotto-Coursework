@@ -82,8 +82,8 @@ func spawn_stalagmite_cluster():
 	if hermit_cluster: spawn_rock_hermit(origin_pos)
 	else: spawn_stalagmite(origin_pos)
 	
-	for i in range(-1, 2, 1):
-		for j in range(-1, 2, 1):
+	for i in range(-1, 2):
+		for j in range(-1, 2):
 			if not (i == 0 and j == 0):
 				var tile_pos = Vector2(origin_pos.x+i, origin_pos.y+j)
 				var do_spawn = GameManager.percent_chance(CLUSTER_CHANCE)
@@ -179,8 +179,8 @@ func spawn_cave_exit():
 	var player_pos = walls.world_to_map(get_player().position)
 	var cave_exit_pos = get_random_cave_exit_pos(player_pos)
 	cave_exit.position = tile_pos_to_world_pos(cave_exit_pos)
-	for x in range(-1, 2, 1):
-		for y in range(-1, 2, 1):
+	for x in range(-1, 2):
+		for y in range(-1, 2):
 			var offset = Vector2(x, y)
 			occupied_tiles.append(cave_exit_pos + offset)
 	cave_exit.connect("player_entered", level, "on_player_exited_cave")

@@ -22,8 +22,8 @@ func initialise_walls_layer():
 func num_wall_neighbours(tile_x, tile_y) -> int:
 	var count = 0
 	# Loop through all x and y offsets (-1, 0 and 1)
-	for i in range(-1, 2, 1):
-		for j in range(-1, 2, 1):
+	for i in range(-1, 2):
+		for j in range(-1, 2):
 			# Don't count (0,0) as this is the original tile
 			if not (i == 0 and j == 0):
 				var x = tile_x+i
