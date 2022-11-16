@@ -10,8 +10,9 @@ func percent_chance(chance: float, rng: RandomNumberGenerator = null) -> bool:
 	return rng.randf_range(0, 99) < chance if rng else rand_range(0, 99) < chance
 
 # Returns a random element from the given array
-func choose_from(array: Array):
-	return array[randi() % array.size()]
+# Uses the specified random number generator, if given
+func choose_from(array: Array, rng: RandomNumberGenerator = null):
+	return array[rng.randi() % array.size()] if rng else array[randi() % array.size()]
 
 # Approximates the given vector in 4 directions:
 # RIGHT, DOWN, LEFT and UP
