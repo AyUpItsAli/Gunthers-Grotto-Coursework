@@ -41,7 +41,7 @@ func is_wall(tile_pos: Vector2):
 # Returns whether the given tile coordinates are unoccupied
 # Used to validate: Objects on the ground
 func is_unoccupied(tile_pos: Vector2):
-	if is_wall(tile_pos): return false
+	if is_wall(tile_pos) or is_wall(tile_pos + Vector2.UP): return false
 	if tile_pos in occupied_tiles: return false
 	return true
 
@@ -139,14 +139,11 @@ func spawn_player():
 	add_child(player)
 
 # Returns whether the given tile pos is a valid spawning location for the cave exit.
-# All tiles in a 3x3 grid should be unoccupied, as the cave exit is a large object
+# Tiles to the left and right should also be unoccupied, as the cave exit is a large object
 func is_valid_cave_exit_pos(tile_pos: Vector2) -> bool:
-	for x in range(-1, 2, 1):
-		for y in range(-1, 2, 1):
-			var offset = Vector2(x, y)
-			if not is_unoccupied(tile_pos + offset):
-				return false
-	return true
+	return (is_unoccupied(tile_pos) and
+			is_unoccupied(tile_pos + Vector2.LEFT) and
+			is_unoccupied(tile_pos + Vector2.RIGHT))
 
 # Returns a random tile position that is valid for spawning the cave exit
 func get_random_cave_exit_pos(player_pos: Vector2) -> Vector2:
