@@ -1,7 +1,6 @@
 extends Node2D
 
 # Node references
-onready var minimap = $Minimap
 onready var health_bar = $HealthBar
 onready var health_bar_sprite = $HealthBar/BaseSprite
 onready var inventory_display = $InventoryDisplay
@@ -10,10 +9,6 @@ onready var debug_inv_line = $DebugInvLine
 
 # Space between UI elements. Scales with the size of the viewport.
 const PADDING = 2
-# Maximum percentage of the viewport's WIDTH that the minimap can occupy
-const MINIMAP_MAX_WIDTH_PERCENTAGE = 25
-# Maximum percentage of the viewport's HEIGHT that the minimap can occupy
-const MINIMAP_MAX_HEIGHT_PERCENTAGE = 25
 # Maximum percentage of the viewport's WIDTH that the health bar can occupy
 const HEALTH_BAR_MAX_WIDTH_PERCENTAGE = 25
 # Maximum percentage of the viewport's HEIGHT that the health bar can occupy
@@ -29,10 +24,6 @@ const LEVEL_TITLE_MAX_HEIGHT_PERCENTAGE = 15
 # Viewport dimensions
 var viewport_width: float
 var viewport_height: float
-
-# Minimap dimensions
-var minimap_width: float
-var minimap_height: float
 
 # Health bar dimensions
 var hb_width: float
@@ -59,41 +50,11 @@ func update_ui():
 	viewport_width = get_viewport_rect().size.x
 	viewport_height = get_viewport_rect().size.y
 	padding = viewport_width * (PADDING / 100.0)
-	set_minimap_dimensions()
 	set_health_bar_dimensions()
 	set_inventory_display_dimensions()
 	center_health_bar_against_inventory()
 	set_level_title_dimensions()
 	rearrange_item_displays()
-
-# Sets the minimap's dimensions, based on the size of the viewport
-func set_minimap_dimensions():
-	if not minimap.get_used_cells(): return
-	var rect = minimap.get_used_rect()
-	# Determine the maximum dimensions
-	var max_width = viewport_width * (MINIMAP_MAX_WIDTH_PERCENTAGE / 100.0)
-	var max_height = viewport_height * (MINIMAP_MAX_HEIGHT_PERCENTAGE / 100.0)
-	# Calculate local dimensions
-	var local_width = rect.size.x * minimap.cell_size.x
-	var local_height = rect.size.y * minimap.cell_size.y
-	# Determine maximum scales
-	var max_x_scale = max_width / local_width
-	var max_y_scale = max_height / local_height
-	# Pick the smallest scale, as to not exceed either of them
-	var map_scale = min(max_x_scale, max_y_scale)
-	# Set the scale
-	minimap.scale.x = map_scale
-	minimap.scale.y = map_scale
-	# Set global variables
-	minimap_width = local_width * map_scale
-	minimap_height = local_height * map_scale
-	# Calculate x and y offsets
-	var x_offset = rect.position.x * minimap.cell_size.x * map_scale
-	var y_offset = rect.position.y * minimap.cell_size.y * map_scale
-	# Set the position of the minimap to the top right,
-	# with padding applied
-	minimap.position.x = viewport_width - minimap_width - x_offset - padding
-	minimap.position.y = padding - y_offset
 
 # Sets the health bar's dimensions, based on the size of the viewport
 func set_health_bar_dimensions():

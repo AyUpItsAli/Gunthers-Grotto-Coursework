@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Minimap_Tileset.png-2cefbc7938d1d56ad824b56047d7b75b.stex"
+path="res://.import/Map_Tileset.png-61254674cc12a5181c5c7b15cb666dbc.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/GUI/Minimap_Tileset.png"
-dest_files=[ "res://.import/Minimap_Tileset.png-2cefbc7938d1d56ad824b56047d7b75b.stex" ]
+source_file="res://Assets/GUI/Map_Tileset.png"
+dest_files=[ "res://.import/Map_Tileset.png-61254674cc12a5181c5c7b15cb666dbc.stex" ]
 
 [params]
 
@@ -28,6 +28,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true
