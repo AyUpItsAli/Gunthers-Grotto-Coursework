@@ -11,7 +11,7 @@ onready var minimap = $HUD/UI/Minimap
 onready var level_title = $HUD/UI/LevelTitle
 
 func _ready():
-	cave_exit.connect("player_entered", self, "on_player_exited_cave")
+	player.connect("exited_cave", self, "on_player_exited_cave")
 	
 	# Reset the number of caves since the magpie level spawned
 	GameManager.caves_since_magpie = 0
