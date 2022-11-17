@@ -25,6 +25,7 @@ var equipped = Tools.PICKAXE
 var scent_trail = []
 
 signal pickaxe_used # Emitted when the player uses their pickaxe
+signal exited_cave # Emitted when the player exits the current cave
 
 func _ready():
 	$ScentTimer.connect("timeout", self, "leave_scent")
@@ -70,3 +71,6 @@ func clear_scent_trail():
 	for scent in scent_trail:
 		scent.queue_free()
 	scent_trail.clear()
+
+func exit_cave(exit_pos: Vector2):
+	main_state_machine.enter_state("ExitCave", {"exit_pos":exit_pos})

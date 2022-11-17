@@ -20,6 +20,11 @@ _global_script_classes=[ {
 "path": "res://Actors/State Machines/Player States/PlayerDeadState.gd"
 }, {
 "base": "PlayerState",
+"class": "PlayerExitCaveState",
+"language": "GDScript",
+"path": "res://Actors/State Machines/Player States/PlayerExitCaveState.gd"
+}, {
+"base": "PlayerState",
 "class": "PlayerIdleState",
 "language": "GDScript",
 "path": "res://Actors/State Machines/Player States/PlayerIdleState.gd"
@@ -87,6 +92,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "Player": "",
 "PlayerDeadState": "",
+"PlayerExitCaveState": "",
 "PlayerIdleState": "",
 "PlayerInteractState": "",
 "PlayerNoActionState": "",

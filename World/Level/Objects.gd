@@ -158,6 +158,8 @@ func spawn_player():
 	camera.limit_right = Globals.CAVE_SIZE * Globals.CAVE_TILE_SIZE
 	camera.limit_bottom = Globals.CAVE_SIZE * Globals.CAVE_TILE_SIZE
 	
+	player.connect("exited_cave", level, "on_player_exited_cave")
+	
 	add_child(player)
 
 # Returns whether the given tile pos is a valid spawning location for the cave exit.
@@ -205,7 +207,6 @@ func spawn_cave_exit():
 		for y in range(-1, 2):
 			var offset = Vector2(x, y)
 			occupied_tiles.append(cave_exit_pos + offset)
-	cave_exit.connect("player_entered", level, "on_player_exited_cave")
 	add_child(cave_exit)
 
 # Called by the walls tilemap when a wall tile is destroyed.

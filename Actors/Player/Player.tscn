@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Assets/Actors/Player/Player_Sprite_Sheet.png" type="Texture" id=1]
 [ext_resource path="res://Actors/Player/Player.gd" type="Script" id=2]
@@ -23,6 +23,7 @@
 [ext_resource path="res://Actors/State Machines/Player States/PlayerDeadState.gd" type="Script" id=21]
 [ext_resource path="res://Actors/State Machines/Player States/PlayerNoActionState.gd" type="Script" id=22]
 [ext_resource path="res://Actors/SoftCollision.tscn" type="PackedScene" id=23]
+[ext_resource path="res://Actors/State Machines/Player States/PlayerExitCaveState.gd" type="Script" id=24]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 4.0
@@ -118,6 +119,9 @@ script = ExtResource( 17 )
 
 [node name="Walk" type="Node" parent="MainStateMachine"]
 script = ExtResource( 20 )
+
+[node name="ExitCave" type="Node" parent="MainStateMachine"]
+script = ExtResource( 24 )
 
 [node name="Dead" type="Node" parent="MainStateMachine"]
 script = ExtResource( 21 )

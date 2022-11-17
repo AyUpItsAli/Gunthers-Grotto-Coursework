@@ -3,6 +3,7 @@ extends PlayerState
 
 func handle_input(event):
 	if player.main_state_machine.is_state("Dead"): return
+	if player.main_state_machine.is_state("ExitCave"): return
 	
 	if event.is_action_pressed("equip_pickaxe"):
 		player.equip(player.Tools.PICKAXE)
