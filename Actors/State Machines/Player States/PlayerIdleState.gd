@@ -2,9 +2,8 @@ class_name PlayerIdleState
 extends PlayerState
 
 func update(delta):
-	player.determine_facing()
-	var mouse_pos = player.get_global_mouse_position()
-	player.hurtbox.look_at(mouse_pos)
+	player.set_facing_towards(player.get_local_mouse_position())
+	player.hurtbox.look_at(player.get_global_mouse_position())
 	if player.action_state_machine.is_state("NoAction"):
 		match player.facing:
 			Vector2.UP: player.animations.play("Idle_Up")

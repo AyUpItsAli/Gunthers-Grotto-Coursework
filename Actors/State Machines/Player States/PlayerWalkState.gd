@@ -5,9 +5,8 @@ const MOVE_SPEED = 5000
 const PLAYER_SCENT = preload("res://Actors/Player/PlayerScent.tscn")
 
 func update(delta):
-	player.determine_facing()
-	var mouse_pos = player.get_global_mouse_position()
-	player.hurtbox.look_at(mouse_pos)
+	player.set_facing_towards(player.get_local_mouse_position())
+	player.hurtbox.look_at(player.get_global_mouse_position())
 	if player.action_state_machine.is_state("NoAction"):
 		match player.facing:
 			Vector2.UP: player.animations.play("Walk_Up")
