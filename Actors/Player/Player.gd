@@ -64,3 +64,9 @@ func take_damage(attacker, damage: int):
 # Called when scent timer times out
 func leave_scent():
 	main_state_machine.call_method("leave_scent")
+
+# Removes all scent trail nodes and clears the scent trail
+func clear_scent_trail():
+	for scent in scent_trail:
+		scent.queue_free()
+	scent_trail.clear()

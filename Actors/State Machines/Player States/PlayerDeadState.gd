@@ -9,9 +9,7 @@ func enter(ctx: Dictionary = {}):
 	player.body_sprite.visible = false
 	player.item_sprite.visible = false
 	# Clear scent trail
-	for scent in player.scent_trail:
-		scent.queue_free()
-	player.scent_trail.clear()
+	player.clear_scent_trail()
 	# Pause after dying, then load the game over screen
 	yield(get_tree().create_timer(WAIT_TIME_AFTER_DEATH), "timeout")
 	LoadingScreen.change_scene("res://GUI/GameOverScreen/GameOverScreen.tscn")
