@@ -42,13 +42,13 @@ collision_mask = 14
 script = ExtResource( 2 )
 
 [node name="BodySprite" type="Sprite" parent="."]
-position = Vector2( 0.5, -12 )
+position = Vector2( 0.5, -6.5 )
 texture = ExtResource( 1 )
 hframes = 6
 vframes = 8
 
 [node name="ItemSprite" type="Sprite" parent="."]
-position = Vector2( -7.5, 0.5 )
+position = Vector2( -7.5, 6 )
 texture = ExtResource( 11 )
 centered = false
 offset = Vector2( -18, -22 )
@@ -70,14 +70,14 @@ anims/Walk_Up = ExtResource( 5 )
 
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
 modulate = Color( 0, 0.6, 0.701961, 0.839216 )
+position = Vector2( 0, 5.5 )
 rotation = 1.5708
 shape = SubResource( 1 )
 
 [node name="SoftCollision" parent="." instance=ExtResource( 23 )]
-position = Vector2( 0, -4 )
+position = Vector2( 0, 1.5 )
 
 [node name="Hitbox" type="Area2D" parent="."]
-position = Vector2( 0, -5.5 )
 collision_layer = 16
 collision_mask = 256
 
@@ -86,7 +86,6 @@ modulate = Color( 0.0784314, 0.941176, 0.27451, 0.839216 )
 shape = SubResource( 2 )
 
 [node name="Hurtbox" type="Area2D" parent="."]
-position = Vector2( 0, -5.5 )
 collision_layer = 0
 collision_mask = 96
 
@@ -136,7 +135,6 @@ script = ExtResource( 18 )
 script = ExtResource( 19 )
 
 [node name="Camera" type="Camera2D" parent="."]
-position = Vector2( 0, -5.5 )
 current = true
 zoom = Vector2( 0.2, 0.2 )
 limit_smoothed = true

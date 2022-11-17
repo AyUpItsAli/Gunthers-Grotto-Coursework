@@ -25,7 +25,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.1, 0.3, 0.4 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ Vector2( -7.5, 0.5 ), Vector2( -4, -2 ), Vector2( -7.5, 0.5 ), Vector2( -7.5, -1.5 ) ]
+"values": [ Vector2( -7.5, 6 ), Vector2( -4, 3.5 ), Vector2( -7.5, 6 ), Vector2( -7.5, 4 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("ItemSprite:rotation_degrees")

@@ -17,15 +17,15 @@ func update_ceiling_layer():
 # Destroys the tile at the given tile position and handles subsequent actions,
 # as a result of the tile being removed.
 func destroy_tile(tile_pos: Vector2, update: bool):
-	var obstructed = get_cell(tile_pos.x, tile_pos.y) != -1
+	var solid = get_cellv(tile_pos) != -1
 	var out_of_bounds_x = 1 > tile_pos.x or tile_pos.x > Globals.CAVE_SIZE
 	var out_of_bounds_y = 1 > tile_pos.y or tile_pos.y > Globals.CAVE_SIZE
-	if not obstructed or out_of_bounds_x or out_of_bounds_y: return
+	if not solid or out_of_bounds_x or out_of_bounds_y: return
 	
-	minimap.set_cell(tile_pos.x, tile_pos.y, minimap.GROUND)
-	walls.set_cell(tile_pos.x, tile_pos.y, -1)
+	minimap.set_cellv(tile_pos, minimap.GROUND)
+	walls.set_cellv(tile_pos, -1)
 	objects.destroy_gemstone_if_present(tile_pos)
-	set_cell(tile_pos.x, tile_pos.y, -1)
+	set_cellv(tile_pos, -1)
 	if update:
 		walls.update_bitmask_region(tile_pos-Vector2.ONE, tile_pos+Vector2.ONE)
 		update_bitmask_region(tile_pos-Vector2.ONE, tile_pos+Vector2.ONE)
@@ -33,8 +33,8 @@ func destroy_tile(tile_pos: Vector2, update: bool):
 # Called when an explosion detects the walls tilemap
 func on_explosion(pos: Vector2):
 	var tile_pos = world_to_map(pos)
-	for x in range(-1, 2, 1):
-		for y in range(-1, 2, 1):
+	for x in range(-1, 2):
+		for y in range(-1, 2):
 			var offset = Vector2(x, y)
 			destroy_tile(tile_pos + offset, false)
 	# Only update ONCE, after all tiles are removed

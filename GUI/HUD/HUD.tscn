@@ -1,8 +1,5 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://Assets/GUI/Cursor.png" type="Texture" id=1]
-[ext_resource path="res://Assets/GUI/Animations/CursorIdle.tres" type="Animation" id=2]
-[ext_resource path="res://GUI/HUD/Cursor.gd" type="Script" id=3]
 [ext_resource path="res://GUI/HUD/Minimap.tres" type="TileSet" id=4]
 [ext_resource path="res://GUI/HUD/Minimap.gd" type="Script" id=5]
 [ext_resource path="res://Assets/GUI/Health_Bar_Base.png" type="Texture" id=6]
@@ -32,60 +29,6 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, -139 ), Vector2( 0, 100 ), Vector2( 0, 100 ), Vector2( 0, -139 ) ]
-}
-
-[sub_resource type="Animation" id=3]
-length = 2.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-
-[sub_resource type="Animation" id=4]
-length = 1.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
 }
 
 [node name="HUD" type="CanvasLayer"]
@@ -137,24 +80,3 @@ anims/Show = SubResource( 2 )
 visible = false
 width = 2.0
 default_color = Color( 0.0392157, 0.960784, 0.0313726, 1 )
-
-[node name="LoadingScreen" type="ColorRect" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-color = Color( 0, 0, 0, 0 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LoadingScreenAnimations" type="AnimationPlayer" parent="LoadingScreen"]
-anims/Fade_In = SubResource( 3 )
-anims/Fade_Out = SubResource( 4 )
-
-[node name="Cursor" type="Sprite" parent="."]
-scale = Vector2( 2, 2 )
-texture = ExtResource( 1 )
-script = ExtResource( 3 )
-
-[node name="CursorAnimations" type="AnimationPlayer" parent="Cursor"]
-anims/CursorIdle = ExtResource( 2 )
