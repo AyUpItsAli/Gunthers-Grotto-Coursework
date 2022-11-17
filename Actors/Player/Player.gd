@@ -25,6 +25,7 @@ var equipped = Tools.PICKAXE
 var scent_trail = []
 
 signal pickaxe_used # Emitted when the player uses their pickaxe
+signal exited_cave # Emitted when the player exits the current cave
 
 func _ready():
 	$ScentTimer.connect("timeout", self, "leave_scent")
@@ -35,12 +36,10 @@ func get_camera() -> Camera2D:
 func get_feet_position() -> Vector2:
 	return get_node("CollisionShape").global_position
 
-# Determines the player's facing direction based on the mouse position
-func determine_facing():
+# Sets the player's facing direction based on the given direction vector
+func set_facing_towards(target_direction: Vector2):
 	var facing_before = facing
-	# Mouse direction from the player is the same as its local position
-	var mouse_direction = get_local_mouse_position()
-	facing = Utils.approximate_direction_4_ways(mouse_direction)
+	facing = Utils.approximate_direction_4_ways(target_direction)
 	# Render body sprite above item sprite if facing upwards
 	if facing != facing_before:
 		if facing == Vector2.UP: move_child(body_sprite, 1)
@@ -66,3 +65,12 @@ func take_damage(attacker, damage: int):
 # Called when scent timer times out
 func leave_scent():
 	main_state_machine.call_method("leave_scent")
+
+# Removes all scent trail nodes and clears the scent trail
+func clear_scent_trail():
+	for scent in scent_trail:
+		scent.queue_free()
+	scent_trail.clear()
+
+func exit_cave(exit_pos: Vector2):
+	main_state_machine.enter_state("ExitCave", {"exit_pos":exit_pos})

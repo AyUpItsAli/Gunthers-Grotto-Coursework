@@ -11,7 +11,7 @@ const ATTACK_DAMAGE = 1
 
 func enter(ctx: Dictionary = {}):
 	if not ctx.has("target"): return state_machine.enter_state("Hidden")
-	enemy.target = ctx["target"]
+	enemy.target = ctx.get("target")
 
 func update(delta):
 	update_sprite()
