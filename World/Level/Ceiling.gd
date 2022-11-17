@@ -33,8 +33,8 @@ func destroy_tile(tile_pos: Vector2, update: bool):
 # Called when an explosion detects the walls tilemap
 func on_explosion(pos: Vector2):
 	var tile_pos = world_to_map(pos)
-	for x in range(-1, 2, 1):
-		for y in range(-1, 2, 1):
+	for x in range(-1, 2):
+		for y in range(-1, 2):
 			var offset = Vector2(x, y)
 			destroy_tile(tile_pos + offset, false)
 	# Only update ONCE, after all tiles are removed

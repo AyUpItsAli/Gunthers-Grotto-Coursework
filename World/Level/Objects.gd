@@ -17,6 +17,7 @@ const HERMIT_CHANCE = 50 # Chance for a cluster to contain rock hermits instead
 const GEMSTONE_CHANCE = 2 # Chance for a wall tile to contain a gemstone
 
 var occupied_tiles = [] # List of tile coordinates occupied by an object
+var enemy_inhabited_tiles = [] # List of tile coordinates occupied by an enemy
 var gemstones = {} # Dict of tile coordinates and their corresponding gemstones
 
 # Completely removes all objects present in the level
@@ -35,13 +36,13 @@ func tile_pos_to_world_pos(tile_pos: Vector2) -> Vector2:
 
 # Returns whether the given tile coordinates are occupied by a wall tile
 # Used to validate: Objects inside walls
-func is_wall(tile_pos: Vector2):
+func is_wall(tile_pos: Vector2) -> bool:
 	return walls.get_cellv(tile_pos) == walls.WALL
 
 # Returns whether the given tile coordinates are unoccupied
 # Used to validate: Objects on the ground
-func is_unoccupied(tile_pos: Vector2):
-	if is_wall(tile_pos): return false
+func is_unoccupied(tile_pos: Vector2) -> bool:
+	if is_wall(tile_pos) or is_wall(tile_pos + Vector2.UP): return false
 	if tile_pos in occupied_tiles: return false
 	return true
 
@@ -72,6 +73,7 @@ func spawn_rock_hermit(tile_pos: Vector2):
 	var rock_hermit = ROCK_HERMIT.instance()
 	rock_hermit.position = tile_pos_to_world_pos(tile_pos)
 	occupied_tiles.append(tile_pos)
+	enemy_inhabited_tiles.append(tile_pos)
 	add_child(rock_hermit)
 
 # Spawns a stalagmite and a cluster of other stalagmites around it
@@ -82,8 +84,8 @@ func spawn_stalagmite_cluster():
 	if hermit_cluster: spawn_rock_hermit(origin_pos)
 	else: spawn_stalagmite(origin_pos)
 	
-	for i in range(-1, 2, 1):
-		for j in range(-1, 2, 1):
+	for i in range(-1, 2):
+		for j in range(-1, 2):
 			if not (i == 0 and j == 0):
 				var tile_pos = Vector2(origin_pos.x+i, origin_pos.y+j)
 				var do_spawn = GameManager.percent_chance(CLUSTER_CHANCE)
@@ -120,13 +122,32 @@ func player_exists() -> bool:
 func get_player() -> Player:
 	return get_node("Player") as Player
 
+# Returns whether the given tile pos is a safe location to spawn the player 
+func is_safe(tile_pos: Vector2) -> bool:
+	# Check a 7x7 grid of tiles, around and including the given tile
+	for x in range(-3, 4):
+		for y in range(-3, 4):
+			var offset = Vector2(x, y)
+			# If neighbour contains an enemy, this location is not safe...
+			if (tile_pos + offset) in enemy_inhabited_tiles:
+				return false
+	# ...otherwise, this location is safe
+	return true
+
+# Returns a random tile position that is valid for spawning the player
+func get_random_player_pos() -> Vector2:
+	var tile_pos = get_random_tile_pos()
+	while not is_unoccupied(tile_pos) or not is_safe(tile_pos):
+		tile_pos = get_random_tile_pos()
+	return tile_pos
+
 # Spawns the player node at a random position in the cave
 func spawn_player():
 	if player_exists():
 		remove_child(get_player())
 	
 	var player = PLAYER.instance()
-	var player_pos = get_random_unoccupied_tile_pos()
+	var player_pos = get_random_player_pos()
 	player.position = tile_pos_to_world_pos(player_pos)
 	occupied_tiles.append(player_pos)
 	
@@ -138,27 +159,38 @@ func spawn_player():
 	
 	add_child(player)
 
-# Returns whether the given tile position is a valid spawning location for the
-# cave exit, using the given player position
-func is_valid_cave_exit_pos(cave_exit_pos: Vector2, player_pos: Vector2) -> bool:
-	if cave_exit_pos.distance_to(player_pos) < (Globals.CAVE_SIZE / 2):
-		return false
-	# Loop through all x and y offsets (-1, 0 and 1)
-	for x in range(-1, 2, 1):
-		for y in range(-1, 2, 1):
-			# Don't count (0,0) as this is the original cave exit pos
-			if not (x == 0 and y == 0):
-				var offset = Vector2(x, y)
-				if not is_unoccupied(cave_exit_pos + offset):
-					return false
-	return true
+# Returns whether the given tile pos is a valid spawning location for the cave exit.
+# Tiles to the left and right should also be unoccupied, as the cave exit is a large object
+func is_valid_cave_exit_pos(tile_pos: Vector2) -> bool:
+	return (is_unoccupied(tile_pos) and
+			is_unoccupied(tile_pos + Vector2.LEFT) and
+			is_unoccupied(tile_pos + Vector2.RIGHT))
 
 # Returns a random tile position that is valid for spawning the cave exit
 func get_random_cave_exit_pos(player_pos: Vector2) -> Vector2:
-	var cave_exit_pos = get_random_unoccupied_tile_pos()
-	while not is_valid_cave_exit_pos(cave_exit_pos, player_pos):
-		cave_exit_pos = get_random_unoccupied_tile_pos()
-	return cave_exit_pos
+	var furthest_valid_tile: Vector2
+	var furthest_distance: float
+	var valid_tiles = [] # List of tiles that are far enough away from the player
+	
+	var rect = walls.get_used_rect()
+	for x in range(rect.position.x, rect.position.x+rect.size.x):
+		for y in range(rect.position.y, rect.position.y+rect.size.y):
+			var tile_pos = Vector2(x, y)
+			if not is_valid_cave_exit_pos(tile_pos): # Tile must be valid
+				continue
+			var distance = player_pos.distance_to(tile_pos)
+			if distance > furthest_distance:
+				furthest_valid_tile = tile_pos
+				furthest_distance = distance
+			# Idealy, the tile must be at least half the width of the map away
+			# If no tiles meet this criteria, the furthest tile will be picked (see below)
+			if distance >= Globals.CAVE_SIZE/2:
+				valid_tiles.append(tile_pos)
+	# If there ARE tiles far enough away, pick a random one...
+	if valid_tiles:
+		return GameManager.choose_from(valid_tiles)
+	else: # ...otherwise pick the furthest tile possible
+		return furthest_valid_tile
 
 # Spawns the cave exit at a random position, a certain distance from the player
 func spawn_cave_exit():
@@ -168,8 +200,8 @@ func spawn_cave_exit():
 	var player_pos = walls.world_to_map(get_player().position)
 	var cave_exit_pos = get_random_cave_exit_pos(player_pos)
 	cave_exit.position = tile_pos_to_world_pos(cave_exit_pos)
-	for x in range(-1, 2, 1):
-		for y in range(-1, 2, 1):
+	for x in range(-1, 2):
+		for y in range(-1, 2):
 			var offset = Vector2(x, y)
 			occupied_tiles.append(cave_exit_pos + offset)
 	cave_exit.connect("player_entered", level, "on_player_exited_cave")

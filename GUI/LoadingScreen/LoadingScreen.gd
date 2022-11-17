@@ -16,7 +16,7 @@ func _ready():
 func _process(delta):
 	cursor.position = get_viewport().get_mouse_position()
 
-func is_showing():
+func is_showing() -> bool:
 	return background.visible
 
 func show():

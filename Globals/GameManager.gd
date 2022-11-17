@@ -48,9 +48,14 @@ func create_pool(frequencies: Dictionary) -> Array:
 	return pool
 
 # Returns whether the chance was successful or not
-# Uses the rng with the current cave seed
+# Uses rng corresponding to the current cave seed
 func percent_chance(chance: float) -> bool:
 	return Utils.percent_chance(chance, rng)
+
+# Returns a random element from the given array
+# Uses rng corresponding to the current cave seed
+func choose_from(array: Array):
+	return Utils.choose_from(array, rng)
 
 # Picks a random entry from the given pool
 func random_pool_entry(pool: Array):
