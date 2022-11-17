@@ -35,12 +35,12 @@ func tile_pos_to_world_pos(tile_pos: Vector2) -> Vector2:
 
 # Returns whether the given tile coordinates are occupied by a wall tile
 # Used to validate: Objects inside walls
-func is_wall(tile_pos: Vector2):
+func is_wall(tile_pos: Vector2) -> bool:
 	return walls.get_cellv(tile_pos) == walls.WALL
 
 # Returns whether the given tile coordinates are unoccupied
 # Used to validate: Objects on the ground
-func is_unoccupied(tile_pos: Vector2):
+func is_unoccupied(tile_pos: Vector2) -> bool:
 	if is_wall(tile_pos) or is_wall(tile_pos + Vector2.UP): return false
 	if tile_pos in occupied_tiles: return false
 	return true

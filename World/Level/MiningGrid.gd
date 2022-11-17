@@ -34,7 +34,7 @@ func select_tile(tile_pos: Vector2):
 	selected_tile = tile_pos
 	tile_selected = true
 
-func is_solid_tile(tile_pos: Vector2):
+func is_solid_tile(tile_pos: Vector2) -> bool:
 	return ceiling.get_cellv(tile_pos) != -1
 
 func get_player_tile_pos() -> Vector2:
