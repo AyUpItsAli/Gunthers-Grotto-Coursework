@@ -17,6 +17,7 @@ const HERMIT_CHANCE = 50 # Chance for a cluster to contain rock hermits instead
 const GEMSTONE_CHANCE = 2 # Chance for a wall tile to contain a gemstone
 
 var occupied_tiles = [] # List of tile coordinates occupied by an object
+var enemy_inhabited_tiles = [] # List of tile coordinates occupied by an enemy
 var gemstones = {} # Dict of tile coordinates and their corresponding gemstones
 
 # Completely removes all objects present in the level
@@ -72,6 +73,7 @@ func spawn_rock_hermit(tile_pos: Vector2):
 	var rock_hermit = ROCK_HERMIT.instance()
 	rock_hermit.position = tile_pos_to_world_pos(tile_pos)
 	occupied_tiles.append(tile_pos)
+	enemy_inhabited_tiles.append(tile_pos)
 	add_child(rock_hermit)
 
 # Spawns a stalagmite and a cluster of other stalagmites around it
@@ -120,13 +122,32 @@ func player_exists() -> bool:
 func get_player() -> Player:
 	return get_node("Player") as Player
 
+# Returns whether the given tile pos is a safe location to spawn the player 
+func is_safe(tile_pos: Vector2) -> bool:
+	# Check a 7x7 grid of tiles, around and including the given tile
+	for x in range(-3, 4):
+		for y in range(-3, 4):
+			var offset = Vector2(x, y)
+			# If neighbour contains an enemy, this location is not safe...
+			if (tile_pos + offset) in enemy_inhabited_tiles:
+				return false
+	# ...otherwise, this location is safe
+	return true
+
+# Returns a random tile position that is valid for spawning the player
+func get_random_player_pos() -> Vector2:
+	var tile_pos = get_random_tile_pos()
+	while not is_unoccupied(tile_pos) or not is_safe(tile_pos):
+		tile_pos = get_random_tile_pos()
+	return tile_pos
+
 # Spawns the player node at a random position in the cave
 func spawn_player():
 	if player_exists():
 		remove_child(get_player())
 	
 	var player = PLAYER.instance()
-	var player_pos = get_random_unoccupied_tile_pos()
+	var player_pos = get_random_player_pos()
 	player.position = tile_pos_to_world_pos(player_pos)
 	occupied_tiles.append(player_pos)
 	
