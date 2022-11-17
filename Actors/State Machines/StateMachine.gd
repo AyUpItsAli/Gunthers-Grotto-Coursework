@@ -28,6 +28,9 @@ func enter_state(new_state: String, ctx: Dictionary = {}):
 	current_state = get_node(new_state)
 	current_state.enter(ctx)
 
+func enter_previous_state(ctx: Dictionary = {}):
+	enter_state(previous_state_name, ctx)
+
 func is_state(state: String) -> bool:
 	return current_state.name == state
 
