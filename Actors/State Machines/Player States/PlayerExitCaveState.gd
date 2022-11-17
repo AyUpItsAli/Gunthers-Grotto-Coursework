@@ -1,7 +1,11 @@
 class_name PlayerExitCaveState
 extends PlayerState
 
-# Seconds to wait after the player has disappeared
+# Base amount of time (in seconds) for the player to move towards the cave exit
+const BASE_MOVE_DURATION = 0.5
+# Amount of time (in seconds) for the player to fade / disappear
+const FADE_DURATION = 1
+# Amount of time (in seconds) to wait after the player has disappeared
 const WAIT_TIME_AFTER_CAVE_EXIT = 0.5
 
 func enter(ctx: Dictionary = {}):
@@ -16,13 +20,15 @@ func enter(ctx: Dictionary = {}):
 		Vector2.RIGHT: player.animations.play("Walk_Right")
 		Vector2.LEFT: player.animations.play("Walk_Left")
 		_: player.animations.play("Walk_Down")
-	# Move towards the centre of the cave exit, via a tween
+	# Move player towards the centre of the cave exit
+	# and decrease their opacity to 0, via a tween
 	var tween = player.create_tween()
-	tween.tween_property(player, "position", exit_pos, 0.5)
-	tween.tween_property(player, "modulate", Color(1, 1, 1, 0), 1)
+	var move_duration = BASE_MOVE_DURATION * (player.position.distance_to(exit_pos) / 25)
+	tween.tween_property(player, "position", exit_pos, move_duration)
+	tween.tween_property(player, "modulate", Color(1, 1, 1, 0), FADE_DURATION)
 	# Wait for tween to finish
 	yield(tween, "finished")
-	# Wait an extra 0.5 seconds,
+	# Wait an extra few seconds,
 	# then signal the level node that the player has exited the cave
 	yield(get_tree().create_timer(WAIT_TIME_AFTER_CAVE_EXIT), "timeout")
 	player.emit_signal("exited_cave")
