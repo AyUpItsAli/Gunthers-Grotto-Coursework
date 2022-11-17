@@ -1,7 +1,7 @@
 extends Node
 
 # Product details
-const PRODUCT_VERSION = "1.0.2-alpha"
+const PRODUCT_VERSION = "1.0.3-alpha"
 
 # Cave Generation
 const CAVE_SIZE = 50 # number of tiles
