@@ -27,6 +27,7 @@ func clear_objects():
 		remove_child(child)
 	# Clear object lists
 	occupied_tiles = []
+	enemy_inhabited_tiles = []
 	gemstones = {}
 
 # Converts tile coordinates to a global world position
