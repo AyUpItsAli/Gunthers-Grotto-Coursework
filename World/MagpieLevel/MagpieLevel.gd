@@ -7,7 +7,7 @@ onready var cave_exit = $Objects/CaveExit
 onready var ceiling = $Ceiling
 
 # HUD
-onready var minimap = $HUD/UI/Minimap
+onready var map = $HUD/Map
 onready var level_title = $HUD/UI/LevelTitle
 
 func _ready():
@@ -16,8 +16,9 @@ func _ready():
 	# Reset the number of caves since the magpie level spawned
 	GameManager.caves_since_magpie = 0
 	
-	# Update the minimap to display the layout of the magpie level
-	minimap.update_minimap(walls)
+	# Update the map to display the layout of the magpie level
+	map.update_map(walls)
+	map.visible = false # Hide the map overlay
 	
 	# Setup the limits for the player's camera
 	var rect = walls.get_used_rect()
@@ -32,7 +33,8 @@ func _ready():
 	level_title.add_title_to_queue("The Magpie")
 
 func _process(delta):
-	minimap.update_player_tile_pos(player.position, ceiling)
+	var canvas_transform = player.get_global_transform_with_canvas()
+	map.update_position(canvas_transform.get_origin(), player.position)
 
 # Called when the player enters the CaveExit detection radius
 func on_player_exited_cave():

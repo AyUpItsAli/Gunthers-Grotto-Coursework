@@ -1,9 +1,9 @@
 extends TileMap
 
 # Node references
-onready var minimap = get_parent().get_parent().get_node("HUD/UI/Minimap")
 onready var walls = get_parent().get_node("Walls")
 onready var objects = get_parent().get_node("Objects")
+onready var map = get_parent().get_parent().get_node("HUD/Map")
 
 const CEILING = 0
 
@@ -22,7 +22,7 @@ func destroy_tile(tile_pos: Vector2, update: bool):
 	var out_of_bounds_y = 1 > tile_pos.y or tile_pos.y > Globals.CAVE_SIZE
 	if not solid or out_of_bounds_x or out_of_bounds_y: return
 	
-	minimap.set_cellv(tile_pos, minimap.GROUND)
+	map.remove_tile(tile_pos)
 	walls.set_cellv(tile_pos, -1)
 	objects.destroy_gemstone_if_present(tile_pos)
 	set_cellv(tile_pos, -1)

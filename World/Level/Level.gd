@@ -9,7 +9,7 @@ onready var ceiling = $World/Ceiling
 onready var mining_grid = $World/MiningGrid
 
 # HUD
-onready var minimap = $HUD/UI/Minimap
+onready var map = $HUD/Map
 onready var level_title = $HUD/UI/LevelTitle
 
 var generation_thread := Thread.new()
@@ -49,9 +49,10 @@ func _generate_new_level():
 	# Update the ceiling layer to match the current walls tilemap
 	ceiling.update_ceiling_layer()
 	ceiling.update_bitmask_region()
-
-	# Update the minimap to match the current walls tilemap
-	minimap.update_minimap(walls)
+	
+	# Update the map to display the layout of the new level
+	map.update_map(walls)
+	map.visible = false # Hide the map overlay
 
 	# Spawn objects
 	objects.clear_objects()
@@ -77,8 +78,9 @@ func post_generation():
 
 func _process(delta):
 	if objects.player_exists():
-		var player_pos = objects.get_player().position
-		minimap.update_player_tile_pos(player_pos, ceiling)
+		var player = objects.get_player()
+		var canvas_transform = player.get_global_transform_with_canvas()
+		map.update_position(canvas_transform.get_origin(), player.position)
 
 # Called when the player enters the CaveExit detection radius
 func on_player_exited_cave():
