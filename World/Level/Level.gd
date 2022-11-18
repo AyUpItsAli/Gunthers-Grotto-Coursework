@@ -18,8 +18,8 @@ func _ready():
 
 func generate_new_level():
 	if generation_thread.is_active(): return
-	if not Loading.is_showing():
-		yield(Loading.show(), "completed")
+	if not Loading.is_loading_screen_showing():
+		yield(Loading.show_loading_screen(), "completed")
 	
 	# Randomise the rng / seed
 	GameManager.rng.randomize()
@@ -84,8 +84,8 @@ func _generate_new_level():
 
 func post_generation():
 	generation_thread.wait_to_finish()
-	if Loading.is_showing():
-		yield(Loading.hide(), "completed")
+	if Loading.is_loading_screen_showing():
+		yield(Loading.hide_loading_screen(), "completed")
 	GameManager.increase_cave_depth()
 	level_title.add_title_to_queue("Cave Depth\n" + str(GameManager.cave_depth))
 
@@ -97,7 +97,7 @@ func _process(delta):
 
 # Called when the player enters the CaveExit detection radius
 func on_player_exited_cave():
-	if Loading.is_showing(): return
+	if Loading.is_loading_screen_showing(): return
 	
 	if GameManager.magie_level_should_spawn():
 		Loading.change_scene("res://World/MagpieLevel/MagpieLevel.tscn")
@@ -109,5 +109,5 @@ func _unhandled_input(event):
 	if event.is_action_pressed("force_exit_cave"):
 		on_player_exited_cave()
 	elif event.is_action_pressed("load_magpie_level"):
-		if Loading.is_showing(): return
+		if Loading.is_loading_screen_showing(): return
 		Loading.change_scene("res://World/MagpieLevel/MagpieLevel.tscn")

@@ -8,20 +8,20 @@ onready var loading_screen_anim = Overlay.get_node("LoadingScreen/Animations")
 onready var current_scene: Node = get_parent().get_child(get_parent().get_child_count() - 1)
 var loading_thread := Thread.new()
 
-func is_showing() -> bool:
+func is_loading_screen_showing() -> bool:
 	return loading_screen.visible
 
-func show():
+func show_loading_screen():
 	loading_screen_anim.play("Fade_In")
 	yield(loading_screen_anim, "animation_finished")
 
-func hide():
+func hide_loading_screen():
 	loading_screen_anim.play("Fade_Out")
 	yield(loading_screen_anim, "animation_finished")
 
 func change_scene(scene_path):
 	if loading_thread.is_active(): return
-	yield(show(), "completed")
+	yield(show_loading_screen(), "completed")
 	current_scene.queue_free()
 	loading_thread.start(self, "_load_scene_resource", scene_path)
 
