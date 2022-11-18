@@ -7,7 +7,7 @@ onready var inventory_display = $InventoryDisplay
 onready var level_title = $LevelTitle
 onready var debug_inv_line = $DebugInvLine
 
-# Space between UI elements. Scales with the size of the viewport.
+# Space between HUD elements. Scales with the size of the viewport.
 const PADDING = 2
 # Maximum percentage of the viewport's WIDTH that the health bar can occupy
 const HEALTH_BAR_MAX_WIDTH_PERCENTAGE = 25
@@ -39,25 +39,23 @@ var inv_height: float
 var padding: float
 
 func _ready():
-	get_viewport().connect("size_changed", self, "update_ui")
-	health_bar.update_health_bar()
-	inventory_display.update_inventory_display()
-	update_ui()
+	get_viewport().connect("size_changed", self, "update_hud")
+	update_hud()
 
-# Sets the dimensions and position for each UI element,
+# Updates the dimensions and position for each HUD element,
 # to fit on the screen correctly
-func update_ui():
+func update_hud():
 	viewport_width = get_viewport_rect().size.x
 	viewport_height = get_viewport_rect().size.y
 	padding = viewport_width * (PADDING / 100.0)
-	set_health_bar_dimensions()
-	set_inventory_display_dimensions()
+	update_health_bar_dimensions()
+	update_inventory_display_dimensions()
 	center_health_bar_against_inventory()
-	set_level_title_dimensions()
+	update_level_title_dimensions()
 	rearrange_item_displays()
 
-# Sets the health bar's dimensions, based on the size of the viewport
-func set_health_bar_dimensions():
+# Updates the health bar's dimensions, based on the size of the viewport
+func update_health_bar_dimensions():
 	# Determine maximum dimensions
 	var max_width = viewport_width * (HEALTH_BAR_MAX_WIDTH_PERCENTAGE / 100.0)
 	var max_height = viewport_height * (HEALTH_BAR_MAX_HEIGHT_PERCENTAGE / 100.0)
@@ -80,9 +78,9 @@ func set_health_bar_dimensions():
 	health_bar.position.x = padding
 	health_bar.position.y = viewport_height - padding
 
-# Sets the inventory display's dimensions, based on the size of the viewport
+# Updates the inventory display's dimensions, based on the size of the viewport
 # and the dimensions of the health bar
-func set_inventory_display_dimensions():
+func update_inventory_display_dimensions():
 	# Set the position of the inventory display to the right of the health bar
 	inv_start_x = health_bar.position.x + hb_width + padding
 	inv_start_y = viewport_height - padding
@@ -95,8 +93,8 @@ func set_inventory_display_dimensions():
 func center_health_bar_against_inventory():
 	health_bar.position.y = inv_start_y - (abs(hb_height - inv_height) / 2)
 
-# Sets the level title's dimensions, based on the size of the viewport
-func set_level_title_dimensions():
+# Updates the level title's dimensions, based on the size of the viewport
+func update_level_title_dimensions():
 	# Get a reference to the label node
 	var label: Label = level_title.get_node("Label")
 	# Determine maximum dimensions

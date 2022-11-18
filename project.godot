@@ -120,7 +120,8 @@ Utils="*res://Globals/Utils.gd"
 Globals="*res://Globals/Globals.gd"
 GameManager="*res://Globals/GameManager.gd"
 PlayerData="*res://Globals/PlayerData.gd"
-LoadingScreen="*res://GUI/LoadingScreen/LoadingScreen.tscn"
+Overlay="*res://GUI/Overlay/Overlay.tscn"
+Loading="*res://Globals/Loading.gd"
 
 [debug]
 

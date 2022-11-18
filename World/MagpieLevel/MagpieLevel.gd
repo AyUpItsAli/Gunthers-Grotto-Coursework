@@ -7,18 +7,19 @@ onready var cave_exit = $Objects/CaveExit
 onready var ceiling = $Ceiling
 
 # HUD
-onready var map = $HUD/Map
-onready var level_title = $HUD/UI/LevelTitle
+onready var map = Overlay.get_node("HUD/Map")
+onready var level_title = Overlay.get_node("HUD/LevelTitle")
 
 func _ready():
 	player.connect("exited_cave", self, "on_player_exited_cave")
+	Overlay.show_hud()
 	
 	# Reset the number of caves since the magpie level spawned
 	GameManager.caves_since_magpie = 0
 	
-	# Update the map to display the layout of the magpie level
+	# Update the map to display the layout of the magpie level, then hide it
 	map.update_map(walls)
-	map.visible = false # Hide the map overlay
+	map.visible = false
 	
 	# Setup the limits for the player's camera
 	var rect = walls.get_used_rect()
@@ -28,8 +29,8 @@ func _ready():
 	camera.limit_right = (rect.position.x + rect.size.x - 1) * Globals.CAVE_TILE_SIZE
 	camera.limit_bottom = (rect.position.y + rect.size.y - 1) * Globals.CAVE_TILE_SIZE
 	
-	if LoadingScreen.is_showing():
-		yield(LoadingScreen.hide(), "completed")
+	if Loading.is_loading_screen_showing():
+		yield(Loading.hide_loading_screen(), "completed")
 	level_title.add_title_to_queue("The Magpie")
 
 func _process(delta):
@@ -38,4 +39,4 @@ func _process(delta):
 
 # Called when the player enters the CaveExit detection radius
 func on_player_exited_cave():
-	LoadingScreen.change_scene("res://World/Level/Level.tscn")
+	Loading.change_scene("res://World/Level/Level.tscn")

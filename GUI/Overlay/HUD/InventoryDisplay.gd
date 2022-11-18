@@ -1,9 +1,9 @@
 extends Node2D
 
-const ITEM_DISPLAY = preload("res://GUI/HUD/ItemDisplay.tscn")
+const ITEM_DISPLAY = preload("res://GUI/Overlay/HUD/ItemDisplay.tscn")
 
-# A reference to the UI node, in order to invoke "rearrange_item_displays()"
-onready var ui = get_parent()
+# A reference to the HUD node, in order to invoke "rearrange_item_displays()"
+onready var hud = get_parent()
 
 func _ready():
 	PlayerData.connect("inventory_changed", self ,"update_inventory_display")
@@ -23,4 +23,4 @@ func update_inventory_display():
 		add_child(item_display)
 	
 	# Rearrange the item displays to fit within the inventory display
-	ui.rearrange_item_displays()
+	hud.rearrange_item_displays()
