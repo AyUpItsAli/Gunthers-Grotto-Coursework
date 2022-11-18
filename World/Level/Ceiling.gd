@@ -3,7 +3,7 @@ extends TileMap
 # Node references
 onready var walls = get_parent().get_node("Walls")
 onready var objects = get_parent().get_node("Objects")
-onready var map = get_parent().get_parent().get_node("HUD/Map")
+onready var map = Overlay.get_node("HUD/Map")
 
 const CEILING = 0
 

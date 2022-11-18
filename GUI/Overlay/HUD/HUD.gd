@@ -39,14 +39,15 @@ var inv_height: float
 var padding: float
 
 func _ready():
-	get_viewport().connect("size_changed", self, "update_ui")
+	get_viewport().connect("size_changed", self, "update_hud")
+	# TODO: Do these need to be updated here?
 	health_bar.update_health_bar()
 	inventory_display.update_inventory_display()
-	update_ui()
+	update_hud()
 
 # Sets the dimensions and position for each UI element,
 # to fit on the screen correctly
-func update_ui():
+func update_hud():
 	viewport_width = get_viewport_rect().size.x
 	viewport_height = get_viewport_rect().size.y
 	padding = viewport_width * (PADDING / 100.0)

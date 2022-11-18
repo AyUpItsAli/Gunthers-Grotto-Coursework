@@ -1,31 +1,23 @@
-extends CanvasLayer
+extends Node
 
-onready var background: ColorRect = $Background
-onready var background_animations: AnimationPlayer = $Background/Animations
-onready var cursor: Sprite = $Cursor
-onready var cursor_animations: AnimationPlayer = $Cursor/Animations
+# Node references
+onready var loading_screen = Overlay.get_node("LoadingScreen")
+onready var loading_screen_anim = Overlay.get_node("LoadingScreen/Animations")
 
+# Variables
 onready var current_scene: Node = get_parent().get_child(get_parent().get_child_count() - 1)
 var loading_thread := Thread.new()
 
-func _ready():
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	background.visible = false
-	cursor_animations.play("Cursor_Spinning")
-
-func _process(delta):
-	cursor.position = get_viewport().get_mouse_position()
-
 func is_showing() -> bool:
-	return background.visible
+	return loading_screen.visible
 
 func show():
-	background_animations.play("Fade_In")
-	yield(background_animations, "animation_finished")
+	loading_screen_anim.play("Fade_In")
+	yield(loading_screen_anim, "animation_finished")
 
 func hide():
-	background_animations.play("Fade_Out")
-	yield(background_animations, "animation_finished")
+	loading_screen_anim.play("Fade_Out")
+	yield(loading_screen_anim, "animation_finished")
 
 func change_scene(scene_path):
 	if loading_thread.is_active(): return

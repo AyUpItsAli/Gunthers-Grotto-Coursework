@@ -1,7 +1,7 @@
 extends Node2D
 
 onready var label: Label = $Label
-onready var animations: AnimationPlayer = $LabelAnimations
+onready var animations: AnimationPlayer = $Animations
 
 var title_queue = [] # List of titles to be displayed
 

@@ -8,7 +8,7 @@ const GEMSTONE = preload("res://World/Objects/Gemstone.tscn")
 const CAVE_EXIT = preload("res://World/Objects/CaveExit.tscn")
 
 # Node references
-onready var level = get_parent().get_parent() # Root node of the Level scene
+onready var level = get_parent() # Root node of the Level scene
 onready var walls = get_parent().get_node("Walls")
 
 # Constants
