@@ -6,9 +6,10 @@ onready var play_button = $PlayButton
 onready var quit_button = $QuitButton
 
 func _ready():
-	version_label.text = ProjectSettings.get_setting("application/config/name") + " " + Globals.PRODUCT_VERSION
 	play_button.connect("pressed", self, "on_play_button_pressed")
 	quit_button.connect("pressed", self, "on_quit_button_pressed")
+	Overlay.hide_hud()
+	version_label.text = ProjectSettings.get_setting("application/config/name") + " " + Globals.PRODUCT_VERSION
 	if Loading.is_loading_screen_showing():
 		Loading.hide_loading_screen()
 

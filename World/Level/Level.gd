@@ -14,6 +14,7 @@ onready var level_title = Overlay.get_node("HUD/LevelTitle")
 var generation_thread := Thread.new()
 
 func _ready():
+	Overlay.show_hud()
 	generate_new_level()
 
 func generate_new_level():

@@ -12,6 +12,7 @@ onready var level_title = Overlay.get_node("HUD/LevelTitle")
 
 func _ready():
 	player.connect("exited_cave", self, "on_player_exited_cave")
+	Overlay.show_hud()
 	
 	# Reset the number of caves since the magpie level spawned
 	GameManager.caves_since_magpie = 0
