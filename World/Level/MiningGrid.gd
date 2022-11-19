@@ -101,4 +101,4 @@ func update_selected_tile():
 
 func destroy_selected_tile():
 	if not tile_selected: return
-	ceiling.destroy_tile(selected_tile, true)
+	ceiling.damage_tile(selected_tile, true)

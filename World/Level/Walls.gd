@@ -1,10 +1,13 @@
+class_name Walls
 extends TileMap
 
 const START_ALIVE_CHANCE = 40 # % chance for tile to begin alive
 const MIN_ALIVE = 3 # minimum alive neighbours to stay alive
 const MIN_BIRTH = 5 # minimum alive neighbours to become alive
 
-const WALL = 0 # Tile id
+# Wall tiles
+const WALL = 0
+const WALL_DAMAGED_1 = 1
 
 # Initialises random grid of wall tiles
 func initialise_walls_layer():

@@ -34,7 +34,3 @@ func update_map(walls: TileMap):
 # at the player's corresponding location within the world
 func update_position(player_canvas_pos: Vector2, player_world_pos: Vector2):
 	position = player_canvas_pos - (player_world_pos * scale)
-
-func remove_tile(tile_pos: Vector2):
-	set_cellv(tile_pos, -1)
-	update_bitmask_region()
