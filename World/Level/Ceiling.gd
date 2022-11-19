@@ -5,32 +5,18 @@ onready var walls = get_parent().get_node("Walls")
 onready var objects = get_parent().get_node("Objects")
 onready var map = Overlay.get_node("HUD/Map")
 
-# Ceiling tiles
-const CEILING = 0
-const CEILING_DAMAGED_1 = 1
-
-# Each tile family specifies both a list of ceiling tile variants
-# and a list walls tile variants.
-# The lists should be ordered from "least damaged variant" to "most damaged variant".
-const TILE_FAMILIES = [
-	{
-		ceiling = [CEILING, CEILING_DAMAGED_1],
-		walls = [Walls.WALL, Walls.WALL_DAMAGED_1]
-	}
-]
-
 # Places ceiling tiles above wall tiles.
 func update_ceiling_layer():
 	for x in range(-1, Globals.CAVE_SIZE+1):
 		for y in range(-1, Globals.CAVE_SIZE+1):
-			var tile = -1 if walls.get_cell(x, y) == -1 else CEILING
+			var tile = -1 if walls.get_cell(x, y) == -1 else Globals.CEILING
 			set_cell(x, y, tile)
 
-# Returns the tile family which the given id is part of, found in TILE_FAMILIES.
+# Returns the tile family which the given id is part of, found in Globals.TILE_FAMILIES.
 # Returns {} if no family was found.
 # Note: "tile" is checked against the Ceiling tileset of each family.
 func get_tile_family(tile: int) -> Dictionary:
-	for family in TILE_FAMILIES:
+	for family in Globals.TILE_FAMILIES.values():
 		if tile in family.ceiling:
 			return family
 	return {}

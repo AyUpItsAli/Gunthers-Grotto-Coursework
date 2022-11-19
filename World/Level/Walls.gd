@@ -5,19 +5,15 @@ const START_ALIVE_CHANCE = 40 # % chance for tile to begin alive
 const MIN_ALIVE = 3 # minimum alive neighbours to stay alive
 const MIN_BIRTH = 5 # minimum alive neighbours to become alive
 
-# Wall tiles
-const WALL = 0
-const WALL_DAMAGED_1 = 1
-
 # Initialises random grid of wall tiles
 func initialise_walls_layer():
 	for x in range(Globals.CAVE_SIZE):
 		for y in range(Globals.CAVE_SIZE):
-			var tile = WALL if GameManager.percent_chance(START_ALIVE_CHANCE) else -1
+			var tile = Globals.WALL if GameManager.percent_chance(START_ALIVE_CHANCE) else -1
 			
 			# Create a border of wall tiles with a width of 3
 			if x < 3 or x > Globals.CAVE_SIZE-4 or y < 3 or y > Globals.CAVE_SIZE-4:
-				tile = WALL
+				tile = Globals.WALL
 			
 			set_cell(x, y, tile)
 
@@ -31,7 +27,7 @@ func num_wall_neighbours(tile_x, tile_y) -> int:
 			if not (i == 0 and j == 0):
 				var x = tile_x+i
 				var y = tile_y+j
-				if get_cell(x, y) == WALL: # If wall increase count
+				if get_cell(x, y) != -1: # If not empty (is wall), increase count
 					count += 1
 	return count
 
@@ -43,12 +39,12 @@ func carry_out_generation() -> bool:
 	for x in range(Globals.CAVE_SIZE):
 		for y in range(Globals.CAVE_SIZE):
 			var tile = get_cell(x, y)
-			if tile == WALL:
+			if tile != -1:
 				if num_wall_neighbours(x, y) < MIN_ALIVE: # Tile should "die"
 					changed_tiles.append({"x": x, "y": y, "value": -1})
-			elif tile != WALL:
+			else:
 				if num_wall_neighbours(x, y) >= MIN_BIRTH: # Tile should be "born"
-					changed_tiles.append({"x": x, "y": y, "value": WALL})
+					changed_tiles.append({"x": x, "y": y, "value": Globals.WALL})
 	
 	# Make changes to tilemap
 	for tile in changed_tiles:
@@ -60,9 +56,9 @@ func carry_out_generation() -> bool:
 # Adds a border outside the map to make the edges blend in with the cave
 func initialise_outside_border():
 	for x in range(-1, Globals.CAVE_SIZE+1):
-		set_cell(x, -1, WALL)
-		set_cell(x, Globals.CAVE_SIZE, WALL)
+		set_cell(x, -1, Globals.WALL)
+		set_cell(x, Globals.CAVE_SIZE, Globals.WALL)
 	
 	for y in range(-1, Globals.CAVE_SIZE+1):
-		set_cell(-1, y, WALL)
-		set_cell(Globals.CAVE_SIZE, y, WALL)
+		set_cell(-1, y, Globals.WALL)
+		set_cell(Globals.CAVE_SIZE, y, Globals.WALL)

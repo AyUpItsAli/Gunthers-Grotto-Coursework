@@ -2,7 +2,7 @@ extends TileMap
 
 # Constants
 const PADDING = 30 # 30 extra tiles on each side of the map
-const WALL = 0 # Tile ID for walls
+const MAP_WALL = 0 # Tile ID for map walls
 
 func _unhandled_input(event):
 	if event.is_action_pressed("toggle_map"):
@@ -24,9 +24,9 @@ func update_map(walls: TileMap):
 		for y in range(start_y-PADDING, end_y+PADDING):
 			# If x and y are outside the cave, set to a wall tile
 			if x < start_x or x >= end_x or y < start_y or y >= end_y:
-				set_cell(x, y, WALL)
+				set_cell(x, y, MAP_WALL)
 			else: # ...otherwise set tile to match given tilemap
-				var tile = -1 if walls.get_cell(x, y) == -1 else WALL
+				var tile = -1 if walls.get_cell(x, y) == -1 else MAP_WALL
 				set_cell(x, y, tile)
 	update_bitmask_region()
 

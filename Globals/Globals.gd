@@ -7,6 +7,21 @@ const PRODUCT_VERSION = "1.0.3-alpha"
 const CAVE_SIZE = 50 # number of tiles
 const CAVE_TILE_SIZE = 32 # number of pixels
 
+# Tile IDs
+const GROUND = 0
+const WALL = 0
+const WALL_DAMAGED_1 = 1
+const CEILING = 0
+const CEILING_DAMAGED_1 = 1
+# Each tile family specifies both a list of ceiling variants and a list wall variants.
+# The lists should be ordered from "least damaged variant" to "most damaged variant".
+const TILE_FAMILIES = {
+	0: {
+		ceiling = [CEILING, CEILING_DAMAGED_1],
+		walls = [WALL, WALL_DAMAGED_1]
+	}
+}
+
 # Items
 enum ItemIDs { GEM, REVOLVER_AMMO, DYNAMITE_STICK }
 const ITEMS = {
