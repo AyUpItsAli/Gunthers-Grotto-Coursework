@@ -24,7 +24,7 @@ var gemstones = {} # Dict of tile coordinates and their corresponding gemstones
 func clear_objects():
 	# Remove all objects
 	for child in get_children():
-		remove_child(child)
+		child.queue_free()
 	# Clear object lists
 	occupied_tiles = []
 	enemy_inhabited_tiles = []
