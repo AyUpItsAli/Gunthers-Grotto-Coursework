@@ -18,7 +18,7 @@ func initialise_mining_grid():
 		player.connect("pickaxe_used", self, "destroy_selected_tile")
 
 func _process(delta):
-	if player and player.equipped == player.Tools.PICKAXE:
+	if player and PlayerData.equipped_tool == PlayerData.Tools.PICKAXE:
 		update_selected_tile()
 	elif tile_selected:
 		deselect_tile()

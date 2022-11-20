@@ -6,14 +6,14 @@ const BULLET = preload("res://Actors/Player/Bullet.tscn")
 const DYNAMITE = preload("res://Actors/Player/Dynamite.tscn")
 
 func enter(ctx: Dictionary = {}):
-	if player.equipped == player.Tools.PICKAXE and player.pickaxe_cooldown.is_stopped():
+	if PlayerData.equipped_tool == PlayerData.Tools.PICKAXE and player.pickaxe_cooldown.is_stopped():
 		use_pickaxe()
 		yield(player.animations, "animation_finished")
 		player.pickaxe_cooldown.start()
-	elif player.equipped == player.Tools.REVOLVER and player.revolver_cooldown.is_stopped():
+	elif PlayerData.equipped_tool == PlayerData.Tools.REVOLVER and player.revolver_cooldown.is_stopped():
 		use_revolver()
 		player.revolver_cooldown.start()
-	elif player.equipped == player.Tools.DYNAMITE and player.dynamite_cooldown.is_stopped():
+	elif PlayerData.equipped_tool == PlayerData.Tools.DYNAMITE and player.dynamite_cooldown.is_stopped():
 		use_dynamite()
 		player.dynamite_cooldown.start()
 	state_machine.enter_state("NoAction")

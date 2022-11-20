@@ -2,10 +2,11 @@ class_name Player
 extends KinematicBody2D
 
 # Constants
-enum Tools { PICKAXE, REVOLVER, DYNAMITE }
-const PICKAXE_TEXTURE = preload("res://Assets/Actors/Player/Pickaxe_In_Hand.png")
-const REVOLVER_TEXTURE = preload("res://Assets/Actors/Player/Revolver_In_Hand.png")
-const DYNAMITE_TEXTURE = preload("res://Assets/Actors/Player/Dynamite_In_Hand.png")
+const ITEM_TEXTURES = {
+	PlayerData.Tools.PICKAXE: preload("res://Assets/Actors/Player/Pickaxe_In_Hand.png"),
+	PlayerData.Tools.REVOLVER: preload("res://Assets/Actors/Player/Revolver_In_Hand.png"),
+	PlayerData.Tools.DYNAMITE: preload("res://Assets/Actors/Player/Dynamite_In_Hand.png")
+}
 
 # Node references
 onready var body_sprite: Sprite = $BodySprite
@@ -21,14 +22,15 @@ onready var action_state_machine: StateMachine = $ActionStateMachine
 
 var velocity = Vector2.ZERO
 var facing = Vector2.DOWN
-var equipped = Tools.PICKAXE
 var scent_trail = []
 
 signal pickaxe_used # Emitted when the player uses their pickaxe
 signal exited_cave # Emitted when the player exits the current cave
 
 func _ready():
+	PlayerData.connect("equipment_changed", self, "update_item_sprite")
 	$ScentTimer.connect("timeout", self, "leave_scent")
+	update_item_sprite()
 
 func get_camera() -> Camera2D:
 	return get_node("Camera") as Camera2D
@@ -45,18 +47,9 @@ func set_facing_towards(target_direction: Vector2):
 		if facing == Vector2.UP: move_child(body_sprite, 1)
 		else: move_child(body_sprite, 0)
 
-# Equips the given tool and updates the item sprite
-func equip(new_tool: int):
-	equipped = new_tool
-	update_item_sprite()
-
 # Sets the texture of the item sprite to display the currently equipped tool
 func update_item_sprite():
-	match equipped:
-		Tools.PICKAXE: item_sprite.texture = PICKAXE_TEXTURE
-		Tools.REVOLVER: item_sprite.texture = REVOLVER_TEXTURE
-		Tools.DYNAMITE: item_sprite.texture = DYNAMITE_TEXTURE
-		_: item_sprite.texture = null
+	item_sprite.texture = ITEM_TEXTURES[PlayerData.equipped_tool]
 
 # Called, usually externally, when the player needs to take damage
 func take_damage(attacker, damage: int):

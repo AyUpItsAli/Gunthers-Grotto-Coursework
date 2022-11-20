@@ -1,23 +1,31 @@
 extends Node
 
+enum Tools { PICKAXE, REVOLVER, DYNAMITE }
 const MAX_HEALTH = 10
-
-onready var starting_inventory = {
+const STARTING_INVENTORY = {
 	Globals.ItemIDs.REVOLVER_AMMO: 24,
 	Globals.ItemIDs.DYNAMITE_STICK: 2
 }
 
-var health = MAX_HEALTH
-var inventory = {} # key: Item ID | value: Quantity
+var equipped_tool: int
+var health: int
+var inventory: Dictionary
 
+signal equipment_changed
 signal health_changed
 signal inventory_changed
 
 func reset_player_data():
+	equipped_tool = Tools.PICKAXE
 	health = MAX_HEALTH
-	inventory = starting_inventory.duplicate()
+	inventory = STARTING_INVENTORY.duplicate()
+	emit_signal("equipment_changed")
 	emit_signal("health_changed")
 	emit_signal("inventory_changed")
+
+func equip(new_tool: int):
+	equipped_tool = new_tool
+	emit_signal("equipment_changed")
 
 func reduce_health(amount: int) -> bool:
 	health -= amount
