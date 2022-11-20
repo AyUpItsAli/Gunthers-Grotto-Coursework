@@ -3,8 +3,8 @@ extends Node
 enum Tools { PICKAXE, REVOLVER, DYNAMITE }
 const MAX_HEALTH = 10
 const STARTING_INVENTORY = {
-	Globals.ItemIDs.REVOLVER_AMMO: 24,
-	Globals.ItemIDs.DYNAMITE_STICK: 2
+	Globals.Items.REVOLVER_AMMO: 24,
+	Globals.Items.DYNAMITE_STICK: 2
 }
 
 var equipped_tool: int
@@ -34,13 +34,16 @@ func reduce_health(amount: int) -> bool:
 	emit_signal("health_changed")
 	return health > 0 # Return whether the player survived
 
+func has_item(item_id: int) -> bool:
+	return item_id in inventory
+
 # Attempts to ADD an item to the inventory
 # Returns whether the item was able to be added or not
 func add_item(item_id: int, amount: int = 1) -> bool:
-	if not item_id in Globals.ITEMS: return false
+	if not item_id in Globals.Items.values(): return false
 	if amount < 0: return false
 	if amount == 0: return true
-	if item_id in inventory:
+	if has_item(item_id):
 		inventory[item_id] += amount
 	else:
 		inventory[item_id] = amount
@@ -50,8 +53,8 @@ func add_item(item_id: int, amount: int = 1) -> bool:
 # Attempts to REMOVE an item from the inventory
 # Returns whether the item was able to be removed or not
 func remove_item(item_id: int, amount: int = 1) -> bool:
-	if not item_id in Globals.ITEMS: return false
-	if not item_id in inventory: return false
+	if not item_id in Globals.Items.values(): return false
+	if not has_item(item_id): return false
 	if amount < 0: return false
 	if amount == 0: return true
 	var current_quantity: int = inventory[item_id]

@@ -15,6 +15,7 @@ func enter(ctx: Dictionary = {}):
 		player.revolver_cooldown.start()
 	elif PlayerData.equipped_tool == PlayerData.Tools.DYNAMITE and player.dynamite_cooldown.is_stopped():
 		use_dynamite()
+		player.update_item_sprite() # Update item sprite in case this was the last dynamite to be thrown
 		player.dynamite_cooldown.start()
 	state_machine.enter_state("NoAction")
 
@@ -38,7 +39,7 @@ func damage_enemies_and_mine_objects():
 			body.on_player_mine()
 
 func use_revolver():
-	if PlayerData.remove_item(Globals.ItemIDs.REVOLVER_AMMO):
+	if PlayerData.remove_item(Globals.Items.REVOLVER_AMMO):
 		var clicked_pos = player.get_global_mouse_position()
 		var bullet = BULLET.instance()
 		bullet.player = player
@@ -48,7 +49,7 @@ func use_revolver():
 		get_parent().add_child(bullet)
 
 func use_dynamite():
-	if PlayerData.remove_item(Globals.ItemIDs.DYNAMITE_STICK):
+	if PlayerData.remove_item(Globals.Items.DYNAMITE_STICK):
 		var clicked_pos = player.get_global_mouse_position()
 		var dynamite = DYNAMITE.instance()
 		dynamite.player = player

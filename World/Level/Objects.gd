@@ -217,5 +217,5 @@ func destroy_gemstone_if_present(tile_pos: Vector2):
 		var gemstone: Node2D = gemstones[tile_pos]
 		var gem_quantity = GameManager.random_pool_entry(
 			GameManager.gem_quantity_pool)
-		PlayerData.add_item(Globals.ItemIDs.GEM, gem_quantity)
+		PlayerData.add_item(Globals.Items.GEM, gem_quantity)
 		gemstone.queue_free()

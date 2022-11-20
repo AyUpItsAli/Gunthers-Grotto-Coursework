@@ -49,7 +49,13 @@ func set_facing_towards(target_direction: Vector2):
 
 # Sets the texture of the item sprite to display the currently equipped tool
 func update_item_sprite():
-	item_sprite.texture = ITEM_TEXTURES[PlayerData.equipped_tool]
+	if PlayerData.equipped_tool == PlayerData.Tools.DYNAMITE:
+		var has_dynamite = PlayerData.has_item(Globals.Items.DYNAMITE_STICK)
+		item_sprite.texture = ITEM_TEXTURES[PlayerData.equipped_tool] if has_dynamite else null
+	elif PlayerData.equipped_tool in PlayerData.Tools.values():
+		item_sprite.texture = ITEM_TEXTURES[PlayerData.equipped_tool]
+	else:
+		item_sprite.texture = null
 
 # Called, usually externally, when the player needs to take damage
 func take_damage(attacker, damage: int):

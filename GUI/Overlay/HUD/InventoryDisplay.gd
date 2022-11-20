@@ -16,7 +16,7 @@ func update_inventory_display():
 	# Add an item display for each item in the inventory
 	for item_id in PlayerData.inventory:
 		var item_display: Node2D = ITEM_DISPLAY.instance()
-		var image = Globals.ITEMS[item_id].texture
+		var image = Globals.ITEM_INFO[item_id].texture
 		item_display.get_node("Image").texture = image
 		var amount = PlayerData.inventory[item_id]
 		item_display.get_node("Label").text = str(amount)
