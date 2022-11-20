@@ -7,19 +7,19 @@ const DYNAMITE = preload("res://Actors/Player/Dynamite.tscn")
 
 func enter(ctx: Dictionary = {}):
 	if PlayerData.equipped_tool == PlayerData.Tools.PICKAXE and player.pickaxe_cooldown.is_stopped():
-		use_pickaxe()
+		swing_pickaxe()
 		yield(player.animations, "animation_finished")
 		player.pickaxe_cooldown.start()
 	elif PlayerData.equipped_tool == PlayerData.Tools.REVOLVER and player.revolver_cooldown.is_stopped():
-		use_revolver()
+		fire_revolver()
 		player.revolver_cooldown.start()
 	elif PlayerData.equipped_tool == PlayerData.Tools.DYNAMITE and player.dynamite_cooldown.is_stopped():
-		use_dynamite()
+		throw_dynamite()
 		player.update_item_sprite() # Update item sprite in case this was the last dynamite to be thrown
 		player.dynamite_cooldown.start()
 	state_machine.enter_state("NoAction")
 
-func use_pickaxe():
+func swing_pickaxe():
 	match player.facing:
 		Vector2.UP: player.animations.play("Melee_Up")
 		Vector2.RIGHT: player.animations.play("Melee_Right")
@@ -38,7 +38,7 @@ func damage_enemies_and_mine_objects():
 		if body.has_method("on_player_mine"):
 			body.on_player_mine()
 
-func use_revolver():
+func fire_revolver():
 	if PlayerData.remove_item(Globals.Items.REVOLVER_AMMO):
 		var clicked_pos = player.get_global_mouse_position()
 		var bullet = BULLET.instance()
@@ -48,7 +48,7 @@ func use_revolver():
 		bullet.look_at(clicked_pos)
 		get_parent().add_child(bullet)
 
-func use_dynamite():
+func throw_dynamite():
 	if PlayerData.remove_item(Globals.Items.DYNAMITE_STICK):
 		var clicked_pos = player.get_global_mouse_position()
 		var dynamite = DYNAMITE.instance()
