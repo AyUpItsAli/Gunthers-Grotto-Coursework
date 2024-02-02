@@ -1,2 +1,2 @@
-# Gunthers-Grotto
-Gunther's Grotto is an infinite, randomly generating, cave dungeon crawler game, which was originally made as part of my A Level Computer Science coursework, and is now an ongoing project.
+# Gunthers-Grotto-Coursework
+Gunther's Grotto is a game I made for my A Level Computer Science coursework.
